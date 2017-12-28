@@ -1,0 +1,6 @@
+## Interface: 70300
+## Title: oUF Layout
+## Notes: oUF Layout for learning purposes.
+## Version: @project-version@
+## Author: Rainrider
+## RequiredDeps: oUF
