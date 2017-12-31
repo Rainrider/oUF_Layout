@@ -8,6 +8,7 @@ local UnitSpecific = {
 }
 
 local function Shared(self, unit)
+	self.colors = ns.colors
 	self:SetBackdrop(ns.assets.GLOW)
 	self:SetBackdropBorderColor(0, 0, 0)
 
