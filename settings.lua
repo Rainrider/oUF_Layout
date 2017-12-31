@@ -4,6 +4,7 @@ ns.config = {}
 
 ns.colors = setmetatable({
 	disconnected = { 0.42, 0.37, 0.32 },
+	health = { 0.17, 0.17, 0.24 },
 	power = setmetatable({
 		["MANA"] = { 0.31, 0.45, 0.63 },
 		["RAGE"] = { 0.69, 0.31, 0.31 },
