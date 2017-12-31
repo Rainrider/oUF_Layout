@@ -14,5 +14,19 @@ function ns.AddCastBar(self, unit)
 		castbar.SafeZone = safeZone
 	end
 
+	local time = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+	time:SetPoint('RIGHT', -3.5, 3)
+	time:SetTextColor(0.84, 0.75, 0.65)
+	time:SetJustifyH('RIGHT')
+	castbar.Time = time
+
+	local text = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+	text:SetPoint('LEFT', 3.5, 3)
+	text:SetPoint('RIGHT', time, 'LEFT', -3.5, 0)
+	text:SetTextColor(0.84, 0.75, 0.65)
+	text:SetJustifyH('LEFT')
+	text:SetWordWrap(false)
+	castbar.Text = text
+
 	self.Castbar = castbar
 end
