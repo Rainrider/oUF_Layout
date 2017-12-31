@@ -16,6 +16,8 @@ local UnitSpecific = {
 
 local function Shared(self, unit)
 	self:RegisterForClicks('AnyUp')
+	self:SetScript('OnEnter', UnitFrame_OnEnter)
+	self:SetScript('OnLeave', UnitFrame_OnLeave)
 
 	self.colors = ns.colors
 	self:SetBackdrop(ns.assets.GLOW)
