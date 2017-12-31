@@ -3,7 +3,7 @@ local _, ns = ...
 function ns.AddPowerBar(self, unit)
 	local power = CreateFrame('StatusBar', nil, self)
 	power:SetStatusBarTexture(ns.assets.TEXTURE)
-	power:SetHeight(15)
+	power:SetHeight((unit == 'player' or unit == 'target') and 15 or 5)
 	power:SetPoint('BOTTOMLEFT', 5, 5)
 	power:SetPoint('BOTTOMRIGHT', -5, 5)
 	power.colorPower = unit == 'player'

@@ -3,7 +3,7 @@ local _, ns = ...
 function ns.AddHealthBar(self, unit)
 	local health = CreateFrame('StatusBar', nil, self)
 	health:SetStatusBarTexture(ns.assets.TEXTURE)
-	health:SetHeight(30)
+	health:SetHeight((unit == 'player' or unit == 'target') and 30 or 15)
 	health:SetPoint('TOPLEFT', 5, -5)
 	health:SetPoint('TOPRIGHT', -5, -5)
 	health.colorTapping = true

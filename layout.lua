@@ -33,6 +33,10 @@ local function Shared(self, unit)
 		ns.AddCastBar(self, unit)
 	end
 
+	if (unit ~= 'player' and unit ~= 'target') then
+		self:SetSize(120, 32)
+	end
+
 	if (UnitSpecific[unit]) then
 		return UnitSpecific[unit](self)
 	end
@@ -42,6 +46,9 @@ oUF:RegisterStyle(addonName, Shared)
 oUF:Factory(function(self)
 	self:SetActiveStyle(addonName)
 
-	self:Spawn('player'):SetPoint('CENTER', -210, -215)
+	local player = self:Spawn('player')
+	player:SetPoint('CENTER', -210, -215)
 	self:Spawn('target'):SetPoint('CENTER', 210, -215)
+	self:Spawn('pet'):SetPoint('BOTTOMLEFT', player, 'TOPLEFT', 0, 0)
+	self:Spawn('focus'):SetPoint('BOTTOMRIGHT', player, 'TOPRIGHT', 0, 0)
 end)
