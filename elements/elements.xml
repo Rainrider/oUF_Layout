@@ -2,6 +2,7 @@
 	<Script file='castbar.lua'/>
 	<Script file='classpower.lua'/>
 	<Script file='health.lua'/>
+	<Script file='indicators.lua'/>
 	<Script file='portrait.lua'/>
 	<Script file='power.lua'/>
 	<Script file='runes.lua'/>

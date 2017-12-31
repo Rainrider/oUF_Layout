@@ -31,6 +31,7 @@ local function Shared(self, unit)
 
 		ns.AddPortrait(self, unit)
 		ns.AddCastBar(self, unit)
+		ns.AddThreatIndicator(self)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
@@ -38,6 +39,7 @@ local function Shared(self, unit)
 
 		if (unit == 'pet' or unit == 'focus') then
 			ns.AddCastBar(self, unit)
+			ns.AddThreatIndicator(self)
 		end
 	end
 
