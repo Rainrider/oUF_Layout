@@ -56,8 +56,7 @@ local function NormalUnitHealthTag(unit)
 	local status = GetUnitStatus(unit)
 	if(status) then return status end
 
-	local cur = UnitHealth(unit)
-	local max = UnitHealthMax(unit)
+	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 	local r, g, b = ColorGradient(cur, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 	r, g, b = r * 255, g * 255, b * 255
 
@@ -70,10 +69,39 @@ local function NormalUnitHealthTag(unit)
 	end
 end
 
+local function PowerTag(unit)
+	if(not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit)) then return end
+
+	local cur, max = UnitPower(unit), UnitPowerMax(unit)
+	if(max == 0) then return end
+
+	local powerValue
+	local powerType, powerName = UnitPowerType(unit)
+	if(powerName == 'MANA' and cur ~= max) then
+		powerValue = floor(cur / max * 100 + 0.5) .. '%'
+	end
+
+	if(unit == 'player') then
+		if(powerValue) then -- player's mana not full
+			powerValue = format('%s - %s', powerValue, ShortenValue(cur))
+		else -- mana full or other power type
+			powerValue = ShortenValue(cur)
+		end
+	elseif(not powerValue) then
+		powerValue = ShortenValue(cur)
+	end
+
+	local colors = ns.colors.power
+	local r, g, b = unpack(colors[powerName] or colors[powerType])
+	return format('|cff%02x%02x%02x%s|r', r * 255, g * 255, b * 255, powerValue)
+end
+
 tags['layout:health'] = NormalUnitHealthTag
-tags['layout:smallhealth'] = SmallUnitHealthTag
 tagEvents['layout:health'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+tags['layout:smallhealth'] = SmallUnitHealthTag
 tagEvents['layout:smallhealth'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+tags['layout:power'] = PowerTag
+tagEvents['layout:power'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -87,4 +115,12 @@ function ns.AddHealthValue(self, unit)
 		self:Tag(healthValue, '[layout:smallhealth]')
 	end
 	self.Health.value = healthValue
+end
+
+function ns.AddPowerValue(self, unit)
+	local health = self.Health
+	local powerValue = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+	powerValue:SetPoint('TOPLEFT', 3.5, -3.5)
+	self:Tag(powerValue, '[layout:power]')
+	self.Power.value = powerValue
 end
