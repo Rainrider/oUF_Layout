@@ -19,6 +19,7 @@ local function Shared(self, unit)
 		self:SetSize(240, 60)
 
 		ns.AddPortrait(self, unit)
+		ns.AddCastBar(self, unit)
 	end
 
 	if (UnitSpecific[unit]) then
