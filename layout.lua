@@ -35,6 +35,10 @@ local function Shared(self, unit)
 
 	if (unit ~= 'player' and unit ~= 'target') then
 		self:SetSize(120, 32)
+
+		if (unit == 'pet' or unit == 'focus') then
+			ns.AddCastBar(self, unit)
+		end
 	end
 
 	if (UnitSpecific[unit]) then

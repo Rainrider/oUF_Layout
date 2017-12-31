@@ -34,11 +34,12 @@ local function PostUpdateCast(castbar, unit, name)
 end
 
 function ns.AddCastBar(self, unit)
-	local castbar = CreateFrame('StatusBar', nil, self.Portrait)
+	local parent = (unit == 'player' or unit == 'target') and self.Portrait or self.Power
+	local castbar = CreateFrame('StatusBar', nil, parent)
 	castbar:SetStatusBarTexture(ns.assets.TEXTURE)
 	castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	castbar:SetAlpha(0.75)
-	castbar:SetAllPoints(self.Overlay)
+	castbar:SetAllPoints(parent == self.Portrait and self.Overlay or self.Power)
 
 	if(unit == 'player') then
 		local safeZone = castbar:CreateTexture(nil, 'OVERLAY')
@@ -47,39 +48,45 @@ function ns.AddCastBar(self, unit)
 		castbar.SafeZone = safeZone
 	end
 
-	local time = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
-	time:SetPoint('RIGHT', -3.5, 3)
-	time:SetTextColor(0.84, 0.75, 0.65)
-	time:SetJustifyH('RIGHT')
-	castbar.Time = time
+	if (unit == 'player' or unit == 'target') then
+		local time = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+		time:SetPoint('RIGHT', -3.5, 3)
+		time:SetTextColor(0.84, 0.75, 0.65)
+		time:SetJustifyH('RIGHT')
+		castbar.Time = time
 
-	castbar.CustomTimeText = CustomCastTimeText
-	castbar.CustomDelayText = CustomCastDelayText
+		castbar.CustomTimeText = CustomCastTimeText
+		castbar.CustomDelayText = CustomCastDelayText
 
-	local text = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
-	text:SetPoint('LEFT', 3.5, 3)
-	text:SetPoint('RIGHT', time, 'LEFT', -3.5, 0)
-	text:SetTextColor(0.84, 0.75, 0.65)
-	text:SetJustifyH('LEFT')
-	text:SetWordWrap(false)
-	castbar.Text = text
-
-	local icon = castbar:CreateTexture(nil, 'ARTWORK')
-	icon:SetSize(30, 30)
-	icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-	if(unit == 'player') then
-		icon:SetPoint('LEFT', castbar, 'RIGHT', 15, 0)
-	else
-		icon:SetPoint('RIGHT', castbar, 'LEFT', -15, 0)
+		local text = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+		text:SetPoint('LEFT', 3.5, 3)
+		text:SetPoint('RIGHT', time, 'LEFT', -3.5, 0)
+		text:SetTextColor(0.84, 0.75, 0.65)
+		text:SetJustifyH('LEFT')
+		text:SetWordWrap(false)
+		castbar.Text = text
 	end
 
-	local iconOverlay = castbar:CreateTexture(nil, 'OVERLAY')
-	iconOverlay:SetTexture(ns.assets.BUTTONOVERLAY)
-	iconOverlay:SetVertexColor(0.84, 0.75, 0.65)
-	iconOverlay:SetPoint('TOPLEFT', icon, -5, 5)
-	iconOverlay:SetPoint('BOTTOMRIGHT', icon, 5, -5)
+	if (unit ~= 'pet') then
+		local icon = castbar:CreateTexture(nil, 'ARTWORK')
+		icon:SetSize(30, 30)
+		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+		if (unit == 'player') then
+			icon:SetPoint('LEFT', castbar, 'RIGHT', 15, 0)
+		elseif (unit == 'target') then
+			icon:SetPoint('RIGHT', castbar, 'LEFT', -15, 0)
+		else
+			icon:SetPoint('LEFT', self, 'RIGHT', 3.5, 0)
+		end
 
-	castbar.Icon = icon
+		local iconOverlay = castbar:CreateTexture(nil, 'OVERLAY')
+		iconOverlay:SetTexture(ns.assets.BUTTONOVERLAY)
+		iconOverlay:SetVertexColor(0.84, 0.75, 0.65)
+		iconOverlay:SetPoint('TOPLEFT', icon, -5, 5)
+		iconOverlay:SetPoint('BOTTOMRIGHT', icon, 5, -5)
+
+		castbar.Icon = icon
+	end
 
 	castbar.timeToHold = 1
 	castbar.PostCastStart = PostUpdateCast
