@@ -96,12 +96,26 @@ local function PowerTag(unit)
 	return format('|cff%02x%02x%02x%s|r', r * 255, g * 255, b * 255, powerValue)
 end
 
+local function AltManaTag(unit)
+	if (UnitPowerType(unit) == 0) then return end
+
+	local cur, max = UnitPower(unit, 0), UnitPowerMax(unit, 0)
+
+	if (cur == max) then return end
+
+	local color = ns.colors.power.MANA
+	local r, g, b = color[1] * 255, color[2] * 255, color[3] * 255
+	return format("|cff%02x%02x%02x%d%%|r", r, g, b, floor(cur / max * 100 + 0.5))
+end
+
 tags['layout:health'] = NormalUnitHealthTag
 tagEvents['layout:health'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 tags['layout:smallhealth'] = SmallUnitHealthTag
 tagEvents['layout:smallhealth'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 tags['layout:power'] = PowerTag
 tagEvents['layout:power'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
+tags['layout:altmana'] = AltManaTag
+tagEvents['layout:altmana'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -121,6 +135,10 @@ function ns.AddPowerValue(self, unit)
 	local health = self.Health
 	local powerValue = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
 	powerValue:SetPoint('TOPLEFT', 3.5, -3.5)
-	self:Tag(powerValue, '[layout:power]')
+	if(unit == 'player') then
+		self:Tag(powerValue, '[layout:power][ - >layout:altmana]')
+	else
+		self:Tag(powerValue, '[layout:power]')
+	end
 	self.Power.value = powerValue
 end
