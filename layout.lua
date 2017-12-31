@@ -8,6 +8,13 @@ local UnitSpecific = {
 }
 
 local function Shared(self, unit)
+	self:SetBackdrop(ns.assets.GLOW)
+	self:SetBackdropBorderColor(0, 0, 0)
+
+	if (unit == 'player' or unit == 'target') then
+		self:SetSize(240, 60)
+	end
+
 	if (UnitSpecific[unit]) then
 		return UnitSpecific[unit](self)
 	end
@@ -16,4 +23,7 @@ end
 oUF:RegisterStyle(addonName, Shared)
 oUF:Factory(function(self)
 	self:SetActiveStyle(addonName)
+
+	self:Spawn('player'):SetPoint('CENTER', -210, -215)
+	self:Spawn('target'):SetPoint('CENTER', 210, -215)
 end)
