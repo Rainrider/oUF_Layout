@@ -64,6 +64,23 @@ function ns.AddCastBar(self, unit)
 	text:SetWordWrap(false)
 	castbar.Text = text
 
+	local icon = castbar:CreateTexture(nil, 'ARTWORK')
+	icon:SetSize(30, 30)
+	icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	if(unit == 'player') then
+		icon:SetPoint('LEFT', castbar, 'RIGHT', 15, 0)
+	else
+		icon:SetPoint('RIGHT', castbar, 'LEFT', -15, 0)
+	end
+
+	local iconOverlay = castbar:CreateTexture(nil, 'OVERLAY')
+	iconOverlay:SetTexture(ns.assets.BUTTONOVERLAY)
+	iconOverlay:SetVertexColor(0.84, 0.75, 0.65)
+	iconOverlay:SetPoint('TOPLEFT', icon, -5, 5)
+	iconOverlay:SetPoint('BOTTOMRIGHT', icon, 5, -5)
+
+	castbar.Icon = icon
+
 	castbar.timeToHold = 1
 	castbar.PostCastStart = PostUpdateCast
 	castbar.PostChannelStart = PostUpdateCast

@@ -18,6 +18,7 @@ ns.colors = setmetatable({
 }, { __index = oUF.colors })
 
 ns.assets = {
+	BUTTONOVERLAY = [=[Interface\AddOns\oUF_Layout\assets\textures\buttonoverlay]=],
 	GLOW = {
 		edgeFile = [=[Interface\AddOns\oUF_Layout\assets\textures\glow]=],
 		edgeSize = 2,
