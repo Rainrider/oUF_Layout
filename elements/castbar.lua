@@ -15,6 +15,14 @@ local function CustomCastTimeText(castbar, duration)
 	)
 end
 
+local function PostUpdateCast(castbar, unit, name)
+	if(castbar.notInterruptible and UnitCanAttack('player', unit)) then
+		castbar:SetStatusBarColor(0.69, 0.31, 0.31)
+	else
+		castbar:SetStatusBarColor(0.55, 0.57, 0.61)
+	end
+end
+
 function ns.AddCastBar(self, unit)
 	local castbar = CreateFrame('StatusBar', nil, self.Portrait)
 	castbar:SetStatusBarTexture(ns.assets.TEXTURE)
@@ -45,6 +53,11 @@ function ns.AddCastBar(self, unit)
 	text:SetJustifyH('LEFT')
 	text:SetWordWrap(false)
 	castbar.Text = text
+
+	castbar.PostCastStart = PostUpdateCast
+	castbar.PostChannelStart = PostUpdateCast
+	castbar.PostCastInterruptible = PostUpdateCast
+	castbar.PostCastNotInterruptible = PostUpdateCast
 
 	self.Castbar = castbar
 end
