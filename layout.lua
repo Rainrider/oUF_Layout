@@ -25,6 +25,7 @@ local function Shared(self, unit)
 
 	ns.AddHealthBar(self, unit)
 	ns.AddPowerBar(self, unit)
+	ns.AddHealthValue(self, unit)
 
 	if (unit == 'player' or unit == 'target') then
 		self:SetSize(240, 60)

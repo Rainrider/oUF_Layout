@@ -6,4 +6,5 @@
 	<Script file='portrait.lua'/>
 	<Script file='power.lua'/>
 	<Script file='runes.lua'/>
+	<Script file='tags.lua'/>
 </Ui>
