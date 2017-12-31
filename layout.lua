@@ -11,6 +11,8 @@ local function Shared(self, unit)
 	self:SetBackdrop(ns.assets.GLOW)
 	self:SetBackdropBorderColor(0, 0, 0)
 
+	ns.AddHealthBar(self, unit)
+
 	if (unit == 'player' or unit == 'target') then
 		self:SetSize(240, 60)
 	end
