@@ -12,3 +12,5 @@ ns.Debug = function() end
 if(AdiDebug) then
 	ns.Debug = AdiDebug:Embed({}, addonName)
 end
+
+ns.playerClass = select(2, UnitClass('player'))

@@ -3,4 +3,5 @@
 	<Script file='health.lua'/>
 	<Script file='portrait.lua'/>
 	<Script file='power.lua'/>
+	<Script file='runes.lua'/>
 </Ui>

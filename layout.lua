@@ -1,7 +1,13 @@
 local addonName, ns = ...
 
+local playerClass = ns.playerClass
+
 local UnitSpecific = {
-	player = function(self) end,
+	player = function(self)
+		if (playerClass == 'DEATHKNIGHT') then
+			ns.AddRunes(self, 217, 5, 1)
+		end
+	end,
 	target = function(self) end,
 	pet = function(self) end,
 	focus = function(self) end,
