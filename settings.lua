@@ -4,6 +4,11 @@ ns.config = {}
 
 ns.colors = setmetatable({
 	disconnected = { 0.42, 0.37, 0.32 },
+	power = setmetatable({
+		["MANA"] = { 0.31, 0.45, 0.63 },
+		["RAGE"] = { 0.69, 0.31, 0.31 },
+		["ENERGY"] = { 1, 0.87, 0.4 },
+	}, { __index = oUF.colors.power }),
 	smooth = setmetatable({
 		0.69, 0.31, 0.31,
 		0.71, 0.43, 0.27,
