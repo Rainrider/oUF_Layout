@@ -17,6 +17,8 @@ local function Shared(self, unit)
 
 	if (unit == 'player' or unit == 'target') then
 		self:SetSize(240, 60)
+
+		ns.AddPortrait(self, unit)
 	end
 
 	if (UnitSpecific[unit]) then
