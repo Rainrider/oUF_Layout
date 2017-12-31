@@ -7,3 +7,6 @@
 ## OptionalDeps: AdiDebug
 
 init.lua
+settings.lua
+elements\elements.xml
+layout.lua
