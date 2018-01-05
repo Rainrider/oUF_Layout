@@ -1,7 +1,26 @@
 local _, ns = ...
 
+local playerClass = ns.playerClass
+
 local floor = math.floor
 local format = string.format
+
+local ImportantDebuffs = {
+	[  6788] = playerClass == "PRIEST", -- Weakened Soul
+	[ 25771] = playerClass == "PALADIN", -- Forbearance
+	[212570] = true, -- Surrendered Soul
+}
+
+local CustomDebuffFilter = {
+	target = function(_, unit, aura, _, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)
+		if (not UnitIsFriend(unit, 'player')) then
+			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or isBossDebuff or ImportantDebuffs[spellID]
+		else
+			return true
+		end
+	end,
+}
+CustomDebuffFilter.focus = CustomDebuffFilter.target
 
 local function AuraOnEnter(aura)
 	if (not aura:IsVisible()) then return end
@@ -86,6 +105,7 @@ function ns.AddDebuffs(self, unit)
 	debuffs.spacing = 2.5
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
 	debuffs.showDebuffType = true
+	debuffs.CustomFilter = ns.config.filterDebuffs:find('%f[%a]' .. unit .. '%f[%A]') and CustomDebuffFilter[unit]
 	debuffs.CreateIcon = CreateAura
 	debuffs.PostUpdateIcon = PostUpdateAura
 

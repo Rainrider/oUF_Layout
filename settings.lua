@@ -1,6 +1,8 @@
 local _, ns = ...
 
-ns.config = {}
+ns.config = {
+	filterDebuffs = 'target focus',
+}
 
 ns.colors = setmetatable({
 	disconnected = { 0.42, 0.37, 0.32 },
