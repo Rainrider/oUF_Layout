@@ -1,6 +1,7 @@
 local _, ns = ...
 
 ns.config = {
+	filterBuffs = 'player target',
 	filterDebuffs = 'target focus',
 }
 

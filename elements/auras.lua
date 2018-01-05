@@ -5,10 +5,36 @@ local playerClass = ns.playerClass
 local floor = math.floor
 local format = string.format
 
+local ImportantBuffs = {
+	[  1022] = true, -- Hand of Protection
+	[  2825] = true, -- Bloodlust
+	[ 20707] = true, -- Soulstone
+	[ 32182] = true, -- Heroism
+	[ 80353] = true, -- Time Warp
+	[ 90355] = true, -- Ancient Hysteria
+	[178207] = true, -- Drums of Fury
+	[230935] = true, -- Drums of the Mountain
+}
+
 local ImportantDebuffs = {
 	[  6788] = playerClass == "PRIEST", -- Weakened Soul
 	[ 25771] = playerClass == "PALADIN", -- Forbearance
 	[212570] = true, -- Surrendered Soul
+}
+
+local CustomBuffFilter = {
+	player = function(_, _, aura, _, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
+		return not casterIsPlayer or
+			duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet') or
+			ImportantBuffs[spellID]
+	end,
+	target = function(_, unit, aura, _, _, _, _, _, _, _, caster, _, _, _, _, _, casterIsPlayer)
+		if(UnitIsFriend(unit, 'player')) then
+			return aura.isPlayer or caster == 'pet' or not casterIsPlayer
+		else
+			return true
+		end
+	end,
 }
 
 local CustomDebuffFilter = {
@@ -98,6 +124,30 @@ local function CreateAura(auras, index)
 	button:SetScript('OnLeave', AuraOnLeave)
 
 	return button
+end
+
+function ns.AddBuffs(self, unit)
+	local buffs = CreateFrame('Frame', self:GetName() .. '_Buffs', self)
+	buffs.spacing = 2.5
+	buffs.size = (230 - 7 * buffs.spacing) / 8
+	buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
+	buffs['growth-y'] = 'DOWN'
+	buffs.showBuffType = true
+	buffs.CustomFilter = ns.config.filterBuffs:find('%f[%a]' .. unit .. '%f[%A]') and CustomBuffFilter[unit]
+	buffs.CreateIcon = CreateAura
+	buffs.PostUpdateIcon = PostUpdateAura
+
+	if(unit == 'player') then
+		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -5)
+		buffs.initialAnchor = 'TOPRIGHT'
+		buffs['growth-x'] = 'LEFT'
+	else
+		buffs:SetPoint('TOPLEFT', self, 'TOPRIGHT', 2.5, -5)
+		buffs.initialAnchor = 'TOPLEFT'
+		buffs['growth-x'] = 'RIGHT'
+	end
+
+	self.Buffs = buffs
 end
 
 function ns.AddDebuffs(self, unit)

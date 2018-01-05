@@ -38,6 +38,7 @@ local function Shared(self, unit)
 		ns.AddPortrait(self, unit)
 		ns.AddCastBar(self, unit)
 		ns.AddThreatIndicator(self)
+		ns.AddBuffs(self, unit)
 		ns.AddDebuffs(self, unit)
 	end
 
