@@ -13,7 +13,9 @@ local UnitSpecific = {
 		ns.AddInfoText(self, 'target')
 	end,
 	pet = function(self) end,
-	focus = function(self) end,
+	focus = function(self)
+		ns.AddDebuffs(self, 'focus')
+	end,
 }
 
 local function Shared(self, unit)
@@ -36,6 +38,7 @@ local function Shared(self, unit)
 		ns.AddPortrait(self, unit)
 		ns.AddCastBar(self, unit)
 		ns.AddThreatIndicator(self)
+		ns.AddDebuffs(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
