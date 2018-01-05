@@ -9,7 +9,9 @@ local UnitSpecific = {
 			ns.AddRunes(self, 217, 5, 1)
 		end
 	end,
-	target = function(self) end,
+	target = function(self)
+		ns.AddInfoText(self, 'target')
+	end,
 	pet = function(self) end,
 	focus = function(self) end,
 }
@@ -38,6 +40,7 @@ local function Shared(self, unit)
 
 	if (unit ~= 'player' and unit ~= 'target') then
 		self:SetSize(120, 32)
+		ns.AddInfoText(self, unit)
 
 		if (unit == 'pet' or unit == 'focus') then
 			ns.AddCastBar(self, unit)

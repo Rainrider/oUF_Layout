@@ -19,6 +19,24 @@ local function ShortenValue(value)
 	end
 end
 
+local function GetColoredName(unit, realUnit)
+	local colors = ns.colors
+	local color
+	if (UnitIsPlayer(unit)) then
+		local _, class = UnitClass(realUnit or unit)
+		if(class) then
+			color = colors.class[class]
+		end
+	else
+		local reaction = UnitReaction(realUnit or unit, 'player')
+		color = colors.reaction[reaction or 4]
+	end
+
+	color = color or colors.disconnected
+
+	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, UnitName(unit))
+end
+
 local function GetUnitStatus(unit)
 	if(not UnitIsConnected(unit)) then
 		return PLAYER_OFFLINE
@@ -32,6 +50,19 @@ local function GetUnitStatus(unit)
 	if(UnitIsDead(unit)) then
 		return DEAD
 	end
+end
+
+local function LevelTag(unit)
+	if (UnitClassification(unit) == 'worldboss') then return end
+
+	local level = UnitBattlePetLevel(unit)
+	if (not level or level == 0) then
+		level = UnitEffectiveLevel(unit)
+	end
+
+	if (level == UnitEffectiveLevel('player')) then return end
+	if (level < 0) then return '??' end
+	return level
 end
 
 local function SmallUnitHealthTag(unit)
@@ -116,6 +147,10 @@ tags['layout:power'] = PowerTag
 tagEvents['layout:power'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
 tags['layout:altmana'] = AltManaTag
 tagEvents['layout:altmana'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
+tags['layout:name'] = GetColoredName
+tagEvents['layout:name'] = 'UNIT_NAME_UPDATE UNIT_FACTION'
+tags['layout:level'] = LevelTag
+tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -129,6 +164,24 @@ function ns.AddHealthValue(self, unit)
 		self:Tag(healthValue, '[layout:smallhealth]')
 	end
 	self.Health.value = healthValue
+end
+
+function ns.AddInfoText(self, unit)
+	local info
+	local health = self.Health
+	if (unit == 'target') then
+		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
+		info:SetPoint('LEFT', self.Power.value, 'RIGHT', 5, 0)
+		info:SetPoint('TOP', 0, -3.5)
+		self:Tag(info, '[layout:name][difficulty][ >layout:level][ >shortclassification]|r')
+	else
+		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
+		info:SetPoint('TOPLEFT', 2, -2)
+		self:Tag(info, '[layout:name]')
+	end
+	info:SetPoint('RIGHT', health.value, 'LEFT', -5, 0)
+	info:SetJustifyH('LEFT')
+	info:SetWordWrap(false)
 end
 
 function ns.AddPowerValue(self, unit)
