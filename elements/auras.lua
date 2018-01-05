@@ -1,5 +1,8 @@
 local _, ns = ...
 
+local floor = math.floor
+local format = string.format
+
 local function AuraOnEnter(aura)
 	if (not aura:IsVisible()) then return end
 
@@ -11,8 +14,42 @@ local function AuraOnLeave(aura)
 	GameTooltip:Hide()
 end
 
+local function FormatTime(seconds)
+	local day, hour, minute = 86400, 3600, 60
+	if (seconds >= day) then
+		return format('%dd', floor(seconds/day + 0.5))
+	elseif (seconds >= hour) then
+		return format('%dh', floor(seconds/hour + 0.5))
+	elseif (seconds >= minute) then
+		if (seconds <= minute * 5) then
+			return format('%d:%02d', floor(seconds/minute), seconds % minute)
+		end
+		return format('%dm', floor(seconds/minute + 0.5))
+	else
+		return format('%d', seconds)
+	end
+end
+
+local function UpdateAuraTimer(aura, elapsed)
+	local timeLeft = aura.timeLeft - elapsed
+	aura.timer:SetText((timeLeft > 0) and FormatTime(timeLeft))
+	aura.timeLeft = timeLeft
+end
+
 local function UpdateAuraTooltip(aura)
 	GameTooltip:SetUnitAura(aura:GetParent().__owner.unit, aura:GetID(), aura.filter)
+end
+
+local function PostUpdateAura(auras, unit, aura, index, offset)
+	local _, _, _, _, _, duration, expiration = UnitAura(unit, index, aura.filter)
+
+	if (duration and duration > 0) then
+		aura.timeLeft = expiration - GetTime()
+		aura:SetScript('OnUpdate', UpdateAuraTimer)
+	else
+		aura:SetScript('OnUpdate', nil)
+		aura.timer:SetText()
+	end
 end
 
 local function CreateAura(auras, index)
@@ -33,6 +70,10 @@ local function CreateAura(auras, index)
 	count:SetPoint('BOTTOMRIGHT', -1, 1)
 	button.count = count
 
+	local timer = button:CreateFontString(nil, 'OVERLAY', 'LAyoutFont_Shadow_Small')
+	timer:SetPoint('TOPLEFT', 1, -1)
+	button.timer = timer
+
 	button.UpdateTooltip = UpdateAuraTooltip
 	button:SetScript('OnEnter', AuraOnEnter)
 	button:SetScript('OnLeave', AuraOnLeave)
@@ -46,6 +87,7 @@ function ns.AddDebuffs(self, unit)
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
 	debuffs.showDebuffType = true
 	debuffs.CreateIcon = CreateAura
+	debuffs.PostUpdateIcon = PostUpdateAura
 
 	if (unit == 'player' or unit == 'target') then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -2.5)
