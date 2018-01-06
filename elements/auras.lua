@@ -106,6 +106,11 @@ local function PostUpdateAura(auras, unit, aura, index, offset)
 	end
 end
 
+local function PostUpdateGapAura(_, _, aura)
+	aura:SetScript('OnUpdate', nil)
+	aura.timer:SetText()
+end
+
 local function CreateAura(auras, index)
 	local button = CreateFrame('Button', auras:GetName() .. index, auras)
 
@@ -133,6 +138,25 @@ local function CreateAura(auras, index)
 	button:SetScript('OnLeave', AuraOnLeave)
 
 	return button
+end
+
+function ns.AddAuras(self, unit)
+	local auras = CreateFrame('Frame', self:GetName() .. '_Auras', self)
+	auras.spacing = 2.5
+	auras.size = (230 - 7 * auras.spacing) / 8
+	auras.numBuffs = 3
+	auras.numDebuffs = 3
+	auras.gap = true
+	auras:SetSize(7 * (auras.size + auras.spacing), auras.size + auras.spacing)
+	auras:SetPoint('RIGHT', self, 'LEFT', -2.5, 0)
+	auras['growth-x'] = 'LEFT'
+	auras.initialAnchor = 'TOPRIGHT'
+	auras.showType = true
+	auras.CreateIcon = CreateAura
+	auras.PostUpdateIcon = PostUpdateAura
+	auras.PostUpdateGapIcon = PostUpdateGapAura
+
+	self.Auras = auras
 end
 
 function ns.AddBuffs(self, unit)

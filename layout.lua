@@ -12,7 +12,9 @@ local UnitSpecific = {
 	target = function(self)
 		ns.AddInfoText(self, 'target')
 	end,
-	pet = function(self) end,
+	pet = function(self)
+		ns.AddAuras(self, 'pet')
+	end,
 	focus = function(self)
 		ns.AddDebuffs(self, 'focus')
 	end,
