@@ -3,6 +3,8 @@ local _, ns = ...
 ns.config = {
 	filterBuffs = 'player target',
 	filterDebuffs = 'target focus',
+	sortBuffs = '',
+	sortDebuffs = 'target',
 }
 
 ns.colors = setmetatable({

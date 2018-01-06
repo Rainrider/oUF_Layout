@@ -94,6 +94,7 @@ local function PostUpdateAura(auras, unit, aura, index, offset)
 	else
 		aura:SetScript('OnUpdate', nil)
 		aura.timer:SetText()
+		aura.timeLeft = math.huge -- needed for sorting
 	end
 
 	if (not aura.isDebuff) then
@@ -109,6 +110,19 @@ end
 local function PostUpdateGapAura(_, _, aura)
 	aura:SetScript('OnUpdate', nil)
 	aura.timer:SetText()
+end
+
+local function SortAuras(a, b)
+	if (a:IsShown() and b:IsShown()) then
+		return a.timeLeft < b.timeLeft
+	else
+		return a:IsShown()
+	end
+end
+
+local function PreSetAuraPosition(auras)
+	table.sort(auras, SortAuras)
+	return 1, auras.createdIcons
 end
 
 local function CreateAura(auras, index)
@@ -166,7 +180,10 @@ function ns.AddBuffs(self, unit)
 	buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
 	buffs['growth-y'] = 'DOWN'
 	buffs.showBuffType = true
-	buffs.CustomFilter = ns.config.filterBuffs:find('%f[%a]' .. unit .. '%f[%A]') and CustomBuffFilter[unit]
+
+	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	buffs.CustomFilter = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
+	buffs.PreSetPosition = ns.config.sortBuffs:find(unitCondition) and PreSetAuraPosition
 	buffs.CreateIcon = CreateAura
 	buffs.PostUpdateIcon = PostUpdateAura
 
@@ -188,7 +205,10 @@ function ns.AddDebuffs(self, unit)
 	debuffs.spacing = 2.5
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
 	debuffs.showDebuffType = true
-	debuffs.CustomFilter = ns.config.filterDebuffs:find('%f[%a]' .. unit .. '%f[%A]') and CustomDebuffFilter[unit]
+
+	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	debuffs.CustomFilter = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
+	debuffs.PreSetPosition = ns.config.sortDebuffs:find(unitCondition) and PreSetAuraPosition
 	debuffs.CreateIcon = CreateAura
 	debuffs.PostUpdateIcon = PostUpdateAura
 
