@@ -5,6 +5,7 @@ local playerClass = ns.playerClass
 local UnitSpecific = {
 	player = function(self)
 		ns.AddClassPower(self, 217, 5, 1)
+		ns.AddPowerPrediction(self)
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
 		end

@@ -4,6 +4,7 @@ function ns.AddPortrait(self, unit)
 	local portrait = CreateFrame('PlayerModel', nil, self.Health)
 	portrait:SetPoint('TOPLEFT', self.Health, 7.5, -20)
 	portrait:SetPoint('BOTTOMRIGHT', self.Power, -7.5, 7.5)
+	portrait:SetFrameLevel(portrait:GetFrameLevel() + 1)
 
 	local bg = portrait:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
