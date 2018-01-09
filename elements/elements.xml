@@ -9,4 +9,6 @@
 	<Script file='powerprediction.lua'/>
 	<Script file='runes.lua'/>
 	<Script file='tags.lua'/>
+	<Script file='totems.lua'/>
+	<Script file='custom\totems.lua'/>
 </Ui>
