@@ -7,6 +7,7 @@ local UnitSpecific = {
 		ns.AddClassPower(self, 217, 5, 1)
 		ns.AddTotems(self, 217, 5, 1)
 		ns.AddPowerPrediction(self)
+		ns.AddAlternativePower(self)
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
 		end
@@ -16,6 +17,7 @@ local UnitSpecific = {
 	end,
 	pet = function(self)
 		ns.AddAuras(self, 'pet')
+		ns.AddAlternativePower(self) -- needed when the player is in a vehicle
 	end,
 	focus = function(self)
 		ns.AddDebuffs(self, 'focus')
