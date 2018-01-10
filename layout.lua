@@ -10,6 +10,8 @@ local UnitSpecific = {
 		ns.AddAlternativePower(self)
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
+		elseif (playerClass == 'MONK') then
+			ns.AddStagger(self)
 		end
 	end,
 	target = function(self)
