@@ -36,6 +36,7 @@ ns.assets = {
 		edgeFile = [=[Interface\AddOns\oUF_Layout\assets\textures\glow]=],
 		edgeSize = 2,
 	},
+	HIGHLIGHT = [=[Interface\AddOns\oUF_Layout\assets\textures\highlight]=],
 	SHADER = [=[Interface\AddOns\oUF_Layout\assets\textures\shader]=],
 	TEXTURE = [=[Interface\AddOns\oUF_Layout\assets\textures\texture]=],
 }

@@ -48,6 +48,7 @@ local function Shared(self, unit)
 		ns.AddThreatIndicator(self)
 		ns.AddBuffs(self, unit)
 		ns.AddDebuffs(self, unit)
+		ns.AddDispel(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
@@ -57,6 +58,7 @@ local function Shared(self, unit)
 		if (unit == 'pet' or unit == 'focus') then
 			ns.AddCastBar(self, unit)
 			ns.AddThreatIndicator(self)
+			ns.AddDispel(self, unit)
 		end
 	end
 
