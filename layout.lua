@@ -9,6 +9,8 @@ local UnitSpecific = {
 		ns.AddPowerPrediction(self)
 		ns.AddAlternativePower(self)
 		ns.AddArtifactPower(self)
+		ns.AddReputation(self)
+
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
 		elseif (playerClass == 'MONK') then

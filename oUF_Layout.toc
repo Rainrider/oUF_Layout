@@ -4,7 +4,7 @@
 ## Version: @project-version@
 ## Author: Rainrider
 ## RequiredDeps: oUF
-## OptionalDeps: AdiDebug, oUF_ArtifactPower, oUF_Dispelable
+## OptionalDeps: AdiDebug, oUF_ArtifactPower, oUF_Dispelable, oUF_Reputation
 
 init.lua
 fonts.xml
