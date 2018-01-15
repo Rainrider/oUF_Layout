@@ -135,16 +135,16 @@ local function CreateAura(auras, index)
 
 	local overlay = button:CreateTexture(nil, 'ARTWORK')
 	overlay:SetTexture(ns.assets.BUTTONOVERLAY)
-	overlay:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-	overlay:SetAllPoints()
+	overlay:SetPoint('TOPLEFT', -2.5, 2.5)
+	overlay:SetPoint('BOTTOMRIGHT', 2.5, -2.5)
 	button.overlay = overlay
 
 	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
-	count:SetPoint('BOTTOMRIGHT', -1, 1)
+	count:SetPoint('BOTTOMRIGHT', 0, 0)
 	button.count = count
 
 	local timer = button:CreateFontString(nil, 'OVERLAY', 'LAyoutFont_Shadow_Small')
-	timer:SetPoint('TOPLEFT', 1, -1)
+	timer:SetPoint('TOPLEFT', 0, 0)
 	button.timer = timer
 
 	button.UpdateTooltip = UpdateAuraTooltip
@@ -156,13 +156,13 @@ end
 
 function ns.AddAuras(self, unit)
 	local auras = CreateFrame('Frame', self:GetName() .. '_Auras', self)
-	auras.spacing = 2.5
+	auras.spacing = 5
 	auras.size = (230 - 7 * auras.spacing) / 8
 	auras.numBuffs = 3
-	auras.numDebuffs = 3
+	auras.numDebuffs = 4
 	auras.gap = true
 	auras:SetSize(7 * (auras.size + auras.spacing), auras.size + auras.spacing)
-	auras:SetPoint('RIGHT', self, 'LEFT', -2.5, 0)
+	auras:SetPoint('RIGHT', self, 'LEFT', -2.5, -2.5)
 	auras['growth-x'] = 'LEFT'
 	auras.initialAnchor = 'TOPRIGHT'
 	auras.showType = true
@@ -175,7 +175,7 @@ end
 
 function ns.AddBuffs(self, unit)
 	local buffs = CreateFrame('Frame', self:GetName() .. '_Buffs', self)
-	buffs.spacing = 2.5
+	buffs.spacing = 5
 	buffs.size = (230 - 7 * buffs.spacing) / 8
 	buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
 	buffs['growth-y'] = 'DOWN'
@@ -188,11 +188,11 @@ function ns.AddBuffs(self, unit)
 	buffs.PostUpdateIcon = PostUpdateAura
 
 	if(unit == 'player') then
-		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -5)
+		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -3.5)
 		buffs.initialAnchor = 'TOPRIGHT'
 		buffs['growth-x'] = 'LEFT'
 	else
-		buffs:SetPoint('TOPLEFT', self, 'TOPRIGHT', 2.5, -5)
+		buffs:SetPoint('TOPLEFT', self, 'TOPRIGHT', 2.5, -3.5)
 		buffs.initialAnchor = 'TOPLEFT'
 		buffs['growth-x'] = 'RIGHT'
 	end
@@ -202,7 +202,7 @@ end
 
 function ns.AddDebuffs(self, unit)
 	local debuffs = CreateFrame('Frame', self:GetName() .. '_Debuffs', self)
-	debuffs.spacing = 2.5
+	debuffs.spacing = 5
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
 	debuffs.showDebuffType = true
 
@@ -220,7 +220,7 @@ function ns.AddDebuffs(self, unit)
 		debuffs['growth-x'] = 'RIGHT'
 		debuffs['growth-y'] = 'DOWN'
 	else
-		debuffs:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -5, 2.5)
+		debuffs:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -5, 0)
 		debuffs.num = 6
 		debuffs:SetSize(debuffs.num * (debuffs.size + debuffs.spacing), debuffs.size + debuffs.spacing)
 		debuffs.initialAnchor = 'RIGHT'
