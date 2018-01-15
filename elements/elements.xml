@@ -5,6 +5,7 @@
 	<Script file='castbar.lua'/>
 	<Script file='classpower.lua'/>
 	<Script file='dispel.lua'/>
+	<Script file='experience.lua'/>
 	<Script file='health.lua'/>
 	<Script file='indicators.lua'/>
 	<Script file='portrait.lua'/>

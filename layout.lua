@@ -10,6 +10,7 @@ local UnitSpecific = {
 		ns.AddAlternativePower(self)
 		ns.AddArtifactPower(self)
 		ns.AddReputation(self)
+		ns.AddExperience(self)
 
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
