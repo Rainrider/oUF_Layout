@@ -5,6 +5,9 @@ local tagEvents = oUF.Tags.Events
 local tagSharedEvents = oUF.Tags.SharedEvents
 local ColorGradient = oUF.ColorGradient
 
+local floor = math.floor
+local format = string.format
+
 local GHOST = GetLocale() == 'deDE' and 'Geist' or GetSpellInfo(8326)
 
 local function ShortenValue(value)
@@ -35,6 +38,28 @@ local function GetColoredName(unit, realUnit)
 	color = color or colors.disconnected
 
 	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, UnitName(unit))
+end
+
+local function GetPvPStatus(unit)
+	local prestige = UnitPrestige(unit)
+	local status
+	local color
+
+	if (UnitIsPVPFreeForAll(unit)) then
+		status = "FFA"
+		color = ORANGE_FONT_COLOR_CODE
+	elseif (UnitIsPVP(unit)) then
+		status = "PvP"
+		color = RED_FONT_COLOR_CODE
+	end
+
+	if (status) then
+		if (prestige and prestige > 0) then
+			status = format("%s %d", status, prestige)
+		end
+
+		return format("%s%s|r", color, status)
+	end
 end
 
 local function GetUnitStatus(unit)
@@ -151,6 +176,8 @@ tags['layout:name'] = GetColoredName
 tagEvents['layout:name'] = 'UNIT_NAME_UPDATE UNIT_FACTION'
 tags['layout:level'] = LevelTag
 tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
+tags['layout:pvp'] = GetPvPStatus
+tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_PRESTIGE_UPDATE'
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -194,4 +221,37 @@ function ns.AddPowerValue(self, unit)
 		self:Tag(powerValue, '[layout:power]')
 	end
 	self.Power.value = powerValue
+end
+
+local GetPVPTimer = GetPVPTimer
+local pvpElapsed = 0
+local function UpdatePvPTimer(self, elapsed)
+	pvpElapsed = pvpElapsed + elapsed
+	if (pvpElapsed > 0.5) then
+		pvpElapsed = 0
+		local timer = GetPVPTimer() / 1000
+		if (timer > 0 and timer < 300) then
+			self.PvP:SetText(format("%d:%02d", floor(timer / 60), timer % 60))
+		end
+	end
+end
+
+function ns.AddPvPText(self, unit)
+	local pvp = self.Portrait:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Large_Outline')
+	pvp:SetPoint('RIGHT', -2.5, 0)
+	pvp:SetTextColor(0.69, 0.31, 0.31, 0.6)
+	self.PvP = pvp
+	self:Tag(pvp, '[layout:pvp]')
+
+	if (unit == 'player') then
+		self:HookScript('OnEnter', function()
+			if (UnitIsPVP('player')) then
+				self:SetScript('OnUpdate', UpdatePvPTimer)
+			end
+		end)
+		self:HookScript('OnLeave', function()
+			self:SetScript('OnUpdate', nil)
+			pvp:UpdateTag()
+		end)
+	end
 end

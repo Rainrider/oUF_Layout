@@ -53,6 +53,7 @@ local function Shared(self, unit)
 		ns.AddBuffs(self, unit)
 		ns.AddDebuffs(self, unit)
 		ns.AddDispel(self, unit)
+		ns.AddPvPText(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
