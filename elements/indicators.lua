@@ -1,5 +1,13 @@
 local _, ns = ...
 
+function ns.AddQuestIndicator(self)
+	local quest = self.Overlay:CreateTexture(nil, 'OVERLAY')
+	quest:SetSize(16, 16)
+	quest:SetPoint('RIGHT', 8, 0)
+
+	self.QuestIndicator = quest
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 
