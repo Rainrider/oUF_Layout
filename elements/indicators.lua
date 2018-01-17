@@ -1,11 +1,35 @@
 local _, ns = ...
 
+function ns.AddAssistantIndicator(self)
+	local assistant = self:CreateTexture(nil, 'OVERLAY')
+	assistant:SetSize(14, 14)
+	assistant:SetPoint('BOTTOM', self.Health, 'TOPLEFT', 0, -3)
+
+	self.AssistantIndicator = assistant
+end
+
 function ns.AddCombatIndicator(self)
 	local combat = self.Health:CreateTexture(nil, 'OVERLAY')
 	combat:SetSize(18, 18)
 	combat:SetPoint('TOP')
 
 	self.CombatIndicator = combat
+end
+
+function ns.AddLeaderIndicator(self)
+	local leader = self:CreateTexture(nil, 'OVERLAY')
+	leader:SetSize(14, 14)
+	leader:SetPoint('BOTTOM', self.Health, 'TOPLEFT', 0, -3)
+
+	self.LeaderIndicator = leader
+end
+
+function ns.AddMasterLooterIndicator(self)
+	local looter = self.Power:CreateTexture(nil, 'OVERLAY')
+	looter:SetSize(14, 14)
+	looter:SetPoint('TOP', self.Power, 'BOTTOMLEFT', 0, 7)
+
+	self.MasterLooterIndicator = looter
 end
 
 function ns.AddPhaseIndicator(self)

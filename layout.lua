@@ -11,7 +11,10 @@ local UnitSpecific = {
 		ns.AddArtifactPower(self)
 		ns.AddReputation(self)
 		ns.AddExperience(self)
+		ns.AddAssistantIndicator(self)
 		ns.AddCombatIndicator(self)
+		ns.AddLeaderIndicator(self)
+		ns.AddMasterLooterIndicator(self)
 
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)
@@ -73,6 +76,9 @@ local function Shared(self, unit)
 		end
 
 		if (unit == 'party') then
+			ns.AddAssistantIndicator(self)
+			ns.AddLeaderIndicator(self)
+			ns.AddMasterLooterIndicator(self)
 			ns.AddPhaseIndicator(self)
 		end
 	end
