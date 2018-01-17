@@ -8,6 +8,14 @@ function ns.AddCombatIndicator(self)
 	self.CombatIndicator = combat
 end
 
+function ns.AddPhaseIndicator(self)
+	local phase = self:CreateTexture(nil, 'OVERLAY')
+	phase:SetSize(18, 18)
+	phase:SetPoint('TOPRIGHT', 7, 7)
+
+	self.PhaseIndicator = phase
+end
+
 function ns.AddQuestIndicator(self)
 	local quest = self.Overlay:CreateTexture(nil, 'OVERLAY')
 	quest:SetSize(16, 16)

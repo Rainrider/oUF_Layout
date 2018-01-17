@@ -22,6 +22,7 @@ local UnitSpecific = {
 	target = function(self)
 		ns.AddInfoText(self, 'target')
 		ns.AddQuestIndicator(self)
+		ns.AddPhaseIndicator(self)
 	end,
 	pet = function(self)
 		ns.AddAuras(self, 'pet')
