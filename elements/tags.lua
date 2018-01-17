@@ -187,7 +187,7 @@ function ns.AddHealthValue(self, unit)
 		self:Tag(healthValue, '[layout:health]')
 	else
 		healthValue = self.Health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
-		healthValue:SetPoint('TOPRIGHT', -2, -2)
+		healthValue:SetPoint('RIGHT', -2, 0)
 		self:Tag(healthValue, '[layout:smallhealth]')
 	end
 	self.Health.value = healthValue
@@ -203,7 +203,7 @@ function ns.AddInfoText(self, unit)
 		self:Tag(info, '[layout:name][difficulty][ >layout:level][ >shortclassification]|r')
 	else
 		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
-		info:SetPoint('TOPLEFT', 2, -2)
+		info:SetPoint('LEFT', 2, 0)
 		self:Tag(info, '[layout:name]')
 	end
 	info:SetPoint('RIGHT', health.value, 'LEFT', -5, 0)

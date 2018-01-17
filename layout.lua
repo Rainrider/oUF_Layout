@@ -60,13 +60,20 @@ local function Shared(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
-		self:SetSize(120, 32)
+		if (unit ~= 'party') then
+			self:SetSize(120, 32)
+		end
+
 		ns.AddInfoText(self, unit)
 
-		if (unit == 'pet' or unit == 'focus') then
+		if (unit == 'pet' or unit == 'focus' or unit == 'party') then
 			ns.AddCastBar(self, unit)
 			ns.AddThreatIndicator(self)
 			ns.AddDispel(self, unit)
+		end
+
+		if (unit == 'party') then
+			ns.AddPhaseIndicator(self)
 		end
 	end
 
@@ -87,4 +94,18 @@ oUF:Factory(function(self)
 	self:Spawn('focus'):SetPoint('BOTTOMRIGHT', player, 'TOPRIGHT', 0, 0)
 	self:Spawn('focustarget'):SetPoint('BOTTOMLEFT', target, 'TOPLEFT', 0, 0)
 	self:Spawn('targettarget'):SetPoint('BOTTOMRIGHT', target, 'TOPRIGHT', 0, 0)
+
+	local party = self:SpawnHeader(
+		nil, nil, 'party',
+		'showParty', true,
+		'maxColumns', 4,
+		'unitsPerColumn', 1,
+		'columnAnchorPoint', 'LEFT',
+		'columnSpacing', 0,
+		'oUF-initialConfigFunction', [[
+			self:SetWidth(120)
+			self:SetHeight(32)
+		]]
+	)
+	party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
 end)
