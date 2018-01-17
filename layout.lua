@@ -11,6 +11,7 @@ local UnitSpecific = {
 		ns.AddArtifactPower(self)
 		ns.AddReputation(self)
 		ns.AddExperience(self)
+		ns.AddCombatIndicator(self)
 
 		if (playerClass == 'DEATHKNIGHT') then
 			ns.AddRunes(self, 217, 5, 1)

@@ -1,5 +1,13 @@
 local _, ns = ...
 
+function ns.AddCombatIndicator(self)
+	local combat = self.Health:CreateTexture(nil, 'OVERLAY')
+	combat:SetSize(18, 18)
+	combat:SetPoint('TOP')
+
+	self.CombatIndicator = combat
+end
+
 function ns.AddQuestIndicator(self)
 	local quest = self.Overlay:CreateTexture(nil, 'OVERLAY')
 	quest:SetSize(16, 16)
