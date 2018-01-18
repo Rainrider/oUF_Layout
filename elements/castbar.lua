@@ -69,7 +69,7 @@ function ns.AddCastBar(self, unit)
 
 	if (unit ~= 'pet' and unit ~= 'party') then
 		local icon = castbar:CreateTexture(nil, 'ARTWORK')
-		icon:SetSize(30, 30)
+		icon:SetSize(25, 25)
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		if (unit == 'player') then
 			icon:SetPoint('LEFT', castbar, 'RIGHT', 15, 0)

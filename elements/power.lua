@@ -6,10 +6,12 @@ function ns.AddPowerBar(self, unit)
 	power:SetHeight((unit == 'player' or unit == 'target') and 15 or 5)
 	power:SetPoint('BOTTOMLEFT', 5, 5)
 	power:SetPoint('BOTTOMRIGHT', -5, 5)
-	power.colorPower = unit == 'player'
+	power.colorPower = unit == 'player' or unit == 'boss'
 	power.colorClass = true
 	power.colorReaction = true
 	power.frequentUpdates = unit == 'player' or unit == 'target'
+	power.displayAltPower = unit == 'boss'
+	power.altPowerColor = { 0, 0.5, 1 }
 
 	local bg = power:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)

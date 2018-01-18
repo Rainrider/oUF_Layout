@@ -162,9 +162,9 @@ function ns.AddAuras(self, unit)
 	auras.numDebuffs = 4
 	auras.gap = true
 	auras:SetSize(7 * (auras.size + auras.spacing), auras.size + auras.spacing)
-	auras:SetPoint('RIGHT', self, 'LEFT', -2.5, -2.5)
+	auras:SetPoint('RIGHT', self, 'LEFT', -2.5, 0)
 	auras['growth-x'] = 'LEFT'
-	auras.initialAnchor = 'TOPRIGHT'
+	auras.initialAnchor = 'RIGHT'
 	auras.showType = true
 	auras.CreateIcon = CreateAura
 	auras.PostUpdateIcon = PostUpdateAura
@@ -177,7 +177,12 @@ function ns.AddBuffs(self, unit)
 	local buffs = CreateFrame('Frame', self:GetName() .. '_Buffs', self)
 	buffs.spacing = 5
 	buffs.size = (230 - 7 * buffs.spacing) / 8
-	buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
+	if (unit ~= 'boss') then
+		buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
+	else
+		buffs.num = 6
+		buffs:SetSize(buffs.num * (buffs.size + buffs.spacing), buffs.size + buffs.spacing)
+	end
 	buffs['growth-y'] = 'DOWN'
 	buffs.showBuffType = true
 
@@ -187,9 +192,13 @@ function ns.AddBuffs(self, unit)
 	buffs.CreateIcon = CreateAura
 	buffs.PostUpdateIcon = PostUpdateAura
 
-	if(unit == 'player') then
+	if (unit == 'player') then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -3.5)
 		buffs.initialAnchor = 'TOPRIGHT'
+		buffs['growth-x'] = 'LEFT'
+	elseif (unit == 'boss') then
+		buffs:SetPoint('RIGHT', self, 'LEFT', -2.5, 0)
+		buffs.initialAnchor = 'RIGHT'
 		buffs['growth-x'] = 'LEFT'
 	else
 		buffs:SetPoint('TOPLEFT', self, 'TOPRIGHT', 2.5, -3.5)

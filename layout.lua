@@ -34,9 +34,15 @@ local UnitSpecific = {
 	focus = function(self)
 		ns.AddDebuffs(self, 'focus')
 	end,
+	boss = function(self)
+		ns.AddBuffs(self, 'boss')
+		ns.AddCastBar(self, 'boss')
+	end,
 }
 
 local function Shared(self, unit)
+	unit = unit:match('^(%a-)%d+') or unit
+
 	self:RegisterForClicks('AnyUp')
 	self:SetScript('OnEnter', UnitFrame_OnEnter)
 	self:SetScript('OnLeave', UnitFrame_OnLeave)
@@ -114,4 +120,15 @@ oUF:Factory(function(self)
 		]]
 	)
 	party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
+
+	local boss = {}
+	for i = 1, MAX_BOSS_FRAMES do
+		boss[i] = self:Spawn('boss' .. i)
+
+		if (i == 1) then
+			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
+		else
+			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
+		end
+	end
 end)
