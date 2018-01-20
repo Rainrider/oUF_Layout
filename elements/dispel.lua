@@ -41,6 +41,7 @@ function ns.AddDispel(self, unit)
 	local texture = self.Health:CreateTexture(nil, 'OVERLAY')
 	texture:SetTexture(ns.assets.HIGHLIGHT)
 	texture:SetBlendMode('ADD')
+	texture:SetVertexColor(1, 1, 1, 0) -- hide in case the class cannot dispel
 	texture:SetAllPoints()
 	dispelable.dispelTexture = texture
 
@@ -49,7 +50,6 @@ function ns.AddDispel(self, unit)
 		button:SetPoint('CENTER')
 		button:SetSize(22, 22)
 		button:SetToplevel(true)
-		dispelable.dispelIcon = button
 
 		local icon = button:CreateTexture(nil, 'ARTWORK')
 		icon:SetAllPoints()
@@ -70,6 +70,8 @@ function ns.AddDispel(self, unit)
 		count:SetPoint('BOTTOMRIGHT', -1, 1)
 		button.count = count
 
+		button:Hide() -- hide in case the class cannot dispel
+		dispelable.dispelIcon = button
 		dispelable.PostUpdate = PostUpdateDispel
 	end
 
