@@ -66,6 +66,7 @@ local function Shared(self, unit)
 		ns.AddDebuffs(self, unit)
 		ns.AddDispel(self, unit)
 		ns.AddPvPText(self, unit)
+		ns.AddHealthPrediction(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
@@ -79,6 +80,7 @@ local function Shared(self, unit)
 			ns.AddCastBar(self, unit)
 			ns.AddThreatIndicator(self)
 			ns.AddDispel(self, unit)
+			ns.AddHealthPrediction(self, unit)
 		end
 
 		if (unit == 'party') then
