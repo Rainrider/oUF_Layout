@@ -15,6 +15,12 @@ ns.colors = setmetatable({
 		["RAGE"] = { 0.69, 0.31, 0.31 },
 		["ENERGY"] = { 1, 0.87, 0.4 },
 	}, { __index = oUF.colors.power }),
+	role = {
+		NONE = { 0.5, 0.5, 0.5 },
+		TANK = { 0.78, 0.61, 0.43 },
+		HEALER = { 0.25, 0.78, 0.92 },
+		DAMAGER = { 0.77, 0.12, 0.23 },
+	},
 	smooth = setmetatable({
 		0.69, 0.31, 0.31,
 		0.71, 0.43, 0.27,

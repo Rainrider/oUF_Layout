@@ -27,17 +27,21 @@ end
 function ns.AddHealthBar(self, unit)
 	local health = CreateFrame('StatusBar', nil, self)
 	health:SetStatusBarTexture(ns.assets.TEXTURE)
-	health:SetHeight((unit == 'player' or unit == 'target') and 30 or 15)
+	health:SetHeight((unit == 'player' or unit == 'target') and 30 or unit == 'raid' and 24 or 15)
 	health:SetPoint('TOPLEFT', 5, -5)
 	health:SetPoint('TOPRIGHT', -5, -5)
-	health.colorTapping = true
+	health.colorTapping = unit ~= 'raid'
 	health.colorDisconnected = true
-	health.colorSmooth = true
-	health.frequentUpdates = true
+	health.colorSmooth = unit ~= 'raid'
+	health.frequentUpdates = unit ~= 'raid'
 
 	local bg = health:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
-	bg:SetVertexColor(0.15, 0.15, 0.15)
+	if (unit == 'raid') then
+		bg:SetVertexColor(0.51, 0.45, 0.39)
+	else
+		bg:SetVertexColor(0.15, 0.15, 0.15)
+	end
 	bg:SetAllPoints()
 
 	health.UpdateColor = UpdateHealthColor

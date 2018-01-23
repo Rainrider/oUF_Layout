@@ -2,7 +2,7 @@ local _, ns = ...
 
 function ns.AddHealthPrediction(self, unit)
 	local health = self.Health
-	local width = (unit == 'player' or unit == 'target') and 230 or 110
+	local width = (unit == 'player' or unit == 'target') and 230 or unit == 'raid' and 70 or 110
 
 	local healAbsorbBar = CreateFrame('StatusBar', nil, health)
 	healAbsorbBar:SetPoint('TOP')
@@ -14,7 +14,7 @@ function ns.AddHealthPrediction(self, unit)
 	healAbsorbBar:SetStatusBarColor(0.75, 0.75, 0, 0.5)
 
 	local overHealAbsorb = health:CreateTexture(nil, 'OVERLAY')
-	overHealAbsorb:SetWidth(6)
+	overHealAbsorb:SetWidth(5)
 	overHealAbsorb:SetPoint('TOP')
 	overHealAbsorb:SetPoint('BOTTOM')
 	overHealAbsorb:SetPoint('RIGHT', health, 'LEFT')
@@ -44,7 +44,7 @@ function ns.AddHealthPrediction(self, unit)
 	absorbBar:SetStatusBarColor(1, 1, 1, 0.5)
 
 	local overAbsorb = health:CreateTexture(nil, 'OVERLAY')
-	overAbsorb:SetWidth(6)
+	overAbsorb:SetWidth(5)
 	overAbsorb:SetPoint('TOP')
 	overAbsorb:SetPoint('BOTTOM')
 	overAbsorb:SetPoint('LEFT', health, 'RIGHT')

@@ -77,6 +77,13 @@ local function GetUnitStatus(unit)
 	end
 end
 
+local function GetRoleColoredName(unit, realUnit)
+	local status = GetUnitStatus(realUnit or unit)
+	local color = ns.colors.role[UnitGroupRolesAssigned(realUnit or unit)] or ns.colors.role.NONE
+
+	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, status or UnitName(unit))
+end
+
 local function LevelTag(unit)
 	if (UnitClassification(unit) == 'worldboss') then return end
 
@@ -178,6 +185,8 @@ tags['layout:level'] = LevelTag
 tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
 tags['layout:pvp'] = GetPvPStatus
 tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_PRESTIGE_UPDATE'
+tags['layout:raidname'] = GetRoleColoredName
+tagEvents['layout:raidname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION UNIT_FLAGS UNIT_FACTION' -- flags should get roles and dead or ghost
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -204,9 +213,17 @@ function ns.AddInfoText(self, unit)
 	else
 		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
 		info:SetPoint('LEFT', 2, 0)
-		self:Tag(info, '[layout:name]')
+		if (unit == 'raid') then
+			self:Tag(info, '[layout:raidname]')
+		else
+			self:Tag(info, '[layout:name]')
+		end
 	end
-	info:SetPoint('RIGHT', health.value, 'LEFT', -5, 0)
+	if (unit == 'raid') then
+		info:SetPoint('RIGHT', -2, 0)
+	else
+		info:SetPoint('RIGHT', health.value, 'LEFT', -5, 0)
+	end
 	info:SetJustifyH('LEFT')
 	info:SetWordWrap(false)
 end

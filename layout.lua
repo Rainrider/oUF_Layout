@@ -53,7 +53,9 @@ local function Shared(self, unit)
 
 	ns.AddHealthBar(self, unit)
 	ns.AddPowerBar(self, unit)
-	ns.AddHealthValue(self, unit)
+	if (unit ~= 'raid') then
+		ns.AddHealthValue(self, unit)
+	end
 
 	if (unit == 'player' or unit == 'target') then
 		self:SetSize(240, 60)
@@ -70,20 +72,22 @@ local function Shared(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
-		if (unit ~= 'party') then
+		if (unit ~= 'party' and unit ~= 'raid') then
 			self:SetSize(120, 32)
 		end
 
 		ns.AddInfoText(self, unit)
 
-		if (unit == 'pet' or unit == 'focus' or unit == 'party') then
-			ns.AddCastBar(self, unit)
+		if (unit == 'pet' or unit == 'focus' or unit == 'party' or unit == 'raid') then
+			if (unit ~= 'raid') then
+				ns.AddCastBar(self, unit)
+			end
 			ns.AddThreatIndicator(self)
 			ns.AddDispel(self, unit)
 			ns.AddHealthPrediction(self, unit)
 		end
 
-		if (unit == 'party') then
+		if (unit == 'party' or unit == 'raid') then
 			ns.AddAssistantIndicator(self)
 			ns.AddLeaderIndicator(self)
 			ns.AddMasterLooterIndicator(self)
@@ -131,6 +135,28 @@ oUF:Factory(function(self)
 			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
 		else
 			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
+		end
+	end
+
+	local raid = {}
+	for group = 1, NUM_RAID_GROUPS do
+		raid[group] = self:SpawnHeader(
+			nil, nil, 'raid',
+			'showRaid', true,
+			'maxColumns', 5,
+			'unitsPerColumn', 1,
+			'columnAnchorPoint', 'LEFT',
+			'groupFilter', group,
+			'oUF-initialConfigFunction', [[
+				self:SetWidth(80)
+				self:SetHeight(40)
+			]]
+		)
+
+		if (group == 1) then
+			raid[group]:SetPoint('TOPLEFT', UIParent, 15, -15)
+		else
+			raid[group]:SetPoint('TOPLEFT', raid[group - 1], 'BOTTOMLEFT')
 		end
 	end
 end)
