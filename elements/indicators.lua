@@ -56,6 +56,17 @@ function ns.AddRaidTargetIndicator(self)
 	self.RaidTargetIndicator = raidIcon
 end
 
+function ns.AddReadyCheckIndicator(self)
+	local readyCheck = self.Health:CreateTexture(nil, 'OVERLAY')
+	readyCheck:SetSize(16, 16)
+	readyCheck:SetPoint('RIGHT', -5, 0)
+
+	readyCheck.finishedTime = 5
+	readyCheck.fadeTime = 3
+
+	self.ReadyCheckIndicator = readyCheck
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 
