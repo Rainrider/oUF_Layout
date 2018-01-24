@@ -71,6 +71,7 @@ local function Shared(self, unit)
 		ns.AddDispel(self, unit)
 		ns.AddPvPText(self, unit)
 		ns.AddHealthPrediction(self, unit)
+		ns.AddResurrectIndicator(self)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
@@ -83,6 +84,7 @@ local function Shared(self, unit)
 			ns.AddThreatIndicator(self)
 			ns.AddDispel(self, unit)
 			ns.AddHealthPrediction(self, unit)
+			ns.AddResurrectIndicator(self)
 		end
 	end
 

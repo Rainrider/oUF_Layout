@@ -24,6 +24,7 @@ local function Shared(self, unit)
 		ns.AddPhaseIndicator(self)
 		ns.AddRangeCheck(self)
 		ns.AddReadyCheckIndicator(self)
+		ns.AddResurrectIndicator(self)
 	end
 
 	ns.AddDispel(self, unit)

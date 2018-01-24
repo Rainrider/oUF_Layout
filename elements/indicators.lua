@@ -67,6 +67,22 @@ function ns.AddReadyCheckIndicator(self)
 	self.ReadyCheckIndicator = readyCheck
 end
 
+local function UpdateResurrectIndicator(self, _, unit)
+	if (UnitHasIncomingResurrection(unit)) then
+		self:SetBackdropBorderColor(0, 0.6, 0.8)
+	else
+		self:SetBackdropBorderColor(0, 0, 0)
+	end
+end
+
+function ns.AddResurrectIndicator(self)
+	local resurrect = {}
+	resurrect.IsObjectType = function() end
+	resurrect.Override = UpdateResurrectIndicator
+
+	self.ResurrectIndicator = resurrect
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 
