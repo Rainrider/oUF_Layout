@@ -43,6 +43,7 @@ ns.assets = {
 		edgeSize = 2,
 	},
 	HIGHLIGHT = [=[Interface\AddOns\oUF_Layout\assets\textures\highlight]=],
+	RAIDICONS = [=[Interface\AddOns\oUF_Layout\assets\textures\raidicons]=],
 	SHADER = [=[Interface\AddOns\oUF_Layout\assets\textures\shader]=],
 	TEXTURE = [=[Interface\AddOns\oUF_Layout\assets\textures\texture]=],
 }

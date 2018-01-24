@@ -48,6 +48,14 @@ function ns.AddQuestIndicator(self)
 	self.QuestIndicator = quest
 end
 
+function ns.AddRaidTargetIndicator(self)
+	local raidIcon = self.Health:CreateTexture(nil, 'OVERLAY')
+	raidIcon:SetTexture(ns.assets.RAIDICONS)
+	raidIcon:SetSize(18, 18)
+	raidIcon:SetPoint('CENTER', self.Health, 'TOP', 0, 0)
+	self.RaidTargetIndicator = raidIcon
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 

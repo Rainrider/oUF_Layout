@@ -13,6 +13,7 @@ local function Shared(self, unit)
 
 	ns.AddHealthBar(self, unit)
 	ns.AddInfoText(self, unit)
+	ns.AddRaidTargetIndicator(self)
 
 	if (unit ~= 'partypet') then
 		ns.AddPowerBar(self, unit)
