@@ -52,6 +52,21 @@ oUF:Factory(function(self)
 	)
 	partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
 
+	local partyTargets = self:SpawnHeader(
+		nil, nil, 'party',
+		'showParty', true,
+		'maxColumns', 4,
+		'unitsPerColumn', 1,
+		'columnAnchorPoint', 'LEFT',
+		'columnSpacing', 0,
+		'oUF-initialConfigFunction', [[
+			self:SetWidth(80)
+			self:SetHeight(20)
+			self:SetAttribute('unitsuffix', 'target')
+		]]
+	)
+	partyTargets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT', 0, -20)
+
 	local raid = {}
 	for group = 1, NUM_RAID_GROUPS do
 		raid[group] = self:SpawnHeader(

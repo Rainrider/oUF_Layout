@@ -8,8 +8,9 @@ local height = {
 	player   = 30,
 	raid     = 24,
 }
-height.party  = height.raid
-height.target = height.player
+height.party       = height.raid
+height.partytarget = height.partypet
+height.target      = height.player
 
 local function UpdateHealthColor(health, unit, cur, max)
 	local r, g, b, t

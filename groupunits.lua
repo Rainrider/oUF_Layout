@@ -15,7 +15,7 @@ local function Shared(self, unit)
 	ns.AddInfoText(self, unit)
 	ns.AddRaidTargetIndicator(self)
 
-	if (unit ~= 'partypet') then
+	if (unit ~= 'partypet' and unit ~= 'partytarget') then
 		ns.AddPowerBar(self, unit)
 		ns.AddHealthPrediction(self, unit)
 		ns.AddAssistantIndicator(self)
@@ -27,8 +27,10 @@ local function Shared(self, unit)
 		ns.AddResurrectIndicator(self)
 	end
 
-	ns.AddDispel(self, unit)
-	ns.AddThreatIndicator(self, unit)
+	if (unit ~= 'partytarget') then
+		ns.AddDispel(self, unit)
+		ns.AddThreatIndicator(self, unit)
+	end
 end
 
 oUF:RegisterStyle('oUF_Layout_GroupUnits', Shared)
