@@ -2,6 +2,14 @@ local _, ns = ...
 
 local colors = ns.colors
 
+local height = {
+	partypet = 10,
+	pet      = 15, -- focus, focustarget, targettarget, party
+	player   = 30,
+	raid     = 24,
+}
+height.target = height.player
+
 local function UpdateHealthColor(health, unit, cur, max)
 	local r, g, b, t
 	if(health.disconnected and health.colorDisconnected or UnitIsDeadOrGhost(unit)) then
@@ -27,7 +35,7 @@ end
 function ns.AddHealthBar(self, unit)
 	local health = CreateFrame('StatusBar', nil, self)
 	health:SetStatusBarTexture(ns.assets.TEXTURE)
-	health:SetHeight((unit == 'player' or unit == 'target') and 30 or unit == 'raid' and 24 or 15)
+	health:SetHeight(height[unit] or height['pet'])
 	health:SetPoint('TOPLEFT', 5, -5)
 	health:SetPoint('TOPRIGHT', -5, -5)
 	health.colorTapping = unit ~= 'raid'
