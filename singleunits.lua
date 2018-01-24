@@ -26,13 +26,16 @@ local UnitSpecific = {
 		ns.AddInfoText(self, 'target')
 		ns.AddQuestIndicator(self)
 		ns.AddPhaseIndicator(self)
+		ns.AddRangeCheck(self)
 	end,
 	pet = function(self)
 		ns.AddAuras(self, 'pet')
 		ns.AddAlternativePower(self) -- needed when the player is in a vehicle
+		ns.AddRangeCheck(self)
 	end,
 	focus = function(self)
 		ns.AddDebuffs(self, 'focus')
+		ns.AddRangeCheck(self)
 	end,
 	boss = function(self)
 		ns.AddBuffs(self, 'boss')

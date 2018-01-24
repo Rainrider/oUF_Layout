@@ -21,6 +21,7 @@ local function Shared(self, unit)
 		ns.AddLeaderIndicator(self)
 		ns.AddMasterLooterIndicator(self)
 		ns.AddPhaseIndicator(self)
+		ns.AddRangeCheck(self)
 	end
 
 	ns.AddDispel(self, unit)
