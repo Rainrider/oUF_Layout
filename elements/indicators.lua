@@ -83,6 +83,22 @@ function ns.AddResurrectIndicator(self)
 	self.ResurrectIndicator = resurrect
 end
 
+local function UpdateRestingIndicator(self)
+	if (IsResting()) then
+		self.Overlay:SetBackdropBorderColor(0.98, 0.91, 0.62, 0.5)
+	else
+		self.Overlay:SetBackdropBorderColor(0, 0, 0, 0)
+	end
+end
+
+function ns.AddRestingIndicator(self)
+	local resting = {}
+	resting.IsObjectType = function() end
+	resting.Override = UpdateRestingIndicator
+
+	self.RestingIndicator = resting
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 

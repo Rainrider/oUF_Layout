@@ -14,6 +14,8 @@ function ns.AddPortrait(self, unit)
 	local overlay = CreateFrame('Frame', nil, portrait)
 	overlay:SetPoint('TOPLEFT', -1, 1)
 	overlay:SetPoint('BOTTOMRIGHT', 1, -1)
+	overlay:SetBackdrop(ns.assets.GLOW)
+	overlay:SetBackdropBorderColor(0, 0, 0, 0)
 	self.Overlay = overlay
 
 	local shader = overlay:CreateTexture(nil, 'BACKGROUND')
