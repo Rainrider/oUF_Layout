@@ -18,8 +18,8 @@ end
 
 function ns.AddAlternativePower(self)
 	local altpower = CreateFrame('StatusBar', nil, self)
-	altpower:SetPoint('TOPLEFT', _G['oUF_LayoutPlayer'].Power, 'BOTTOMLEFT', 0, -1)
-	altpower:SetPoint('TOPRIGHT', _G['oUF_LayoutPlayer'].Power, 'BOTTOMRIGHT', 0, -1)
+	altpower:SetPoint('TOPLEFT', _G['oUF_Layout_SingleUnitsPlayer'].Power, 'BOTTOMLEFT', 0, -1)
+	altpower:SetPoint('TOPRIGHT', _G['oUF_Layout_SingleUnitsPlayer'].Power, 'BOTTOMRIGHT', 0, -1)
 	altpower:SetHeight(3)
 	altpower:SetStatusBarTexture(ns.assets.TEXTURE)
 	altpower:SetStatusBarColor(0, 0.5, 1)
