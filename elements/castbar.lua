@@ -67,7 +67,7 @@ function ns.AddCastBar(self, unit)
 		castbar.Text = text
 	end
 
-	if (unit ~= 'pet' and unit ~= 'party') then
+	if (unit ~= 'pet') then
 		local icon = castbar:CreateTexture(nil, 'ARTWORK')
 		icon:SetSize(25, 25)
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)

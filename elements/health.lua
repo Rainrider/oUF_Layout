@@ -4,10 +4,11 @@ local colors = ns.colors
 
 local height = {
 	partypet = 10,
-	pet      = 15, -- focus, focustarget, targettarget, party
+	pet      = 15, -- focus, focustarget, targettarget
 	player   = 30,
 	raid     = 24,
 }
+height.party  = height.raid
 height.target = height.player
 
 local function UpdateHealthColor(health, unit, cur, max)

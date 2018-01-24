@@ -31,8 +31,8 @@ oUF:Factory(function(self)
 		'columnAnchorPoint', 'LEFT',
 		'columnSpacing', 0,
 		'oUF-initialConfigFunction', [[
-			self:SetWidth(120)
-			self:SetHeight(32)
+			self:SetWidth(80)
+			self:SetHeight(40)
 		]]
 	)
 	party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
@@ -45,7 +45,7 @@ oUF:Factory(function(self)
 		'columnAnchorPoint', 'LEFT',
 		'columnSpacing', 0,
 		'oUF-initialConfigFunction', [[
-			self:SetWidth(120)
+			self:SetWidth(80)
 			self:SetHeight(20)
 			self:SetAttribute('unitsuffix', 'pet')
 		]]

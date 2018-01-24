@@ -213,13 +213,13 @@ function ns.AddInfoText(self, unit)
 	else
 		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
 		info:SetPoint('LEFT', 2, 0)
-		if (unit == 'raid') then
+		if (unit == 'raid' or unit == 'party') then
 			self:Tag(info, '[layout:raidname]')
 		else
 			self:Tag(info, '[layout:name]')
 		end
 	end
-	if (unit == 'raid') then
+	if (unit == 'raid' or unit:find('^party')) then
 		info:SetPoint('RIGHT', -2, 0)
 	else
 		info:SetPoint('RIGHT', health.value, 'LEFT', -5, 0)

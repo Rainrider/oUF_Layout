@@ -1,8 +1,16 @@
 local _, ns = ...
 
+local width = {
+	pet    = 110,
+	player = 230,
+	raid   = 70,
+}
+width.party  = width.raid
+width.target = width.player
+
 function ns.AddHealthPrediction(self, unit)
 	local health = self.Health
-	local width = (unit == 'player' or unit == 'target') and 230 or unit == 'raid' and 70 or 110
+	local width = width[unit] or width['pet']
 
 	local healAbsorbBar = CreateFrame('StatusBar', nil, health)
 	healAbsorbBar:SetPoint('TOP')
