@@ -53,9 +53,7 @@ local function Shared(self, unit)
 
 	ns.AddHealthBar(self, unit)
 	ns.AddPowerBar(self, unit)
-	if (unit ~= 'raid') then
-		ns.AddHealthValue(self, unit)
-	end
+	ns.AddHealthValue(self, unit)
 
 	if (unit == 'player' or unit == 'target') then
 		self:SetSize(240, 60)
@@ -72,26 +70,15 @@ local function Shared(self, unit)
 	end
 
 	if (unit ~= 'player' and unit ~= 'target') then
-		if (unit ~= 'party' and unit ~= 'raid') then
-			self:SetSize(120, 32)
-		end
+		self:SetSize(120, 32)
 
 		ns.AddInfoText(self, unit)
 
-		if (unit == 'pet' or unit == 'focus' or unit == 'party' or unit == 'raid') then
-			if (unit ~= 'raid') then
-				ns.AddCastBar(self, unit)
-			end
+		if (unit == 'pet' or unit == 'focus') then
+			ns.AddCastBar(self, unit)
 			ns.AddThreatIndicator(self)
 			ns.AddDispel(self, unit)
 			ns.AddHealthPrediction(self, unit)
-		end
-
-		if (unit == 'party' or unit == 'raid') then
-			ns.AddAssistantIndicator(self)
-			ns.AddLeaderIndicator(self)
-			ns.AddMasterLooterIndicator(self)
-			ns.AddPhaseIndicator(self)
 		end
 	end
 
@@ -113,6 +100,19 @@ oUF:Factory(function(self)
 	self:Spawn('focustarget'):SetPoint('BOTTOMLEFT', target, 'TOPLEFT', 0, 0)
 	self:Spawn('targettarget'):SetPoint('BOTTOMRIGHT', target, 'TOPRIGHT', 0, 0)
 
+	local boss = {}
+	for i = 1, MAX_BOSS_FRAMES do
+		boss[i] = self:Spawn('boss' .. i)
+
+		if (i == 1) then
+			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
+		else
+			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
+		end
+	end
+
+	self:SetActiveStyle('oUF_Layout_GroupUnits')
+
 	local party = self:SpawnHeader(
 		nil, nil, 'party',
 		'showParty', true,
@@ -127,16 +127,20 @@ oUF:Factory(function(self)
 	)
 	party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
 
-	local boss = {}
-	for i = 1, MAX_BOSS_FRAMES do
-		boss[i] = self:Spawn('boss' .. i)
-
-		if (i == 1) then
-			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
-		else
-			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
-		end
-	end
+	local partyPets = self:SpawnHeader(
+		nil, nil, 'party',
+		'showParty', true,
+		'maxColumns', 4,
+		'unitsPerColumn', 1,
+		'columnAnchorPoint', 'LEFT',
+		'columnSpacing', 0,
+		'oUF-initialConfigFunction', [[
+			self:SetWidth(120)
+			self:SetHeight(20)
+			self:SetAttribute('unitsuffix', 'pet')
+		]]
+	)
+	partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
 
 	local raid = {}
 	for group = 1, NUM_RAID_GROUPS do
