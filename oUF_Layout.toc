@@ -6,7 +6,7 @@
 ## RequiredDeps: oUF
 ## OptionalDeps: AdiDebug, oUF_ArtifactPower, oUF_Dispelable, oUF_Experience, oUF_Reputation
 
-init.lua
+utility.lua
 fonts.xml
 settings.lua
 elements\elements.xml
