@@ -36,6 +36,7 @@ local CustomBuffFilter = {
 		end
 	end,
 }
+ns.CustomBuffFilter = CustomBuffFilter
 
 local CustomDebuffFilter = {
 	target = function(_, unit, aura, _, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)

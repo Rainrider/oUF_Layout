@@ -20,6 +20,43 @@ handler:SetScript('OnEvent', function(self, event, ...)
 	self[event](self, ...)
 end)
 
+function handler:MODIFIER_STATE_CHANGED(key, state)
+	if (key ~= 'RALT') then return end
+
+	for _, object in next, oUF.objects do
+		local unit = object.realUnit or object.unit
+		if (unit == 'target') then
+			local buffs = object.Buffs
+			if (state == 1) then -- modifier key pressed
+				buffs.CustomFilter = nil
+			else
+				buffs.CustomFilter = ns.config.filterBuffs:find('%f[%a]target%f[%A]') and ns.CustomBuffFilter.target
+			end
+			buffs:ForceUpdate()
+			break
+		end
+	end
+end
+
+function handler:PLAYER_ENTERING_WORLD()
+	self:RegisterEvent('PLAYER_REGEN_DISABLED')
+	self:RegisterEvent('PLAYER_REGEN_ENABLED')
+	if (InCombatLockdown()) then
+		self:PLAYER_REGEN_DISABLED()
+	else
+		self:PLAYER_REGEN_ENABLED()
+	end
+end
+handler:RegisterEvent('PLAYER_ENTERING_WORLD')
+
+function handler:PLAYER_REGEN_DISABLED()
+	self:UnregisterEvent('MODIFIER_STATE_CHANGED')
+end
+
+function handler:PLAYER_REGEN_ENABLED()
+	self:RegisterEvent('MODIFIER_STATE_CHANGED')
+end
+
 function handler:PLAYER_TARGET_CHANGED()
 	if (UnitExists('target')) then
 		if (UnitIsEnemy('target', 'player')) then
