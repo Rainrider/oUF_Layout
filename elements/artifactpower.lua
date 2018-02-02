@@ -1,19 +1,7 @@
 local _, ns = ...
 
-local function ShortenValue(value)
-	if(value >= 1e9) then
-		return format('%.2fb', value / 1e9)
-	elseif(value >= 1e6) then
-		return format('%.2fm', value / 1e6)
-	elseif(value >= 1e4) then
-		return format('%.2fk', value / 1e3)
-	else
-		return value
-	end
-end
-
 local function ShowArtifactPowerText(ap)
-	ap.text:SetText(ShortenValue(ap.powerForNextTrait - ap.power))
+	ap.text:SetText(ns.ShortenValue(ap.powerForNextTrait - ap.power))
 end
 
 local function PostUpdateArtifactPower(ap)

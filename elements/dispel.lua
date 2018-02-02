@@ -1,20 +1,6 @@
 local _, ns = ...
 
-local floor = math.floor
-local format = string.format
-
-local function FormatTime(seconds)
-	local day, hour, minute = 86400, 3600, 60
-	if (seconds >= day) then
-		return format('%dd', floor(seconds/day + 0.5))
-	elseif (seconds >= hour) then
-		return format('%dh', floor(seconds/hour + 0.5))
-	elseif (seconds >= minute) then
-		return format('%dm', floor(seconds/minute + 0.5))
-	else
-		return format('%d', seconds)
-	end
-end
+local FormatTime = FormatTime
 
 local function UpdateTimer(button, elapsed)
 	local timeLeft = button.timeLeft - elapsed

@@ -1,9 +1,7 @@
 local _, ns = ...
 
 local playerClass = ns.playerClass
-
-local floor = math.floor
-local format = string.format
+local FormatTime = ns.FormatTime
 
 local ImportantBuffs = {
 	[  1022] = true, -- Hand of Protection
@@ -58,22 +56,6 @@ end
 
 local function AuraOnLeave(aura)
 	GameTooltip:Hide()
-end
-
-local function FormatTime(seconds)
-	local day, hour, minute = 86400, 3600, 60
-	if (seconds >= day) then
-		return format('%dd', floor(seconds/day + 0.5))
-	elseif (seconds >= hour) then
-		return format('%dh', floor(seconds/hour + 0.5))
-	elseif (seconds >= minute) then
-		if (seconds <= minute * 5) then
-			return format('%d:%02d', floor(seconds/minute), seconds % minute)
-		end
-		return format('%dm', floor(seconds/minute + 0.5))
-	else
-		return format('%d', seconds)
-	end
 end
 
 local function UpdateAuraTimer(aura, elapsed)

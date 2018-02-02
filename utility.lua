@@ -15,6 +15,38 @@ end
 
 ns.playerClass = select(2, UnitClass('player'))
 
+local ceil = math.ceil
+local floor = math.floor
+local format = string.format
+
+function ns.FormatTime(seconds)
+	local day, hour, minute = 86400, 3600, 60
+	if (seconds >= day) then
+		return format('%dd', floor(seconds/day + 0.5))
+	elseif (seconds >= hour) then
+		return format('%dh', floor(seconds/hour + 0.5))
+	elseif (seconds >= minute) then
+		if (seconds <= minute * 5) then
+			return format('%d:%02d', floor(seconds/minute), seconds % minute)
+		end
+		return format('%dm', floor(seconds/minute + 0.5))
+	else
+		return format('%d', ceil(seconds))
+	end
+end
+
+function ns.ShortenValue(value)
+	if(value >= 1e9) then
+		return format('%.2fb', value / 1e9)
+	elseif(value >= 1e6) then
+		return format('%.2fm', value / 1e6)
+	elseif(value >= 1e4) then
+		return format('%.2fk', value / 1e4)
+	else
+		return value
+	end
+end
+
 local handler = CreateFrame('Frame')
 handler:SetScript('OnEvent', function(self, event, ...)
 	self[event](self, ...)

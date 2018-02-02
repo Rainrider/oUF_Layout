@@ -8,19 +8,9 @@ local ColorGradient = oUF.ColorGradient
 local floor = math.floor
 local format = string.format
 
-local GHOST = GetLocale() == 'deDE' and 'Geist' or GetSpellInfo(8326)
+local ShortenValue = ns.ShortenValue
 
-local function ShortenValue(value)
-	if(value >= 1e9) then
-		return format('%.2fb', value / 1e9)
-	elseif(value >= 1e6) then
-		return format('%.2fm', value / 1e6)
-	elseif(value >= 1e4) then
-		return format('%.2fk', value / 1e3)
-	else
-		return value
-	end
-end
+local GHOST = GetLocale() == 'deDE' and 'Geist' or GetSpellInfo(8326)
 
 local function GetColoredName(unit, realUnit)
 	local colors = ns.colors
