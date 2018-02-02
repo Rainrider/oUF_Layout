@@ -1,5 +1,13 @@
 local _, ns = ...
 
+local function HighlightSelectedUnit(self)
+	if (UnitIsUnit(self.unit, 'target')) then
+		self:SetBackdropColor(1, 1, 0, 0.5)
+	else
+		self:SetBackdropColor(0, 0, 0, 0)
+	end
+end
+
 local function Shared(self, unit)
 	unit = unit:match('^(%a-)%d+') or unit
 
@@ -9,6 +17,7 @@ local function Shared(self, unit)
 
 	self.colors = ns.colors
 	self:SetBackdrop(ns.assets.GLOW)
+	self:SetBackdropColor(0, 0, 0, 0)
 	self:SetBackdropBorderColor(0, 0, 0)
 
 	ns.AddHealthBar(self, unit)
@@ -30,6 +39,8 @@ local function Shared(self, unit)
 	if (unit ~= 'partytarget') then
 		ns.AddDispel(self, unit)
 		ns.AddThreatIndicator(self, unit)
+
+		self:RegisterEvent('PLAYER_TARGET_CHANGED', HighlightSelectedUnit, true)
 	end
 end
 

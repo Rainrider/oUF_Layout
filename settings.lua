@@ -41,6 +41,8 @@ ns.assets = {
 	GLOW = {
 		edgeFile = [=[Interface\AddOns\oUF_Layout\assets\textures\glow]=],
 		edgeSize = 2,
+		bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=],
+		insets = { top = 4, bottom = 4, left = 4, right = 4 },
 	},
 	HIGHLIGHT = [=[Interface\AddOns\oUF_Layout\assets\textures\highlight]=],
 	RAIDICONS = [=[Interface\AddOns\oUF_Layout\assets\textures\raidicons]=],

@@ -15,6 +15,7 @@ function ns.AddPortrait(self, unit)
 	overlay:SetPoint('TOPLEFT', -1, 1)
 	overlay:SetPoint('BOTTOMRIGHT', 1, -1)
 	overlay:SetBackdrop(ns.assets.GLOW)
+	overlay:SetBackdropColor(0, 0, 0, 0)
 	overlay:SetBackdropBorderColor(0, 0, 0, 0)
 	self.Overlay = overlay
 
