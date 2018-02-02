@@ -14,3 +14,23 @@ if(AdiDebug) then
 end
 
 ns.playerClass = select(2, UnitClass('player'))
+
+local handler = CreateFrame('Frame')
+handler:SetScript('OnEvent', function(self, event, ...)
+	self[event](self, ...)
+end)
+
+function handler:PLAYER_TARGET_CHANGED()
+	if (UnitExists('target')) then
+		if (UnitIsEnemy('target', 'player')) then
+			PlaySound(SOUNDKIT.IG_CREATURE_AGGRO_SELECT)
+		elseif (UnitIsFriend('target', 'player')) then
+			PlaySound(SOUNDKIT.IG_CHARACTER_NPC_SELECT)
+		else
+			PlaySound(SOUNDKIT.IG_CREATURE_NEUTRAL_SELECT)
+		end
+	else
+		PlaySound(SOUNDKIT.INTERFACE_SOUND_LOST_TARGET_UNIT)
+	end
+end
+handler:RegisterEvent('PLAYER_TARGET_CHANGED')
