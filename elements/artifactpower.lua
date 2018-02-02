@@ -1,13 +1,9 @@
 local _, ns = ...
 
-local function ShowArtifactPowerText(ap)
-	ap.text:SetText(ns.ShortenValue(ap.powerForNextTrait - ap.power))
-end
-
-local function PostUpdateArtifactPower(ap)
-	-- hook OnEnter here or else oUF_Artifact won't set it
-	ap:HookScript('OnEnter', ShowArtifactPowerText)
-	ap.PostUpdate = nil
+local function PostUpdateArtifactPower(ap, _, isShown)
+	if (isShown) then
+		ap.text:SetText(ns.ShortenValue(ap.powerForNextTrait - ap.power))
+	end
 end
 
 function ns.AddArtifactPower(self)
