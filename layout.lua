@@ -21,6 +21,29 @@ oUF:Factory(function(self)
 		end
 	end
 
+	local mainTanks = self:SpawnHeader(
+		nil, nil, 'raid',
+		'showRaid', true,
+		'groupFilter', 'MAINTANK',
+		'oUF-initialConfigFunction', [[
+			self:SetWidth(120)
+			self:SetHeight(32)
+		]]
+	)
+	mainTanks:SetPoint('TOPLEFT', UIParent, 'LEFT', 150, -215)
+
+	local mainTankTargets = self:SpawnHeader(
+		nil, nil, 'raid',
+		'showRaid', true,
+		'groupFilter', 'MAINTANK',
+		'oUF-initialConfigFunction', [[
+			self:SetWidth(120)
+			self:SetHeight(32)
+			self:SetAttribute('unitsuffix', 'target')
+		]]
+	)
+	mainTankTargets:SetPoint('TOPLEFT', mainTanks, 'TOPRIGHT')
+
 	self:SetActiveStyle('oUF_Layout_GroupUnits')
 
 	local party = self:SpawnHeader(
