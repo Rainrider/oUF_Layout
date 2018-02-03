@@ -54,7 +54,7 @@ local function AuraOnEnter(aura)
 	aura:UpdateTooltip()
 end
 
-local function AuraOnLeave(aura)
+local function AuraOnLeave()
 	GameTooltip:Hide()
 end
 
@@ -68,9 +68,7 @@ local function UpdateAuraTooltip(aura)
 	GameTooltip:SetUnitAura(aura:GetParent().__owner.unit, aura:GetID(), aura.filter)
 end
 
-local function PostUpdateAura(auras, unit, aura, index, offset)
-	local _, _, _, _, dispelType, duration, expiration, _, canStealOrPurge = UnitAura(unit, index, aura.filter)
-
+local function PostUpdateAura(_, _, aura, _, _, duration, expiration, debuffType, canStealOrPurge)
 	if (duration and duration > 0) then
 		aura.timeLeft = expiration - GetTime()
 		aura:SetScript('OnUpdate', UpdateAuraTimer)
@@ -82,7 +80,7 @@ local function PostUpdateAura(auras, unit, aura, index, offset)
 
 	if (not aura.isDebuff) then
 		if (canStealOrPurge) then
-			local color = DebuffTypeColor[dispelType or 'none']
+			local color = ns.colors.debuff[debuffType or 'none']
 			aura.overlay:SetVertexColor(color.r, color.g, color.b)
 		else
 			aura.overlay:SetVertexColor(0, 0, 0)
