@@ -122,11 +122,11 @@ local function CreateAura(auras, index)
 	overlay:SetPoint('BOTTOMRIGHT', 2.5, -2.5)
 	button.overlay = overlay
 
-	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
+	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	count:SetPoint('BOTTOMRIGHT', 0, 0)
 	button.count = count
 
-	local timer = button:CreateFontString(nil, 'OVERLAY', 'LAyoutFont_Shadow_Small')
+	local timer = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	timer:SetPoint('TOPLEFT', 0, 0)
 	button.timer = timer
 
