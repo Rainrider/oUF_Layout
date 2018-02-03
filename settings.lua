@@ -5,6 +5,10 @@ ns.config = {
 	filterDebuffs = 'target focus',
 	sortBuffs = '',
 	sortDebuffs = 'target',
+	showParty = true,
+	showPartyPets = true,
+	showPartyTargets = true,
+	showRaid = true,
 }
 
 ns.colors = setmetatable({

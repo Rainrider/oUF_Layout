@@ -1,3 +1,6 @@
+local _, ns = ...
+local config = ns.config
+
 oUF:Factory(function(self)
 	self:SetActiveStyle('oUF_Layout_SingleUnits')
 
@@ -46,69 +49,74 @@ oUF:Factory(function(self)
 
 	self:SetActiveStyle('oUF_Layout_GroupUnits')
 
-	local party = self:SpawnHeader(
-		nil, nil, 'party',
-		'showParty', true,
-		'maxColumns', 4,
-		'unitsPerColumn', 1,
-		'columnAnchorPoint', 'LEFT',
-		'columnSpacing', 0,
-		'oUF-initialConfigFunction', [[
-			self:SetWidth(80)
-			self:SetHeight(40)
-		]]
-	)
-	party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
-
-	local partyPets = self:SpawnHeader(
-		nil, nil, 'party',
-		'showParty', true,
-		'maxColumns', 4,
-		'unitsPerColumn', 1,
-		'columnAnchorPoint', 'LEFT',
-		'columnSpacing', 0,
-		'oUF-initialConfigFunction', [[
-			self:SetWidth(80)
-			self:SetHeight(20)
-			self:SetAttribute('unitsuffix', 'pet')
-		]]
-	)
-	partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
-
-	local partyTargets = self:SpawnHeader(
-		nil, nil, 'party',
-		'showParty', true,
-		'maxColumns', 4,
-		'unitsPerColumn', 1,
-		'columnAnchorPoint', 'LEFT',
-		'columnSpacing', 0,
-		'oUF-initialConfigFunction', [[
-			self:SetWidth(80)
-			self:SetHeight(20)
-			self:SetAttribute('unitsuffix', 'target')
-		]]
-	)
-	partyTargets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT', 0, -20)
-
-	local raid = {}
-	for group = 1, NUM_RAID_GROUPS do
-		raid[group] = self:SpawnHeader(
-			nil, nil, 'raid',
-			'showRaid', true,
-			'maxColumns', 5,
+	if (config.showParty) then
+		local party = self:SpawnHeader(
+			nil, nil, 'party',
+			'showParty', true,
+			'maxColumns', 4,
 			'unitsPerColumn', 1,
 			'columnAnchorPoint', 'LEFT',
-			'groupFilter', group,
 			'oUF-initialConfigFunction', [[
 				self:SetWidth(80)
 				self:SetHeight(40)
 			]]
 		)
+		party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
 
-		if (group == 1) then
-			raid[group]:SetPoint('TOPLEFT', UIParent, 15, -15)
-		else
-			raid[group]:SetPoint('TOPLEFT', raid[group - 1], 'BOTTOMLEFT')
+		if (config.showPartyPets) then
+			local partyPets = self:SpawnHeader(
+				nil, nil, 'party',
+				'showParty', true,
+				'maxColumns', 4,
+				'unitsPerColumn', 1,
+				'columnAnchorPoint', 'LEFT',
+				'oUF-initialConfigFunction', [[
+					self:SetWidth(80)
+					self:SetHeight(20)
+					self:SetAttribute('unitsuffix', 'pet')
+				]]
+			)
+			partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
+		end
+
+		if (config.showPartyTargets) then
+			local partyTargets = self:SpawnHeader(
+				nil, nil, 'party',
+				'showParty', true,
+				'maxColumns', 4,
+				'unitsPerColumn', 1,
+				'columnAnchorPoint', 'LEFT',
+				'oUF-initialConfigFunction', [[
+					self:SetWidth(80)
+					self:SetHeight(20)
+					self:SetAttribute('unitsuffix', 'target')
+				]]
+			)
+			partyTargets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT', 0, -20)
+		end
+	end
+
+	if (config.showRaid) then
+		local raid = {}
+		for group = 1, NUM_RAID_GROUPS do
+			raid[group] = self:SpawnHeader(
+				nil, nil, 'raid',
+				'showRaid', true,
+				'maxColumns', 5,
+				'unitsPerColumn', 1,
+				'columnAnchorPoint', 'LEFT',
+				'groupFilter', group,
+				'oUF-initialConfigFunction', [[
+					self:SetWidth(80)
+					self:SetHeight(40)
+				]]
+			)
+
+			if (group == 1) then
+				raid[group]:SetPoint('TOPLEFT', UIParent, 15, -15)
+			else
+				raid[group]:SetPoint('TOPLEFT', raid[group - 1], 'BOTTOMLEFT')
+			end
 		end
 	end
 end)
