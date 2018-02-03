@@ -9,6 +9,8 @@ ns.config = {
 	showPartyPets = true,
 	showPartyTargets = true,
 	showRaid = true,
+	showMTA = true,
+	showMTATargets = true,
 }
 
 ns.colors = setmetatable({

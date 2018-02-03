@@ -24,28 +24,36 @@ oUF:Factory(function(self)
 		end
 	end
 
-	local mainTanks = self:SpawnHeader(
-		nil, nil, 'raid',
-		'showRaid', true,
-		'groupFilter', 'MAINTANK',
-		'oUF-initialConfigFunction', [[
-			self:SetWidth(120)
-			self:SetHeight(32)
-		]]
-	)
-	mainTanks:SetPoint('TOPLEFT', UIParent, 'LEFT', 150, -215)
+	if (config.showMTA) then
+		local mainTanksAndAssists = self:SpawnHeader(
+			nil, nil, 'raid',
+			'showRaid', true,
+			'groupFilter', 'MAINTANK,MAINASSIST',
+			'groupBy', 'ROLE',
+			'groupingOrder', 'MAINTANK,MAINASSIST',
+			'oUF-initialConfigFunction', [[
+				self:SetWidth(120)
+				self:SetHeight(32)
+			]]
+		)
+		mainTanksAndAssists:SetPoint('TOPLEFT', UIParent, 'LEFT', 150, -215)
 
-	local mainTankTargets = self:SpawnHeader(
-		nil, nil, 'raid',
-		'showRaid', true,
-		'groupFilter', 'MAINTANK',
-		'oUF-initialConfigFunction', [[
-			self:SetWidth(120)
-			self:SetHeight(32)
-			self:SetAttribute('unitsuffix', 'target')
-		]]
-	)
-	mainTankTargets:SetPoint('TOPLEFT', mainTanks, 'TOPRIGHT')
+		if (config.showMTATargets) then
+			local mainTanksAndAssistsTargets = self:SpawnHeader(
+				nil, nil, 'raid',
+				'showRaid', true,
+				'groupFilter', 'MAINTANK,MAINASSIST',
+				'groupBy', 'ROLE',
+				'groupingOrder', 'MAINTANK,MAINASSIST',
+				'oUF-initialConfigFunction', [[
+					self:SetWidth(120)
+					self:SetHeight(32)
+					self:SetAttribute('unitsuffix', 'target')
+				]]
+			)
+			mainTanksAndAssistsTargets:SetPoint('TOPLEFT', mainTanksAndAssists, 'TOPRIGHT')
+		end
+	end
 
 	self:SetActiveStyle('oUF_Layout_GroupUnits')
 
