@@ -1,6 +1,6 @@
 local _, ns = ...
 
-local FormatTime = FormatTime
+local FormatTime = ns.FormatTime
 
 local function UpdateTimer(button, elapsed)
 	local timeLeft = button.timeLeft - elapsed
@@ -20,16 +20,16 @@ local function PostUpdateDispel(dispel, _, _, _, duration, expiration)
 end
 
 function ns.AddDispel(self, unit)
-	if (not IsAddOnLoaded('oUF_Dispelable')) then return end
+	if (not IsAddOnLoaded('oUF_Dispellable')) then return end
 
-	local dispelable = {}
+	local dispellable = {}
 
 	local texture = self.Health:CreateTexture(nil, 'OVERLAY')
 	texture:SetTexture(ns.assets.HIGHLIGHT)
 	texture:SetBlendMode('ADD')
 	texture:SetVertexColor(1, 1, 1, 0) -- hide in case the class cannot dispel
 	texture:SetAllPoints()
-	dispelable.dispelTexture = texture
+	dispellable.dispelTexture = texture
 
 	if (unit == 'target') then
 		local button = CreateFrame('Button', 'oUF_Layout_DispelButton', self.Overlay)
@@ -57,9 +57,9 @@ function ns.AddDispel(self, unit)
 		button.count = count
 
 		button:Hide() -- hide in case the class cannot dispel
-		dispelable.dispelIcon = button
-		dispelable.PostUpdate = PostUpdateDispel
+		dispellable.dispelIcon = button
+		dispellable.PostUpdate = PostUpdateDispel
 	end
 
-	self.Dispelable = dispelable
+	self.Dispellable = dispellable
 end

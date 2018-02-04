@@ -4,7 +4,7 @@
 	<Script file='auras.lua'/>
 	<Script file='castbar.lua'/>
 	<Script file='classpower.lua'/>
-	<Script file='dispel.lua'/>
+	<Script file='dispellable.lua'/>
 	<Script file='experience.lua'/>
 	<Script file='health.lua'/>
 	<Script file='healthprediction.lua'/>
