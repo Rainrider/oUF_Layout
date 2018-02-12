@@ -1,13 +1,16 @@
-local _, ns = ...
+local layoutName, ns = ...
 local config = ns.config
 
 oUF:Factory(function(self)
-	self:SetActiveStyle('oUF_Layout_SingleUnits')
+	self:SetActiveStyle(layoutName .. '_Primary')
 
 	local player = self:Spawn('player')
 	player:SetPoint('CENTER', -210, -215)
 	local target = self:Spawn('target')
 	target:SetPoint('CENTER', 210, -215)
+
+	self:SetActiveStyle(layoutName .. '_Secondary')
+
 	self:Spawn('pet'):SetPoint('BOTTOMLEFT', player, 'TOPLEFT', 0, 0)
 	self:Spawn('focus'):SetPoint('BOTTOMRIGHT', player, 'TOPRIGHT', 0, 0)
 	self:Spawn('focustarget'):SetPoint('BOTTOMLEFT', target, 'TOPLEFT', 0, 0)
@@ -55,7 +58,7 @@ oUF:Factory(function(self)
 		end
 	end
 
-	self:SetActiveStyle('oUF_Layout_GroupUnits')
+	self:SetActiveStyle(layoutName .. '_Group')
 
 	if (config.showParty) then
 		local party = self:SpawnHeader(

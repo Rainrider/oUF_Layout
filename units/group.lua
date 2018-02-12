@@ -1,4 +1,4 @@
-local _, ns = ...
+local layoutName, ns = ...
 
 local function HighlightSelectedUnit(self)
 	if (UnitIsUnit(self.unit, 'target')) then
@@ -44,4 +44,4 @@ local function Shared(self, unit)
 	end
 end
 
-oUF:RegisterStyle('oUF_Layout_GroupUnits', Shared)
+oUF:RegisterStyle(layoutName .. '_Group', Shared)

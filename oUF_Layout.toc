@@ -10,6 +10,5 @@ utility.lua
 fonts.xml
 settings.lua
 elements\elements.xml
-singleunits.lua
-groupunits.lua
+units\units.xml
 layout.lua
