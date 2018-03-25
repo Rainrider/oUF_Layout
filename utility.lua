@@ -41,7 +41,7 @@ function ns.ShortenValue(value)
 	elseif(value >= 1e6) then
 		return format('%.2fm', value / 1e6)
 	elseif(value >= 1e4) then
-		return format('%.2fk', value / 1e4)
+		return format('%.2fk', value / 1e3)
 	else
 		return value
 	end
