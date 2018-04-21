@@ -21,12 +21,12 @@ local ImportantDebuffs = {
 }
 
 local CustomBuffFilter = {
-	player = function(_, _, aura, _, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
+	player = function(_, _, aura, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
 		return not casterIsPlayer or
 			duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet') or
 			ImportantBuffs[spellID]
 	end,
-	target = function(_, unit, aura, _, _, _, _, _, _, _, caster, _, _, _, _, _, casterIsPlayer)
+	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, _, _, _, casterIsPlayer)
 		if(UnitIsFriend(unit, 'player')) then
 			return aura.isPlayer or caster == 'pet' or not casterIsPlayer
 		else
@@ -37,7 +37,7 @@ local CustomBuffFilter = {
 ns.CustomBuffFilter = CustomBuffFilter
 
 local CustomDebuffFilter = {
-	target = function(_, unit, aura, _, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)
+	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)
 		if (not UnitIsFriend(unit, 'player')) then
 			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or isBossDebuff or ImportantDebuffs[spellID]
 		else
