@@ -1,8 +1,10 @@
 local _, ns = ...
 
-local function PostUpdateArtifactPower(ap, _, isShown)
-	if (isShown) then
-		ap.text:SetText(ns.ShortenValue(ap.powerForNextTrait - ap.power))
+local function PostUpdateArtifactPower(ap, event, current, max)
+	if (current and max) then
+		local traits = ap.numTraitsLearnable
+		local prefix = traits and traits > 0 and traits .. ' / ' or ''
+		ap.text:SetText(prefix .. ns.ShortenValue(max - current))
 	end
 end
 
