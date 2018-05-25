@@ -31,7 +31,7 @@ local function GetColoredName(unit, realUnit)
 end
 
 local function GetPvPStatus(unit)
-	local prestige = UnitPrestige(unit)
+	local level = UnitHonorLevel(unit)
 	local status
 	local color
 
@@ -44,8 +44,8 @@ local function GetPvPStatus(unit)
 	end
 
 	if (status) then
-		if (prestige and prestige > 0) then
-			status = format("%s %d", status, prestige)
+		if (level and level > 0) then
+			status = format("%s %d", status, level)
 		end
 
 		return format("%s%s|r", color, status)
@@ -174,7 +174,7 @@ tagEvents['layout:name'] = 'UNIT_NAME_UPDATE UNIT_FACTION'
 tags['layout:level'] = LevelTag
 tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
 tags['layout:pvp'] = GetPvPStatus
-tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_PRESTIGE_UPDATE'
+tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_LEVEL_UPDATE'
 tags['layout:raidname'] = GetRoleColoredName
 tagEvents['layout:raidname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION UNIT_FLAGS UNIT_FACTION' -- flags should get roles and dead or ghost
 
