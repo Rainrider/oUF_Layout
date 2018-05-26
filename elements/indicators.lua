@@ -24,14 +24,6 @@ function ns.AddLeaderIndicator(self)
 	self.LeaderIndicator = leader
 end
 
-function ns.AddMasterLooterIndicator(self)
-	local looter = self.Power:CreateTexture(nil, 'OVERLAY')
-	looter:SetSize(14, 14)
-	looter:SetPoint('TOP', self.Power, 'BOTTOMLEFT', 0, 7)
-
-	self.MasterLooterIndicator = looter
-end
-
 function ns.AddPhaseIndicator(self)
 	local phase = self:CreateTexture(nil, 'OVERLAY')
 	phase:SetSize(18, 18)

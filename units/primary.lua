@@ -45,7 +45,6 @@ local function Shared(self, unit)
 		ns.AddAssistantIndicator(self)
 		ns.AddCombatIndicator(self)
 		ns.AddLeaderIndicator(self)
-		ns.AddMasterLooterIndicator(self)
 		ns.AddRestingIndicator(self)
 
 		if (playerClass == 'DEATHKNIGHT') then
