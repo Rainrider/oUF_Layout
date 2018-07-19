@@ -31,6 +31,7 @@ function ns.AddRunes(self, width, height, spacing)
 	end
 
 	runes.colorSpec = true
-	runes.PostUpdate = PostUpdateRune
+	runes.sortOrder = 'asc'
+	--runes.PostUpdate = PostUpdateRune
 	self.Runes = runes
 end
