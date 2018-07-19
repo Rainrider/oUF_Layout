@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: oUF Layout
 ## Notes: oUF Layout for learning purposes.
 ## Version: @project-version@
