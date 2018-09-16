@@ -36,6 +36,7 @@ local function Shared(self, unit)
 		ns.AddAlternativePower(self)
 		ns.AddClassPower(self, 217, 5, 1)
 		ns.AddPowerPrediction(self)
+		ns.AddPlayerBuffTimers(self)
 		ns.AddTotems(self, 217, 5, 1)
 
 		ns.AddArtifactPower(self)
