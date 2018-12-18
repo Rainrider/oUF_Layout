@@ -3,7 +3,6 @@ local _, ns = ...
 local tags = oUF.Tags.Methods
 local tagEvents = oUF.Tags.Events
 local tagSharedEvents = oUF.Tags.SharedEvents
-local ColorGradient = oUF.ColorGradient
 
 local floor = math.floor
 local format = string.format

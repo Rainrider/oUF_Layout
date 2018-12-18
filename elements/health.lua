@@ -20,7 +20,7 @@ local function UpdateHealthColor(health, unit, cur, max)
 	elseif(health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = colors.tapped
 	elseif(health.colorSmooth) then
-		r, g, b = health.__owner.ColorGradient(cur, max, unpack(colors.smooth))
+		r, g, b = health.__owner:ColorGradient(cur, max, unpack(colors.smooth))
 	else
 		t = colors.health
 	end

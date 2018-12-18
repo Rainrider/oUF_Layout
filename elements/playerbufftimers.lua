@@ -1,11 +1,14 @@
 local _, ns = ...
 
+local oUF = ns.oUF or oUF
 local FormatTime = ns.FormatTime
 
 local function OnUpdate(timer, elapsed)
 	local timeLeft = timer.timeLeft - elapsed
 	timer.remaining:SetText((timeLeft > 0) and FormatTime(timeLeft))
 	timer.timeLeft = timeLeft
+	local r, g, b = oUF:ColorGradient(timeLeft, timer.duration, 1, 0, 0, 1, 1, 0, 0, 1, 0)
+	timer.border:SetVertexColor(r, g, b)
 end
 
 local function UpdateTimer(timer, duration, expiration, barID, auraID)
@@ -30,6 +33,7 @@ function ns.AddPlayerBuffTimers(self)
 		overlay:SetTexture(ns.assets.BUTTONOVERLAY)
 		overlay:SetPoint('TOPLEFT', -2.5, 2.5)
 		overlay:SetPoint('BOTTOMRIGHT', 2.5, -2.5)
+		button.border = overlay
 
 		local remaining = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 		remaining:SetPoint('TOPLEFT', 0, 0)
