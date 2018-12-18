@@ -91,6 +91,14 @@ function ns.AddRestingIndicator(self)
 	self.RestingIndicator = resting
 end
 
+function ns.AddSummonIndicator(self)
+	local indicator = self.Health:CreateTexture(nil, 'OVERLAY')
+	indicator:SetSize(36, 36)
+	indicator:SetPoint('CENTER', self, 'TOP')
+
+	self.SummonIndicator = indicator
+end
+
 local function UpdateThreat(self, event, unit)
 	if(self.unit ~= unit) then return end
 

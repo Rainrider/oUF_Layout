@@ -33,6 +33,7 @@ local function Shared(self, unit)
 		ns.AddRangeCheck(self)
 		ns.AddReadyCheckIndicator(self)
 		ns.AddResurrectIndicator(self)
+		ns.AddSummonIndicator(self)
 	end
 
 	if (unit ~= 'partytarget') then

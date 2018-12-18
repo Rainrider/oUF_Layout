@@ -28,6 +28,7 @@ local function Shared(self, unit)
 	ns.AddPvPText(self, unit)
 	ns.AddRaidTargetIndicator(self)
 	ns.AddResurrectIndicator(self)
+	ns.AddSummonIndicator(self)
 	ns.AddThreatIndicator(self)
 
 	if (unit == 'player') then
