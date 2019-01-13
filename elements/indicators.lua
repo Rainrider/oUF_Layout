@@ -68,11 +68,10 @@ local function UpdateResurrectIndicator(self, _, unit)
 end
 
 function ns.AddResurrectIndicator(self)
-	local resurrect = {}
-	resurrect.IsObjectType = function() end
-	resurrect.Override = UpdateResurrectIndicator
-
-	self.ResurrectIndicator = resurrect
+	self.ResurrectIndicator = {
+		IsObjectType = function() end,
+		Override = UpdateResurrectIndicator,
+	}
 end
 
 local function UpdateRestingIndicator(self)
@@ -84,11 +83,10 @@ local function UpdateRestingIndicator(self)
 end
 
 function ns.AddRestingIndicator(self)
-	local resting = {}
-	resting.IsObjectType = function() end
-	resting.Override = UpdateRestingIndicator
-
-	self.RestingIndicator = resting
+	self.RestingIndicator = {
+		IsObjectType = function() end,
+		Override = UpdateRestingIndicator,
+	}
 end
 
 function ns.AddSummonIndicator(self)
@@ -112,9 +110,8 @@ local function UpdateThreat(self, event, unit)
 end
 
 function ns.AddThreatIndicator(self)
-	local threat = {}
-	threat.IsObjectType = function() end
-	threat.Override = UpdateThreat
-
-	self.ThreatIndicator = threat
+	self.ThreatIndicator = {
+		IsObjectType = function() end,
+		Override = UpdateThreat,
+	}
 end
