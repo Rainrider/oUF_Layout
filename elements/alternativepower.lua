@@ -1,7 +1,7 @@
 local _, ns = ...
 
 local function OnShow(altpower)
-	local experience = altpower.__owner.Experience --_G.oUF_Layout_Experience
+	local experience = altpower.__owner.Experience
 	if (experience) then
 		experience:Hide()
 		experience.Show = experience.Hide
@@ -9,10 +9,10 @@ local function OnShow(altpower)
 end
 
 local function OnHide(altpower)
-	local experience = altpower.__owner.Experience -- _G.oUF_Layout_Experience
-	if (experience) then
+	local experience = altpower.__owner.Experience
+	if (experience and experience.ForceUpdate) then
 		experience.Show = nil
-		experience:ForceUpdate('AltPower OnHide')
+		experience:ForceUpdate()
 	end
 end
 
