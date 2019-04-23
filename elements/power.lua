@@ -26,6 +26,8 @@ local function UpdateColor(power, unit, _, _, _, displayType)
 	elseif (power.colorClass and UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		t = ns.colors.class[class]
+	elseif (power.colorSelection and UnitSelectionType(unit, true)) then
+		t = ns.colors.selection[UnitSelectionType(unit, true)]
 	elseif (power.colorReaction and UnitReaction(unit, 'player')) then
 		t = ns.colors.reaction[UnitReaction(unit, 'player')]
 	end
@@ -52,6 +54,7 @@ function ns.AddPowerBar(self, unit)
 	power:SetPoint('BOTTOMRIGHT', -5, 5)
 	power.colorPower = unit == 'player' or unit == 'boss'
 	power.colorClass = true
+	power.colorSelection = unit == 'target'
 	power.colorReaction = true
 	power.frequentUpdates = unit == 'player' or unit == 'target'
 	power.displayAltPower = unit == 'boss'
