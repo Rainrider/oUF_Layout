@@ -39,7 +39,7 @@ oUF:Factory(function(self)
 				self:SetHeight(32)
 			]]
 		)
-		mainTanksAndAssists:SetPoint('TOPLEFT', UIParent, 'LEFT', 150, -215)
+		mainTanksAndAssists:SetPoint('BOTTOMLEFT', UIParent, 'LEFT', 150, -245)
 
 		if (config.showMTATargets) then
 			local mainTanksAndAssistsTargets = self:SpawnHeader(
@@ -72,7 +72,7 @@ oUF:Factory(function(self)
 				self:SetHeight(40)
 			]]
 		)
-		party:SetPoint('LEFT', UIParent, 'BOTTOM', -240, 130)
+		party:SetPoint('LEFT', UIParent, 'BOTTOM', -160, 130)
 
 		if (config.showPartyPets) then
 			local partyPets = self:SpawnHeader(
