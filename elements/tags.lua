@@ -76,8 +76,10 @@ end
 local function LevelTag(unit)
 	if (UnitClassification(unit) == 'worldboss') then return end
 
-	local level = UnitBattlePetLevel(unit)
-	if (not level or level == 0) then
+	local level
+	if (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
+		level = UnitBattlePetLevel(unit)
+	else
 		level = UnitEffectiveLevel(unit)
 	end
 
