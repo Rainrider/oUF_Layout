@@ -15,17 +15,22 @@ local function CustomCastTimeText(castbar, duration)
 	)
 end
 
-local function PostCastFailedOrInterrupted(castbar, unit, name, castID)
+local function PostCastFailedOrInterrupted(castbar, unit)
 	castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	castbar:SetValue(castbar.max)
 
 	local time = castbar.Time
 	if(time) then
-		time:SetText(name)
+		time:SetText(castbar.name)
 	end
 end
 
 local function PostUpdateCast(castbar, unit, name)
+	-- only Post*Start have name information
+	if (name) then
+		castbar.name = name
+	end
+
 	if(castbar.notInterruptible and UnitCanAttack('player', unit)) then
 		castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
