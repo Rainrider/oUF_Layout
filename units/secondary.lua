@@ -28,7 +28,7 @@ local function Shared(self, unit)
 	ns.AddInfoText(self, unit)
 
 	if (unit == 'pet') then
-		-- ns.AddCastBar(self, unit)
+		ns.AddCastBar(self, unit)
 		ns.AddDispel(self, unit)
 	end
 

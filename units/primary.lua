@@ -19,7 +19,6 @@ local function Shared(self, unit)
 	ns.AddHealthValue(self, unit)
 	ns.AddPowerValue(self, unit)
 	ns.AddPortrait(self, unit)
-	-- ns.AddCastBar(self, unit)
 	ns.AddBuffs(self, unit)
 	ns.AddDebuffs(self, unit)
 	ns.AddDispel(self, unit)
@@ -30,6 +29,7 @@ local function Shared(self, unit)
 	if (unit == 'player') then
 		ns.player = self
 
+		ns.AddCastBar(self, unit)
 		-- ns.AddClassPower(self, 217, 5, 1)
 		-- ns.AddPowerPrediction(self)
 		-- ns.AddTotems(self, 217, 5, 1)
