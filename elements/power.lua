@@ -6,6 +6,8 @@ local function UpdateColor(power, unit)
 		t = ns.colors.tapped
 	elseif (power.colorDisconnected and power.disconnected) then
 		t = ns.colors.disconnected
+	elseif (power.colorHappiness and UnitIsUnit(unit, 'pet') and GetPetHappiness()) then
+		t = ns.colors.happiness[GetPetHappiness()];
 	elseif (power.colorPower) then
 		local ptype, ptoken, altR, altG, altB = UnitPowerType(unit)
 		t = ns.colors.power[ptoken]
@@ -48,6 +50,7 @@ function ns.AddPowerBar(self, unit)
 	power:SetHeight((unit == 'player' or unit == 'target') and 15 or 5)
 	power:SetPoint('BOTTOMLEFT', 5, 5)
 	power:SetPoint('BOTTOMRIGHT', -5, 5)
+	power.colorHappiness = unit == 'pet'
 	power.colorPower = unit == 'player' or unit == 'boss'
 	power.colorClass = true
 	power.colorReaction = true

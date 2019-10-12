@@ -15,6 +15,11 @@ ns.config = {
 
 ns.colors = setmetatable({
 	disconnected = { 0.42, 0.37, 0.32 },
+	happiness = {
+		{ 204 / 255,  77 / 255,  56 / 255 }, -- unhappy
+		{ 255 / 255, 222 / 255,   0 / 255 }, -- neutral
+		{  64 / 255, 170 / 255,   0 / 255 }, -- happy
+	},
 	health = { 0.17, 0.17, 0.24 },
 	power = setmetatable({
 		MANA   = { 0.31, 0.45, 0.63 },
