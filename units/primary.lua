@@ -32,7 +32,7 @@ local function Shared(self, unit)
 
 		ns.AddClassPower(self, 217, 5, 1)
 		ns.AddPowerPrediction(self)
-		ns.AddTotems(self, 217, 5, 1)
+		-- ns.AddTotems(self, 217, 5, 1)
 
 		ns.AddReputation(self)
 		ns.AddExperience(self)
