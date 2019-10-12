@@ -5,14 +5,6 @@ local UnitSpecific = {
 		ns.AddAuras(self, 'pet')
 		ns.AddRangeCheck(self)
 	end,
-	focus = function(self)
-		ns.AddDebuffs(self, 'focus')
-		ns.AddRangeCheck(self)
-	end,
-	boss = function(self)
-		ns.AddBuffs(self, 'boss')
-		ns.AddCastBar(self, 'boss')
-	end,
 }
 
 local function Shared(self, unit)
@@ -35,7 +27,7 @@ local function Shared(self, unit)
 	ns.AddRaidTargetIndicator(self)
 	ns.AddInfoText(self, unit)
 
-	if (unit == 'pet' or unit == 'focus') then
+	if (unit == 'pet') then
 		ns.AddCastBar(self, unit)
 		ns.AddDispel(self, unit)
 	end

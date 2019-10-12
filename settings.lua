@@ -2,7 +2,7 @@ local _, ns = ...
 
 ns.config = {
 	filterBuffs = 'player target',
-	filterDebuffs = 'target focus',
+	filterDebuffs = 'target',
 	sortBuffs = '',
 	sortDebuffs = 'target',
 	showParty = true,

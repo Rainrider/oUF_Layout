@@ -45,7 +45,6 @@ local CustomDebuffFilter = {
 		end
 	end,
 }
-CustomDebuffFilter.focus = CustomDebuffFilter.target
 
 local function AuraOnEnter(aura)
 	if (not aura:IsVisible()) then return end

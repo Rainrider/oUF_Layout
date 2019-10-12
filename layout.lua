@@ -12,20 +12,7 @@ oUF:Factory(function(self)
 	self:SetActiveStyle(layoutName .. '_Secondary')
 
 	self:Spawn('pet'):SetPoint('BOTTOMLEFT', player, 'TOPLEFT', 0, 0)
-	self:Spawn('focus'):SetPoint('BOTTOMRIGHT', player, 'TOPRIGHT', 0, 0)
-	self:Spawn('focustarget'):SetPoint('BOTTOMLEFT', target, 'TOPLEFT', 0, 0)
 	self:Spawn('targettarget'):SetPoint('BOTTOMRIGHT', target, 'TOPRIGHT', 0, 0)
-
-	local boss = {}
-	for i = 1, MAX_BOSS_FRAMES do
-		boss[i] = self:Spawn('boss' .. i)
-
-		if (i == 1) then
-			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
-		else
-			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
-		end
-	end
 
 	if (config.showMTA) then
 		local mainTanksAndAssists = self:SpawnHeader(

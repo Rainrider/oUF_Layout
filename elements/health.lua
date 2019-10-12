@@ -4,7 +4,7 @@ local colors = ns.colors
 
 local height = {
 	partypet = 10,
-	pet      = 15, -- focus, focustarget, targettarget
+	pet      = 15, -- targettarget
 	player   = 30,
 	raid     = 24,
 }
