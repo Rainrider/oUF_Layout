@@ -1,13 +1,11 @@
 local _, ns = ...
 
-local function UpdateColor(power, unit, _, _, _, displayType)
+local function UpdateColor(power, unit)
 	local r, g, b, t
 	if (power.colorTapping and power.tapped) then
 		t = ns.colors.tapped
 	elseif (power.colorDisconnected and power.disconnected) then
 		t = ns.colors.disconnected
-	elseif (displayType == ALTERNATE_POWER_INDEX and power.altPowerColor) then
-		t = power.altPowerColor
 	elseif (power.colorPower) then
 		local ptype, ptoken, altR, altG, altB = UnitPowerType(unit)
 		t = ns.colors.power[ptoken]
@@ -26,8 +24,6 @@ local function UpdateColor(power, unit, _, _, _, displayType)
 	elseif (power.colorClass and UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		t = ns.colors.class[class]
-	elseif (power.colorSelection and UnitSelectionType(unit, true)) then
-		t = ns.colors.selection[UnitSelectionType(unit, true)]
 	elseif (power.colorReaction and UnitReaction(unit, 'player')) then
 		t = ns.colors.reaction[UnitReaction(unit, 'player')]
 	end
@@ -54,11 +50,8 @@ function ns.AddPowerBar(self, unit)
 	power:SetPoint('BOTTOMRIGHT', -5, 5)
 	power.colorPower = unit == 'player' or unit == 'boss'
 	power.colorClass = true
-	power.colorSelection = unit == 'target'
 	power.colorReaction = true
 	power.frequentUpdates = unit == 'player' or unit == 'target'
-	power.displayAltPower = unit == 'boss'
-	power.altPowerColor = { 0, 0.5, 1 }
 
 	local bg = power:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
