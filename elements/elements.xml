@@ -1,24 +1,17 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Script file='alternativepower.lua'/>
-	<Script file='artifactpower.lua'/>
 	<Script file='auras.lua'/>
 	<Script file='castbar.lua'/>
 	<Script file='classpower.lua'/>
 	<Script file='dispellable.lua'/>
 	<Script file='experience.lua'/>
 	<Script file='health.lua'/>
-	<Script file='healthprediction.lua'/>
 	<Script file='indicators.lua'/>
-	<Script file='playerbufftimers.lua'/>
 	<Script file='portrait.lua'/>
 	<Script file='power.lua'/>
 	<Script file='powerprediction.lua'/>
 	<Script file='range.lua'/>
 	<Script file='reputation.lua'/>
-	<Script file='runes.lua'/>
-	<Script file='stagger.lua'/>
 	<Script file='tags.lua'/>
 	<Script file='totems.lua'/>
-	<Script file='custom\playerbufftimers.lua'/>
 	<Script file='custom\totems.lua'/>
 </Ui>

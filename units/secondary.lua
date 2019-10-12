@@ -3,7 +3,6 @@ local layoutName, ns = ...
 local UnitSpecific = {
 	pet = function(self)
 		ns.AddAuras(self, 'pet')
-		ns.AddAlternativePower(self) -- needed when the player is in a vehicle
 		ns.AddRangeCheck(self)
 	end,
 	focus = function(self)
@@ -38,10 +37,7 @@ local function Shared(self, unit)
 
 	if (unit == 'pet' or unit == 'focus') then
 		ns.AddCastBar(self, unit)
-		ns.AddThreatIndicator(self)
 		ns.AddDispel(self, unit)
-		ns.AddHealthPrediction(self, unit)
-		ns.AddResurrectIndicator(self)
 	end
 
 	if (UnitSpecific[unit]) then

@@ -26,19 +26,14 @@ local function Shared(self, unit)
 
 	if (unit ~= 'partypet' and unit ~= 'partytarget') then
 		ns.AddPowerBar(self, unit)
-		ns.AddHealthPrediction(self, unit)
 		ns.AddAssistantIndicator(self)
 		ns.AddLeaderIndicator(self)
-		ns.AddPhaseIndicator(self)
 		ns.AddRangeCheck(self)
 		ns.AddReadyCheckIndicator(self)
-		ns.AddResurrectIndicator(self)
-		ns.AddSummonIndicator(self)
 	end
 
 	if (unit ~= 'partytarget') then
 		ns.AddDispel(self, unit)
-		ns.AddThreatIndicator(self, unit)
 
 		self:RegisterEvent('PLAYER_TARGET_CHANGED', HighlightSelectedUnit, true)
 	end
