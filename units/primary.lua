@@ -31,7 +31,7 @@ local function Shared(self, unit)
 		ns.player = self
 
 		ns.AddClassPower(self, 217, 5, 1)
-		ns.AddPowerPrediction(self)
+		-- ns.AddPowerPrediction(self)
 		-- ns.AddTotems(self, 217, 5, 1)
 
 		ns.AddReputation(self)
