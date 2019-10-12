@@ -30,7 +30,6 @@ local function GetColoredName(unit, realUnit)
 end
 
 local function GetPvPStatus(unit)
-	local level = UnitHonorLevel(unit)
 	local status
 	local color
 
@@ -43,10 +42,6 @@ local function GetPvPStatus(unit)
 	end
 
 	if (status) then
-		if (level and level > 0) then
-			status = format("%s %d", status, level)
-		end
-
 		return format("%s%s|r", color, status)
 	end
 end
@@ -68,7 +63,7 @@ end
 
 local function GetRoleColoredName(unit, realUnit)
 	local status = GetUnitStatus(realUnit or unit)
-	local color = ns.colors.role[UnitGroupRolesAssigned(realUnit or unit)] or ns.colors.role.NONE
+	local color = ns.colors.role.NONE
 
 	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, status or UnitName(unit))
 end
@@ -76,15 +71,11 @@ end
 local function LevelTag(unit)
 	if (UnitClassification(unit) == 'worldboss') then return end
 
-	local level
-	if (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
-		level = UnitBattlePetLevel(unit)
-	else
-		level = UnitEffectiveLevel(unit)
-	end
+	local level = UnitLevel(unit)
 
-	if (level == UnitEffectiveLevel('player')) then return end
 	if (level < 0) then return '??' end
+	if (level == UnitLevel('player')) then return end
+
 	return level
 end
 
@@ -175,7 +166,7 @@ tagEvents['layout:name'] = 'UNIT_NAME_UPDATE UNIT_FACTION'
 tags['layout:level'] = LevelTag
 tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
 tags['layout:pvp'] = GetPvPStatus
-tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_LEVEL_UPDATE'
+tagEvents['layout:pvp'] = 'UNIT_FACTION'
 tags['layout:raidname'] = GetRoleColoredName
 tagEvents['layout:raidname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION UNIT_FLAGS UNIT_FACTION' -- flags should get roles and dead or ghost
 
