@@ -30,7 +30,6 @@ local function Shared(self, unit)
 		ns.player = self
 
 		ns.AddCastBar(self, unit)
-		-- ns.AddClassPower(self, 217, 5, 1)
 		-- ns.AddPowerPrediction(self)
 		-- ns.AddTotems(self, 217, 5, 1)
 
@@ -44,6 +43,7 @@ local function Shared(self, unit)
 	end
 
 	if (unit == 'target') then
+		ns.AddComboPoints(self, 217, 5, 1)
 		ns.AddInfoText(self, 'target')
 		ns.AddRangeCheck(self)
 	end

@@ -1,7 +1,7 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
 	<Script file='auras.lua'/>
 	<Script file='castbar.lua'/>
-	<!-- <Script file='classpower.lua'/> -->
+	<Script file='combopoints.lua'/>
 	<Script file='dispellable.lua'/>
 	<Script file='experience.lua'/>
 	<Script file='health.lua'/>
