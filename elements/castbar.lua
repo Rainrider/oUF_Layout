@@ -1,18 +1,16 @@
 local _, ns = ...
 
 local function CustomCastDelayText(castbar, duration)
-	castbar.Time:SetFormattedText('%.1f |cffaf5050%s %.1f|r',
-		castbar.channeling and duration or castbar.max - duration,
-		castbar.channeling and "- " or "+",
+	castbar.Time:SetFormattedText(
+		'%.1f |cffaf5050%s %.1f|r',
+		duration,
+		castbar.channeling and "-" or "+",
 		castbar.delay
 	)
 end
 
 local function CustomCastTimeText(castbar, duration)
-	castbar.Time:SetFormattedText('%.1f / %.2f',
-		castbar.channeling and duration or castbar.max - duration,
-		castbar.max
-	)
+	castbar.Time:SetFormattedText('%.1f / %.2f', duration, castbar.max)
 end
 
 local function PostCastFailedOrInterrupted(castbar, unit)
@@ -25,7 +23,7 @@ local function PostCastFailedOrInterrupted(castbar, unit)
 	end
 end
 
-local function PostUpdateCast(castbar, unit, name)
+local function PostCastStart(castbar, unit, name)
 	-- only Post*Start have name information
 	if (name) then
 		castbar.name = name
@@ -90,10 +88,8 @@ function ns.AddCastBar(self, unit)
 	castbar.Icon = icon
 
 	castbar.timeToHold = 1
-	castbar.PostCastStart = PostUpdateCast
-	castbar.PostChannelStart = PostUpdateCast
-	castbar.PostCastFailed = PostCastFailedOrInterrupted
-	castbar.PostCastInterrupted = PostCastFailedOrInterrupted
+	castbar.PostCastStart = PostCastStart
+	castbar.PostCastFail = PostCastFailedOrInterrupted
 
 	self.Castbar = castbar
 end
