@@ -46,11 +46,10 @@ ns.colors = setmetatable({
 	}, { __index = oUF.colors.smooth }),
 	tapped = { 0.42, 0.37, 0.32 },
 	totems = {
-		{ 0.71, 0.29, 0.13 }, -- red    181 /  73 /  33
-		{ 0.26, 0.71, 0.13 }, -- green   67 / 181 /  33
-		{ 0.13, 0.55, 0.71 }, -- blue    33 / 141 / 181
-		{ 0.58, 0.13, 0.71 }, -- violet 147 /  33 / 181
-		{ 0.71, 0.58, 0.13 }, -- yellow 181 / 147 /  33
+		[FIRE_TOTEM_SLOT] = { 0.71, 0.29, 0.13 }, -- red    181 /  73 /  33
+		[EARTH_TOTEM_SLOT] = { 0.26, 0.71, 0.13 }, -- green   67 / 181 /  33
+		[WATER_TOTEM_SLOT] = { 0.13, 0.55, 0.71 }, -- blue    33 / 141 / 181
+		[AIR_TOTEM_SLOT] = { 0.58, 0.13, 0.71 }, -- violet 147 /  33 / 181
 	},
 }, { __index = oUF.colors })
 

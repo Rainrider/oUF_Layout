@@ -1,5 +1,21 @@
+local _, ns = ...
+local priorities = ns.playerClass == 'SHAMAN' and _G.SHAMAN_TOTEM_PRIORITIES or _G.STANDARD_TOTEM_PRIORITIES
+
 local function UpdateTooltip(totem)
-	GameTooltip:SetTotem(totem:GetID())
+	local timeLeft = totem.timeLeft - totem.duration
+	local fmt, value = SecondsToTimeAbbrev(timeLeft)
+	local period = fmt:match('.$')
+	local time
+
+	if (period == 'm') then
+		time = SPELL_TIME_REMAINING_MIN:format(value)
+	else
+		time = SPELL_TIME_REMAINING_SEC:format(timeLeft)
+	end
+
+	GameTooltip:SetText(totem.name)
+	GameTooltip:AddLine(time, 1, 1, 1)
+	GameTooltip:Show()
 end
 
 local function OnEnter(totem)
@@ -26,14 +42,15 @@ local function OnUpdate(totem, elapsed)
 end
 
 local function UpdateTotem(self, event, slot)
-	local totem = self.CustomTotems[slot]
-	local _, _, start, duration, icon = GetTotemInfo(slot)
+	local totem = self.CustomTotems[priorities[slot]]
+	local _, name, start, duration, icon = GetTotemInfo(slot)
 
 	if (duration > 0) then
 		totem.icon:SetTexture(icon)
 		totem:SetMinMaxValues(-duration, 0)
 		totem.timeLeft = start - GetTime()
 		totem.duration = -duration
+		totem.name = name
 		totem:Show()
 	else
 		totem:Hide()
@@ -62,8 +79,7 @@ local function Enable(self)
 	totems.ForceUpdate = ForceUpdate
 
 	for slot = 1, #totems do
-		local totem = totems[slot]
-		totem:SetID(slot)
+		local totem = totems[priorities[slot]]
 		totem:SetScript('OnUpdate', totems.OnUpdate or OnUpdate)
 		if (totem:IsMouseEnabled()) then
 			totem:SetScript('OnEnter', totems.OnEnter or OnEnter)
@@ -73,11 +89,6 @@ local function Enable(self)
 	end
 
 	self:RegisterEvent('PLAYER_TOTEM_UPDATE', Update, true)
-
-	TotemFrame:UnregisterEvent('PLAYER_ENTERING_WORLD')
-	TotemFrame:UnregisterEvent('PLAYER_TALENT_UPDATE')
-	TotemFrame:UnregisterEvent('PLAYER_TOTEM_UPDATE')
-	TotemFrame:UnregisterEvent('UPDATE_SHAPESHIFT_FORM')
 
 	return true
 end
@@ -91,11 +102,6 @@ local function Disable(self)
 	end
 
 	self:UnregisterEvent('PLAYER_TOTEM_UPDATE', Update)
-
-	TotemFrame:RegisterEvent('PLAYER_ENTERING_WORLD')
-	TotemFrame:RegisterEvent('PLAYER_TALENT_UPDATE')
-	TotemFrame:RegisterEvent('PLAYER_TOTEM_UPDATE')
-	TotemFrame:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
 end
 
 oUF:AddElement('CustomTotems', Update, Enable, Disable)
