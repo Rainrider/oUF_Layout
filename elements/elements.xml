@@ -8,7 +8,7 @@
 	<Script file='indicators.lua'/>
 	<Script file='portrait.lua'/>
 	<Script file='power.lua'/>
-	<!-- <Script file='powerprediction.lua'/> -->
+	<Script file='powerprediction.lua'/>
 	<Script file='range.lua'/>
 	<Script file='reputation.lua'/>
 	<Script file='tags.lua'/>

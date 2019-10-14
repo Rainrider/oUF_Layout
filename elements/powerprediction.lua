@@ -1,14 +1,12 @@
 local _, ns = ...
 
 function ns.AddPowerPrediction(self)
-	local mainBar = CreateFrame('StatusBar', nil, self.Power)
-	mainBar:SetStatusBarTexture(ns.assets.TEXTURE)
-	mainBar:SetStatusBarColor(0, 0, 1, 0.5)
-	mainBar:SetReverseFill(true)
-	mainBar:SetSize(230, 15)
-	mainBar:SetPoint('RIGHT', self.Power:GetStatusBarTexture())
+	local powerPrediction = CreateFrame('StatusBar', nil, self.Power)
+	powerPrediction:SetStatusBarTexture(ns.assets.TEXTURE)
+	powerPrediction:SetStatusBarColor(0, 0, 1, 0.5)
+	powerPrediction:SetReverseFill(true)
+	powerPrediction:SetSize(230, 15)
+	powerPrediction:SetPoint('RIGHT', self.Power:GetStatusBarTexture())
 
-	self.PowerPrediction = {
-		mainBar = mainBar,
-	}
+	self.PowerPrediction = powerPrediction
 end
