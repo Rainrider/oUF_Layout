@@ -1,11 +1,12 @@
 local _, ns = ...
 
-local function UpdateColor(power, unit)
+local function UpdateColor(self, event, unit)
+	local power = self.Power
 	local r, g, b, t
-	if (power.colorTapping and power.tapped) then
-		t = ns.colors.tapped
-	elseif (power.colorDisconnected and power.disconnected) then
+	if (power.colorDisconnected and power.disconnected) then
 		t = ns.colors.disconnected
+	elseif (power.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
+		t = ns.colors.tapped
 	elseif (power.colorHappiness and UnitIsUnit(unit, 'pet') and GetPetHappiness()) then
 		t = ns.colors.happiness[GetPetHappiness()];
 	elseif (power.colorPower) then
