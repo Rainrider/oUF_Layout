@@ -4,6 +4,7 @@ local playerClass = ns.playerClass
 local FormatTime = ns.FormatTime
 
 local ImportantBuffs = {
+	[    17] = playerClass == 'PRIEST', -- Power Word: Shield
 	[  1022] = true, -- Hand of Protection
 	[  2825] = true, -- Bloodlust
 	[ 20707] = true, -- Soulstone
@@ -15,8 +16,8 @@ local ImportantBuffs = {
 }
 
 local ImportantDebuffs = {
-	[  6788] = playerClass == "PRIEST", -- Weakened Soul
-	[ 25771] = playerClass == "PALADIN", -- Forbearance
+	[  6788] = playerClass == 'PRIEST', -- Weakened Soul
+	[ 25771] = playerClass == 'PALADIN', -- Forbearance
 	[212570] = true, -- Surrendered Soul
 }
 
@@ -26,9 +27,9 @@ local CustomBuffFilter = {
 			duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet') or
 			ImportantBuffs[spellID]
 	end,
-	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, _, _, _, casterIsPlayer)
+	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, _, casterIsPlayer)
 		if(UnitIsFriend(unit, 'player')) then
-			return aura.isPlayer or caster == 'pet' or not casterIsPlayer
+			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or ImportantBuffs[spellID]
 		else
 			return true
 		end
