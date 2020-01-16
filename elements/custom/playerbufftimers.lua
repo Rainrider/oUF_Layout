@@ -164,7 +164,7 @@ local function Update(self, event)
 			timer.duration = duration
 			timer.expiration = expiration
 			timer.auraID = auraID
-			timer.name, timer.tooltip = select(11, GetAlternatePowerInfoByID(barID))
+			timer.name, timer.tooltip = GetUnitPowerBarStringsByID(barID)
 
 			--[[ Override: timer:UpdateTimer(duration, expiration, barID, auraID)
 			Used to update the timer attributes. You have to override this if your sub-widgets are not StatusBars.
