@@ -21,6 +21,27 @@ local ImportantDebuffs = {
 	[212570] = true, -- Surrendered Soul
 }
 
+local EncounterDebuffs = {}
+
+if BigWigsLoader then
+	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossLog', function(_, bossMod, event, ...)
+		if (event:find('^SPELL_AURA_')) then
+			for i = 1, select('#', ...) do
+				local id = select(i, ...)
+				EncounterDebuffs[id] = bossMod
+			end
+		end
+	end)
+
+	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossDisable', function(_, bossMod)
+		for id, mod in next, EncounterDebuffs do
+			if (mod == bossMod) then
+				EncounterDebuffs[id] = nil
+			end
+		end
+	end)
+end
+
 local CustomBuffFilter = {
 	player = function(_, _, aura, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
 		return not casterIsPlayer or
@@ -44,6 +65,9 @@ local CustomDebuffFilter = {
 		else
 			return true
 		end
+	end,
+	party = function(_, _, _, _, _, _, _, _, _, _, _, _, spellID)
+		return not not EncounterDebuffs[spellID]
 	end,
 }
 CustomDebuffFilter.focus = CustomDebuffFilter.target

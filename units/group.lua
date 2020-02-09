@@ -36,6 +36,10 @@ local function Shared(self, unit)
 		ns.AddSummonIndicator(self)
 	end
 
+	if (unit == 'party') then
+		ns.AddDebuffs(self, unit)
+	end
+
 	if (unit ~= 'partytarget') then
 		ns.AddDispel(self, unit)
 		ns.AddThreatIndicator(self, unit)
