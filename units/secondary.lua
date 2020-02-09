@@ -3,7 +3,7 @@ local layoutName, ns = ...
 local UnitSpecific = {
 	pet = function(self)
 		ns.AddAuras(self, 'pet')
-		ns.AddAlternativePower(self) -- needed when the player is in a vehicle
+		ns.AddAlternativePower(self, 'pet') -- needed when the player is in a vehicle
 		ns.AddRangeCheck(self)
 	end,
 	focus = function(self)

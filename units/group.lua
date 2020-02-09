@@ -37,6 +37,7 @@ local function Shared(self, unit)
 	end
 
 	if (unit == 'party') then
+		ns.AddAlternativePower(self, unit)
 		ns.AddDebuffs(self, unit)
 	end
 

@@ -34,7 +34,7 @@ local function Shared(self, unit)
 	if (unit == 'player') then
 		ns.player = self
 
-		ns.AddAlternativePower(self)
+		ns.AddAlternativePower(self, unit)
 		ns.AddClassPower(self, 217, 5, 1)
 		ns.AddPowerPrediction(self)
 		ns.AddPlayerBuffTimers(self)

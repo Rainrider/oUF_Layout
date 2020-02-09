@@ -32,10 +32,11 @@ local function UpdateTooltip(altpower)
 	GameTooltip:Show()
 end
 
-function ns.AddAlternativePower(self)
+function ns.AddAlternativePower(self, unit)
+	local anchor = ((unit == 'player' or unit == 'pet') and ns.player or self).Power
 	local altpower = CreateFrame('StatusBar', nil, self)
-	altpower:SetPoint('TOPLEFT', ns.player.Power, 'BOTTOMLEFT', 0, -1)
-	altpower:SetPoint('TOPRIGHT', ns.player.Power, 'BOTTOMRIGHT', 0, -1)
+	altpower:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', 0, -1)
+	altpower:SetPoint('TOPRIGHT', anchor, 'BOTTOMRIGHT', 0, -1)
 	altpower:SetHeight(3)
 	altpower:SetStatusBarTexture(ns.assets.TEXTURE)
 	altpower:SetStatusBarColor(0, 0.5, 1)
