@@ -163,9 +163,9 @@ local function AltManaTag(unit)
 end
 
 tags['layout:health'] = NormalUnitHealthTag
-tagEvents['layout:health'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+tagEvents['layout:health'] = 'UNIT_CONNECTION UNIT_HEALTH UNIT_MAXHEALTH'
 tags['layout:smallhealth'] = SmallUnitHealthTag
-tagEvents['layout:smallhealth'] = 'UNIT_CONNECTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+tagEvents['layout:smallhealth'] = 'UNIT_CONNECTION UNIT_HEALTH UNIT_MAXHEALTH'
 tags['layout:power'] = PowerTag
 tagEvents['layout:power'] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
 tags['layout:altmana'] = AltManaTag

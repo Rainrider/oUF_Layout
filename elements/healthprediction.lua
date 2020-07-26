@@ -58,6 +58,5 @@ function ns.AddHealthPrediction(self, unit)
 		absorbBar = absorbBar,
 		overAbsorb = overAbsorb,
 		overHealAbsorb = overHealAbsorb,
-		frequentUpdates = health.frequentUpdates,
 	}
 end

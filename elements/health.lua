@@ -43,7 +43,6 @@ function ns.AddHealthBar(self, unit)
 	health.colorTapping = unit ~= 'raid'
 	health.colorDisconnected = true
 	health.colorSmooth = unit ~= 'raid'
-	health.frequentUpdates = unit ~= 'raid'
 
 	local bg = health:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
