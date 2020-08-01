@@ -7,6 +7,7 @@ local function Shared(self, unit)
 	self:SetScript('OnEnter', UnitFrame_OnEnter)
 	self:SetScript('OnLeave', UnitFrame_OnLeave)
 
+	Mixin(self, BackdropTemplateMixin)
 	self.colors = ns.colors
 	self:SetBackdrop(ns.assets.GLOW)
 	self:SetBackdropColor(0, 0, 0, 0)

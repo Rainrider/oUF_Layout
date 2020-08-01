@@ -11,7 +11,7 @@ function ns.AddPortrait(self, unit)
 	bg:SetVertexColor(0, 0, 0)
 	bg:SetAllPoints()
 
-	local overlay = CreateFrame('Frame', nil, portrait)
+	local overlay = CreateFrame('Frame', nil, portrait, 'BackdropTemplate')
 	overlay:SetPoint('TOPLEFT', -1, 1)
 	overlay:SetPoint('BOTTOMRIGHT', 1, -1)
 	overlay:SetBackdrop(ns.assets.GLOW)
