@@ -25,9 +25,14 @@ function ns.AddLeaderIndicator(self)
 end
 
 function ns.AddPhaseIndicator(self)
-	local phase = self:CreateTexture(nil, 'OVERLAY')
+	local phase = CreateFrame('Frame', nil, self)
 	phase:SetSize(18, 18)
 	phase:SetPoint('TOPRIGHT', 7, 7)
+	phase:EnableMouse(true)
+
+	local icon = phase:CreateTexture(nil, 'OVERLAY')
+	icon:SetAllPoints()
+	phase.Icon = icon
 
 	self.PhaseIndicator = phase
 end
