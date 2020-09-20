@@ -15,22 +15,17 @@ local function CustomCastTimeText(castbar, duration)
 	)
 end
 
-local function PostCastFailedOrInterrupted(castbar, unit)
+local function PostCastFailedOrInterrupted(castbar, unit, spellID)
 	castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	castbar:SetValue(castbar.max)
 
 	local time = castbar.Time
 	if(time) then
-		time:SetText(castbar.name)
+		time:SetText(GetSpellInfo(spellID))
 	end
 end
 
-local function PostUpdateCast(castbar, unit, name)
-	-- only Post*Start have name information
-	if (name) then
-		castbar.name = name
-	end
-
+local function PostUpdateCast(castbar, unit)
 	if(castbar.notInterruptible and UnitCanAttack('player', unit)) then
 		castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
@@ -95,11 +90,8 @@ function ns.AddCastBar(self, unit)
 
 	castbar.timeToHold = 1
 	castbar.PostCastStart = PostUpdateCast
-	castbar.PostChannelStart = PostUpdateCast
 	castbar.PostCastInterruptible = PostUpdateCast
-	castbar.PostCastNotInterruptible = PostUpdateCast
-	castbar.PostCastFailed = PostCastFailedOrInterrupted
-	castbar.PostCastInterrupted = PostCastFailedOrInterrupted
+	castbar.PostCastFail = PostCastFailedOrInterrupted
 
 	self.Castbar = castbar
 end
