@@ -40,7 +40,7 @@ function ns.AddAlternativePower(self, unit)
 	altpower:SetPoint('TOPRIGHT', anchor, 'BOTTOMRIGHT', 0, -1)
 	altpower:SetHeight(3)
 	altpower:SetStatusBarTexture(ns.assets.TEXTURE)
-	altpower:SetStatusBarColor(0, 0.5, 1)
+	altpower:SetStatusBarColor(unpack(self.colors.power.ALTERNATE))
 	altpower:EnableMouse(true)
 	altpower.UpdateTooltip = UpdateTooltip
 	altpower:SetScript('OnEnter', OnEnter)

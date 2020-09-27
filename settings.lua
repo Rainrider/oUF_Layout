@@ -17,9 +17,9 @@ ns.colors = setmetatable({
 	disconnected = { 0.42, 0.37, 0.32 },
 	health = { 0.17, 0.17, 0.24 },
 	power = setmetatable({
-		MANA   = { 0.31, 0.45, 0.63 },
-		RAGE   = { 0.69, 0.31, 0.31 },
-		ENERGY = { 1, 0.87, 0.4 },
+		MANA      = { 0.31, 0.45, 0.63 },
+		RAGE      = { 0.69, 0.31, 0.31 },
+		ENERGY    = { 1, 0.87, 0.4 },
 	}, { __index = oUF.colors.power }),
 	reaction = setmetatable({
 		{ 204 / 255,  77 / 255,  56 / 255 }, -- HATED
@@ -67,6 +67,10 @@ ns.colors = setmetatable({
 		{ 0.71, 0.58, 0.13 }, -- yellow 181 / 147 /  33
 	},
 }, { __index = oUF.colors })
+
+ns.colors.power[0] = ns.colors.power.MANA
+ns.colors.power[1] = ns.colors.power.RAGE
+ns.colors.power[3] = ns.colors.power.ENERGY
 
 ns.assets = {
 	BUTTONOVERLAY = [=[Interface\AddOns\oUF_Layout\assets\textures\buttonoverlay]=],
