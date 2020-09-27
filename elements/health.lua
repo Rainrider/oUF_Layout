@@ -12,15 +12,17 @@ height.party       = height.raid
 height.partytarget = height.partypet
 height.target      = height.player
 
-local function UpdateHealthColor(health, unit, cur, max)
+local function UpdateColor(self, _, unit)
 	local r, g, b, t
+	local health = self.Health
+	local cur, max = health.cur or 1, health.max or 1
 	if(health.disconnected and health.colorDisconnected or UnitIsDeadOrGhost(unit)) then
 		health:SetValue(max)
 		t = colors.disconnected
 	elseif(health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = colors.tapped
 	elseif(health.colorSmooth) then
-		r, g, b = health.__owner:ColorGradient(cur, max, unpack(colors.smooth))
+		r, g, b = self:ColorGradient(cur, max, unpack(colors.smooth))
 	else
 		t = colors.health
 	end
@@ -53,6 +55,6 @@ function ns.AddHealthBar(self, unit)
 	end
 	bg:SetAllPoints()
 
-	health.UpdateColor = UpdateHealthColor
+	health.UpdateColor = UpdateColor
 	self.Health = health
 end
