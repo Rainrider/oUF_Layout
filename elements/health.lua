@@ -16,7 +16,7 @@ local function UpdateColor(self, _, unit)
 	local r, g, b, t
 	local health = self.Health
 	local cur, max = health.cur or 1, health.max or 1
-	if(health.disconnected and health.colorDisconnected or UnitIsDeadOrGhost(unit)) then
+	if(health.colorDisconnected and not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit)) then
 		health:SetValue(max)
 		t = colors.disconnected
 	elseif(health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
