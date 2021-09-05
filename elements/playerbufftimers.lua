@@ -11,7 +11,7 @@ local function OnUpdate(timer, elapsed)
 	timer.border:SetVertexColor(r, g, b)
 end
 
-local function UpdateTimer(timer, duration, expiration, barID, auraID)
+local function UpdateTimer(timer, duration_, expiration, barID_, auraID)
 	local _, _, texture = GetSpellInfo(auraID)
 	timer.icon:SetTexture(texture)
 	timer.timeLeft = expiration - GetTime()

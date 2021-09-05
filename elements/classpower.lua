@@ -1,8 +1,9 @@
 local _, ns = ...
 
+local SPELL_POWER_COMBO_POINTS = _G.SPELL_POWER_COMBO_POINTS
 local playerClass = ns.playerClass
 
-local function PostUpdateClassPower(classPower, power, maxPower, maxPowerChanged)
+local function PostUpdateClassPower(classPower, power_, maxPower, maxPowerChanged)
 	if(not maxPower or not maxPowerChanged) then return end
 
 	local maxIndex = maxPower ~= 10 and maxPower or 5

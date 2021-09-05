@@ -10,7 +10,8 @@ PlayerBuffTimers - A `table` to hold player buff timers.
 ## Sub-Widgets
 
 A timer can be any UI widget and must be accessible through the array part of the PlayerBuffTimers table.
-If the sub-widgets are StatusBars, a default texture and an `OnUpdate` handler will be set if not provided by the layout.
+If the sub-widgets are `StatusBars`, a default texture and an `OnUpdate` handler will be set if not provided by the
+layout.
 
 ## Notes
 
@@ -136,7 +137,7 @@ local function OnUpdate(timer)
 	end
 end
 
-local function UpdateTimer(timer, duration, expiration, barID, auraID)
+local function UpdateTimer(timer, duration, expiration_, barID_, auraID_)
 	timer:SetMinMaxValues(0, duration)
 end
 

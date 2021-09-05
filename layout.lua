@@ -17,7 +17,7 @@ oUF:Factory(function(self)
 	self:Spawn('targettarget'):SetPoint('BOTTOMRIGHT', target, 'TOPRIGHT', 0, 0)
 
 	local boss = {}
-	for i = 1, MAX_BOSS_FRAMES do
+	for i = 1, _G.MAX_BOSS_FRAMES do
 		boss[i] = self:Spawn('boss' .. i)
 
 		if (i == 1) then
@@ -109,7 +109,7 @@ oUF:Factory(function(self)
 
 	if (config.showRaid) then
 		local raid = {}
-		for group = 1, NUM_RAID_GROUPS do
+		for group = 1, _G.NUM_RAID_GROUPS do
 			raid[group] = self:SpawnHeader(
 				nil, nil, 'raid',
 				'showRaid', true,

@@ -4,8 +4,8 @@ local playerClass = ns.playerClass
 
 local function Shared(self, unit)
 	self:RegisterForClicks('AnyUp')
-	self:SetScript('OnEnter', UnitFrame_OnEnter)
-	self:SetScript('OnLeave', UnitFrame_OnLeave)
+	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)
+	self:SetScript('OnLeave', _G.UnitFrame_OnLeave)
 
 	Mixin(self, BackdropTemplateMixin)
 	self.colors = ns.colors

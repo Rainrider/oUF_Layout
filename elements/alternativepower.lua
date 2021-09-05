@@ -29,7 +29,7 @@ local function UpdateTooltip(altpower)
 	local name, tooltip = GetUnitPowerBarStringsByID(altpower.__barID)
 	GameTooltip:SetText(name, 1, 1, 1)
 	GameTooltip:AddLine(tooltip, nil, nil, nil, true)
-	GameTooltip:AddLine(format('\n%d (%d%%)', value, (value - min) / (max - min) * 100), 1, 1, 1)
+	GameTooltip:AddLine(string.format('\n%d (%d%%)', value, (value - min) / (max - min) * 100), 1, 1, 1)
 	GameTooltip:Show()
 end
 

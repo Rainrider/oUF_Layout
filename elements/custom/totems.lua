@@ -44,8 +44,8 @@ local function Update(self, event, slot)
 	if (tonumber(slot)) then
 		UpdateTotem(self, event, slot)
 	else
-		for slot = 1, #self.CustomTotems do
-			UpdateTotem(self, event, slot)
+		for slot_ = 1, #self.CustomTotems do
+			UpdateTotem(self, event, slot_)
 		end
 	end
 end

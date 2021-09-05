@@ -20,8 +20,8 @@ local function Shared(self, unit)
 	unit = unit:match('^(%a-)%d+') or unit
 
 	self:RegisterForClicks('AnyUp')
-	self:SetScript('OnEnter', UnitFrame_OnEnter)
-	self:SetScript('OnLeave', UnitFrame_OnLeave)
+	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)
+	self:SetScript('OnLeave', _G.UnitFrame_OnLeave)
 
 	Mixin(self, BackdropTemplateMixin)
 	self.colors = ns.colors

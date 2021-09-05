@@ -1,13 +1,5 @@
 local _, ns = ...
 
-local function PostUpdateRune(_, rune, _, _, _, isReady)
-	if (isReady) then
-		rune:SetAlpha(1)
-	else
-		rune:SetAlpha(0.5)
-	end
-end
-
 function ns.AddRunes(self, width, height, spacing)
 	local runes = {}
 	local maxRunes = 6
@@ -32,6 +24,5 @@ function ns.AddRunes(self, width, height, spacing)
 
 	runes.colorSpec = true
 	runes.sortOrder = 'asc'
-	--runes.PostUpdate = PostUpdateRune
 	self.Runes = runes
 end

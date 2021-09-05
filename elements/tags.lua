@@ -1,8 +1,9 @@
 local _, ns = ...
 
+--luacheck: globals oUF.Tags
 local tags = oUF.Tags.Methods
 local tagEvents = oUF.Tags.Events
-local tagSharedEvents = oUF.Tags.SharedEvents
+local tagSharedEvents = oUF.Tags.SharedEvents --luacheck: no unused
 
 local floor = math.floor
 local format = string.format
@@ -36,10 +37,10 @@ local function GetPvPStatus(unit)
 
 	if (UnitIsPVPFreeForAll(unit)) then
 		status = "FFA"
-		color = ORANGE_FONT_COLOR_CODE
+		color = _G.ORANGE_FONT_COLOR_CODE
 	elseif (UnitIsPVP(unit)) then
 		status = "PvP"
-		color = RED_FONT_COLOR_CODE
+		color = _G.RED_FONT_COLOR_CODE
 	end
 
 	if (status) then
@@ -53,16 +54,16 @@ end
 
 local function GetUnitStatus(unit)
 	if(not UnitIsConnected(unit)) then
-		return PLAYER_OFFLINE
+		return _G.PLAYER_OFFLINE
 	end
 	if(UnitIsUnconscious(unit)) then
-		return UNCONSCIOUS
+		return _G.UNCONSCIOUS
 	end
 	if(UnitIsGhost(unit)) then
 		return GHOST
 	end
 	if(UnitIsDead(unit)) then
-		return DEAD
+		return _G.DEAD
 	end
 end
 
@@ -177,7 +178,8 @@ tagEvents['layout:level'] = 'UNIT_LEVEL UNIT_CLASSIFICATION_CHANGED'
 tags['layout:pvp'] = GetPvPStatus
 tagEvents['layout:pvp'] = 'UNIT_FACTION HONOR_LEVEL_UPDATE'
 tags['layout:raidname'] = GetRoleColoredName
-tagEvents['layout:raidname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION UNIT_FLAGS UNIT_FACTION' -- flags should get roles and dead or ghost
+-- flags should get roles and dead or ghost
+tagEvents['layout:raidname'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION UNIT_FLAGS UNIT_FACTION'
 
 function ns.AddHealthValue(self, unit)
 	local healthValue
@@ -231,7 +233,7 @@ function ns.AddPowerValue(self, unit)
 	self.Power.value = powerValue
 end
 
-local GetPVPTimer = GetPVPTimer
+local GetPVPTimer = _G.GetPVPTimer
 local pvpElapsed = 0
 local function UpdatePvPTimer(self, elapsed)
 	pvpElapsed = pvpElapsed + elapsed
