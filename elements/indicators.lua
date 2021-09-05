@@ -16,10 +16,30 @@ function ns.AddCombatIndicator(self)
 	self.CombatIndicator = combat
 end
 
+local function UpdateLeaderIndicator(self)
+	local leader = self.LeaderIndicator
+
+	if (UnitIsGroupLeader(self.unit)) then
+		if (HasLFGRestrictions()) then
+			leader:SetTexture([[Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES]])
+			leader:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+		else
+			leader:SetTexture([[Interface\GroupFrame\UI-Group-LeaderIcon]])
+			leader:SetTexCoord(0, 1, 0, 1)
+		end
+
+		leader:Show()
+	else
+		leader:Hide()
+	end
+end
+
 function ns.AddLeaderIndicator(self)
 	local leader = self:CreateTexture(nil, 'OVERLAY')
 	leader:SetSize(14, 14)
 	leader:SetPoint('BOTTOM', self.Health, 'TOPLEFT', 0, -3)
+
+	leader.Override = UpdateLeaderIndicator
 
 	self.LeaderIndicator = leader
 end
