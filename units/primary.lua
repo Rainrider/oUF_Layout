@@ -41,9 +41,7 @@ local function Shared(self, unit)
 		ns.AddPlayerBuffTimers(self)
 		ns.AddTotems(self, 217, 5, 1)
 
-		ns.AddArtifactPower(self)
-		ns.AddReputation(self)
-		ns.AddExperience(self)
+		ns.AddProgress(self)
 
 		ns.AddAssistantIndicator(self)
 		ns.AddCombatIndicator(self)

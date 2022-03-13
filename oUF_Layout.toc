@@ -4,7 +4,7 @@
 ## Version: @project-version@
 ## Author: Rainrider
 ## RequiredDeps: oUF
-## OptionalDeps: AdiDebug, BigWigs, oUF_ArtifactPower, oUF_Dispelable, oUF_Experience, oUF_Reputation
+## OptionalDeps: AdiDebug, BigWigs, oUF_Dispelable, oUF_Progress
 
 utility.lua
 fonts.xml

@@ -1,18 +1,18 @@
 local _, ns = ...
 
 local function OnShow(altpower)
-	local experience = altpower.__owner.Experience
-	if (experience) then
-		experience:Hide()
-		experience.Show = experience.Hide
+	local progress = altpower.__owner.Progress
+	if (progress) then
+		progress:Hide()
+		progress.Show = progress.Hide
 	end
 end
 
 local function OnHide(altpower)
-	local experience = altpower.__owner.Experience
-	if (experience and experience.ForceUpdate) then
-		experience.Show = nil
-		experience:ForceUpdate()
+	local progress = altpower.__owner.Progress
+	if (progress and progress.ForceUpdate) then
+		progress.Show = nil
+		progress:ForceUpdate()
 	end
 end
 
