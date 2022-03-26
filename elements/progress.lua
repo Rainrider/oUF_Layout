@@ -17,5 +17,9 @@ function ns.AddProgress(self)
 	bg:SetVertexColor(0, 0, 0)
 	bg:SetAllPoints()
 
+	local infoText = progress:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
+	infoText:SetPoint('CENTER')
+	progress.infoText = infoText
+
 	self.Progress = progress
 end
