@@ -32,7 +32,7 @@ local function Shared(self, unit)
 	ns.AddSummonIndicator(self)
 	ns.AddThreatIndicator(self)
 
-	if (unit == 'player') then
+	if unit == 'player' then
 		ns.player = self
 
 		ns.AddAlternativePower(self, unit)
@@ -48,14 +48,14 @@ local function Shared(self, unit)
 		ns.AddLeaderIndicator(self)
 		ns.AddRestingIndicator(self)
 
-		if (playerClass == 'DEATHKNIGHT') then
+		if playerClass == 'DEATHKNIGHT' then
 			ns.AddRunes(self, 217, 5, 1)
-		elseif (playerClass == 'MONK') then
+		elseif playerClass == 'MONK' then
 			ns.AddStagger(self)
 		end
 	end
 
-	if (unit == 'target') then
+	if unit == 'target' then
 		ns.AddInfoText(self, 'target')
 		ns.AddPhaseIndicator(self)
 		ns.AddQuestIndicator(self)

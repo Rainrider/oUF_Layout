@@ -1,18 +1,16 @@
 local _, ns = ...
 
 local function CustomCastDelayText(castbar, duration)
-	castbar.Time:SetFormattedText('%.1f |cffaf5050%s %.1f|r',
+	castbar.Time:SetFormattedText(
+		'%.1f |cffaf5050%s %.1f|r',
 		castbar.channeling and duration or castbar.max - duration,
-		castbar.channeling and "- " or "+",
+		castbar.channeling and '- ' or '+',
 		castbar.delay
 	)
 end
 
 local function CustomCastTimeText(castbar, duration)
-	castbar.Time:SetFormattedText('%.1f / %.2f',
-		castbar.channeling and duration or castbar.max - duration,
-		castbar.max
-	)
+	castbar.Time:SetFormattedText('%.1f / %.2f', castbar.channeling and duration or castbar.max - duration, castbar.max)
 end
 
 local function PostCastFailedOrInterrupted(castbar, unit, spellID)
@@ -20,13 +18,13 @@ local function PostCastFailedOrInterrupted(castbar, unit, spellID)
 	castbar:SetValue(castbar.max)
 
 	local time = castbar.Time
-	if(time) then
+	if time then
 		time:SetText(GetSpellInfo(spellID))
 	end
 end
 
 local function PostUpdateCast(castbar, unit)
-	if(castbar.notInterruptible and UnitCanAttack('player', unit)) then
+	if castbar.notInterruptible and UnitCanAttack('player', unit) then
 		castbar:SetStatusBarColor(0.69, 0.31, 0.31)
 	else
 		castbar:SetStatusBarColor(0.55, 0.57, 0.61)
@@ -41,14 +39,14 @@ function ns.AddCastBar(self, unit)
 	castbar:SetAlpha(0.75)
 	castbar:SetAllPoints(parent == self.Portrait and self.Overlay or self.Power)
 
-	if(unit == 'player') then
+	if unit == 'player' then
 		local safeZone = castbar:CreateTexture(nil, 'OVERLAY')
 		safeZone:SetTexture(ns.assets.TEXTURE)
 		safeZone:SetVertexColor(0.69, 0.31, 0.31)
 		castbar.SafeZone = safeZone
 	end
 
-	if (unit == 'player' or unit == 'target') then
+	if unit == 'player' or unit == 'target' then
 		local time = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
 		time:SetPoint('RIGHT', -3.5, 3)
 		time:SetTextColor(0.84, 0.75, 0.65)
@@ -67,13 +65,13 @@ function ns.AddCastBar(self, unit)
 		castbar.Text = text
 	end
 
-	if (unit ~= 'pet') then
+	if unit ~= 'pet' then
 		local icon = castbar:CreateTexture(nil, 'ARTWORK')
 		icon:SetSize(25, 25)
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-		if (unit == 'player') then
+		if unit == 'player' then
 			icon:SetPoint('LEFT', castbar, 'RIGHT', 15, 0)
-		elseif (unit == 'target') then
+		elseif unit == 'target' then
 			icon:SetPoint('RIGHT', castbar, 'LEFT', -15, 0)
 		else
 			icon:SetPoint('LEFT', self, 'RIGHT', 3.5, 0)

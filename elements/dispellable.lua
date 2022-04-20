@@ -10,7 +10,7 @@ end
 
 local function PostUpdateDispel(dispel, _, _, _, duration, expiration)
 	local button = dispel.dispelIcon
-	if (duration and duration > 0) then
+	if duration and duration > 0 then
 		button.timeLeft = expiration - GetTime()
 		button:SetScript('OnUpdate', UpdateTimer)
 	else
@@ -20,7 +20,9 @@ local function PostUpdateDispel(dispel, _, _, _, duration, expiration)
 end
 
 function ns.AddDispel(self, unit)
-	if (not IsAddOnLoaded('oUF_Dispellable')) then return end
+	if not IsAddOnLoaded('oUF_Dispellable') then
+		return
+	end
 
 	local dispellable = {}
 
@@ -31,7 +33,7 @@ function ns.AddDispel(self, unit)
 	texture:SetAllPoints()
 	dispellable.dispelTexture = texture
 
-	if (unit == 'target') then
+	if unit == 'target' then
 		local button = CreateFrame('Button', 'oUF_Layout_DispelButton', self.Overlay)
 		button:SetPoint('CENTER')
 		button:SetSize(22, 22)

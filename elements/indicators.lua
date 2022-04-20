@@ -19,8 +19,8 @@ end
 local function UpdateLeaderIndicator(self)
 	local leader = self.LeaderIndicator
 
-	if (UnitIsGroupLeader(self.unit)) then
-		if (HasLFGRestrictions()) then
+	if UnitIsGroupLeader(self.unit) then
+		if HasLFGRestrictions() then
 			leader:SetTexture([[Interface\LFGFrame\UI-LFG-ICON-PORTRAITROLES]])
 			leader:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
 		else
@@ -85,7 +85,7 @@ function ns.AddReadyCheckIndicator(self)
 end
 
 local function UpdateResurrectIndicator(self, _, unit)
-	if (UnitHasIncomingResurrection(unit)) then
+	if UnitHasIncomingResurrection(unit) then
 		self:SetBackdropBorderColor(0, 0.6, 0.8)
 	else
 		self:SetBackdropBorderColor(0, 0, 0)
@@ -100,7 +100,7 @@ function ns.AddResurrectIndicator(self)
 end
 
 local function UpdateRestingIndicator(self)
-	if (IsResting()) then
+	if IsResting() then
 		self.Overlay:SetBackdropBorderColor(0.98, 0.91, 0.62, 0.5)
 	else
 		self.Overlay:SetBackdropBorderColor(0, 0, 0, 0)
@@ -123,10 +123,12 @@ function ns.AddSummonIndicator(self)
 end
 
 local function UpdateThreat(self, event, unit)
-	if(self.unit ~= unit) then return end
+	if self.unit ~= unit then
+		return
+	end
 
 	local status = UnitThreatSituation(unit)
-	if(status and status > 0) then
+	if status and status > 0 then
 		local r, g, b = GetThreatStatusColor(status)
 		self:SetBackdropBorderColor(r, g, b)
 	else

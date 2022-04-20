@@ -4,7 +4,9 @@ local SPELL_POWER_COMBO_POINTS = _G.SPELL_POWER_COMBO_POINTS
 local playerClass = ns.playerClass
 
 local function PostUpdateClassPower(classPower, power_, maxPower, maxPowerChanged)
-	if(not maxPower or not maxPowerChanged) then return end
+	if not maxPower or not maxPowerChanged then
+		return
+	end
 
 	local maxIndex = maxPower ~= 10 and maxPower or 5
 	local height = classPower.height
@@ -25,7 +27,7 @@ local function UpdateClassPowerColor(classPower, powerType)
 	local isAnticipationRogue = playerClass == 'ROGUE' and UnitPowerMax('player', SPELL_POWER_COMBO_POINTS) == 10
 
 	for i = 1, #classPower do
-		if(i > 5 and isAnticipationRogue) then
+		if i > 5 and isAnticipationRogue then
 			r, g, b = 1, 0, 0
 		end
 
@@ -33,7 +35,7 @@ local function UpdateClassPowerColor(classPower, powerType)
 		bar:SetStatusBarColor(r, g, b)
 
 		local bg = bar.bg
-		if(bg) then
+		if bg then
 			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
@@ -57,7 +59,7 @@ function ns.AddClassPower(self, width, height, spacing)
 		bar:SetStatusBarTexture(ns.assets.TEXTURE)
 
 		-- 6-10 will be stacked on top of 1-5 for rogues with the anticipation talent
-		if(i > 5) then
+		if i > 5 then
 			bar:SetFrameLevel(bar:GetFrameLevel() + 1)
 		end
 

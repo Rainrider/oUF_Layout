@@ -1,7 +1,7 @@
 local layoutName, ns = ...
 
 local function HighlightSelectedUnit(self)
-	if (UnitIsUnit(self.unit, 'target')) then
+	if UnitIsUnit(self.unit, 'target') then
 		self:SetBackdropColor(1, 1, 0, 0.5)
 	else
 		self:SetBackdropColor(0, 0, 0, 0)
@@ -25,7 +25,7 @@ local function Shared(self, unit)
 	ns.AddInfoText(self, unit)
 	ns.AddRaidTargetIndicator(self)
 
-	if (unit ~= 'partypet' and unit ~= 'partytarget') then
+	if unit ~= 'partypet' and unit ~= 'partytarget' then
 		ns.AddPowerBar(self, unit)
 		ns.AddHealthPrediction(self, unit)
 		ns.AddAssistantIndicator(self)
@@ -37,12 +37,12 @@ local function Shared(self, unit)
 		ns.AddSummonIndicator(self)
 	end
 
-	if (unit == 'party') then
+	if unit == 'party' then
 		ns.AddAlternativePower(self, unit)
 		ns.AddDebuffs(self, unit)
 	end
 
-	if (unit ~= 'partytarget') then
+	if unit ~= 'partytarget' then
 		ns.AddDispel(self, unit)
 		ns.AddThreatIndicator(self, unit)
 

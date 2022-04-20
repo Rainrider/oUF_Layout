@@ -4,34 +4,34 @@ local colors = ns.colors
 
 local height = {
 	partypet = 10,
-	pet      = 15, -- focus, focustarget, targettarget
-	player   = 30,
-	raid     = 24,
+	pet = 15, -- focus, focustarget, targettarget
+	player = 30,
+	raid = 24,
 }
-height.party       = height.raid
+height.party = height.raid
 height.partytarget = height.partypet
-height.target      = height.player
+height.target = height.player
 
 local function UpdateColor(self, _, unit)
-	local r, g, b, t
+	local r, g, b, color
 	local health = self.Health
 	local cur, max = health.cur or 1, health.max or 1
-	if(health.colorDisconnected and not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit)) then
+	if health.colorDisconnected and not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) then
 		health:SetValue(max)
-		t = colors.disconnected
-	elseif(health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
-		t = colors.tapped
-	elseif(health.colorSmooth) then
+		color = colors.disconnected
+	elseif health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit) then
+		color = colors.tapped
+	elseif health.colorSmooth then
 		r, g, b = self:ColorGradient(cur, max, unpack(colors.smooth))
 	else
-		t = colors.health
+		color = colors.health
 	end
 
-	if(t) then
-		r, g, b = t[1], t[2], t[3]
+	if color then
+		r, g, b = color[1], color[2], color[3]
 	end
 
-	if(b) then
+	if b then
 		health:SetStatusBarColor(r, g, b)
 	end
 end
@@ -48,7 +48,7 @@ function ns.AddHealthBar(self, unit)
 
 	local bg = health:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
-	if (unit == 'raid') then
+	if unit == 'raid' then
 		bg:SetVertexColor(0.51, 0.45, 0.39)
 	else
 		bg:SetVertexColor(0.15, 0.15, 0.15)

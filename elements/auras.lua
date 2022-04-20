@@ -4,20 +4,20 @@ local playerClass = ns.playerClass
 local FormatTime = ns.FormatTime
 
 local ImportantBuffs = {
-	[    17] = playerClass == 'PRIEST', -- Power Word: Shield
-	[  1022] = true, -- Hand of Protection
-	[  2825] = true, -- Bloodlust
-	[ 20707] = true, -- Soulstone
-	[ 32182] = true, -- Heroism
-	[ 80353] = true, -- Time Warp
-	[ 90355] = true, -- Ancient Hysteria
+	[17] = playerClass == 'PRIEST', -- Power Word: Shield
+	[1022] = true, -- Hand of Protection
+	[2825] = true, -- Bloodlust
+	[20707] = true, -- Soulstone
+	[32182] = true, -- Heroism
+	[80353] = true, -- Time Warp
+	[90355] = true, -- Ancient Hysteria
 	[178207] = true, -- Drums of Fury
 	[230935] = true, -- Drums of the Mountain
 }
 
 local ImportantDebuffs = {
-	[  6788] = playerClass == 'PRIEST', -- Weakened Soul
-	[ 25771] = playerClass == 'PALADIN', -- Forbearance
+	[6788] = playerClass == 'PRIEST', -- Weakened Soul
+	[25771] = playerClass == 'PALADIN', -- Forbearance
 	[212570] = true, -- Surrendered Soul
 }
 
@@ -25,7 +25,7 @@ local EncounterDebuffs = {}
 
 if BigWigsLoader then
 	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossLog', function(_, bossMod, event, ...)
-		if (event:find('^SPELL_AURA_')) then
+		if event:find('^SPELL_AURA_') then
 			for i = 1, select('#', ...) do
 				local id = select(i, ...)
 				EncounterDebuffs[id] = bossMod
@@ -35,7 +35,7 @@ if BigWigsLoader then
 
 	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossDisable', function(_, bossMod)
 		for id, mod in next, EncounterDebuffs do
-			if (mod == bossMod) then
+			if mod == bossMod then
 				EncounterDebuffs[id] = nil
 			end
 		end
@@ -44,12 +44,12 @@ end
 
 local CustomBuffFilter = {
 	player = function(_, _, aura, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
-		return not casterIsPlayer or
-			duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet') or
-			ImportantBuffs[spellID]
+		return not casterIsPlayer
+			or duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet')
+			or ImportantBuffs[spellID]
 	end,
 	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, _, casterIsPlayer)
-		if(UnitIsFriend(unit, 'player')) then
+		if UnitIsFriend(unit, 'player') then
 			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or ImportantBuffs[spellID]
 		else
 			return true
@@ -60,7 +60,7 @@ ns.CustomBuffFilter = CustomBuffFilter
 
 local CustomDebuffFilter = {
 	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)
-		if (not UnitIsFriend(unit, 'player')) then
+		if not UnitIsFriend(unit, 'player') then
 			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or isBossDebuff or ImportantDebuffs[spellID]
 		else
 			return true
@@ -73,7 +73,9 @@ local CustomDebuffFilter = {
 CustomDebuffFilter.focus = CustomDebuffFilter.target
 
 local function AuraOnEnter(aura)
-	if (not aura:IsVisible()) then return end
+	if not aura:IsVisible() then
+		return
+	end
 
 	GameTooltip:SetOwner(aura, 'ANCHOR_BOTTOMRIGHT')
 	aura:UpdateTooltip()
@@ -94,7 +96,7 @@ local function UpdateAuraTooltip(aura)
 end
 
 local function PostUpdateAura(_, _, aura, _, _, duration, expiration, debuffType, canStealOrPurge)
-	if (duration and duration > 0) then
+	if duration and duration > 0 then
 		aura.timeLeft = expiration - GetTime()
 		aura:SetScript('OnUpdate', UpdateAuraTimer)
 	else
@@ -103,8 +105,8 @@ local function PostUpdateAura(_, _, aura, _, _, duration, expiration, debuffType
 		aura.timeLeft = math.huge -- needed for sorting
 	end
 
-	if (not aura.isDebuff) then
-		if (canStealOrPurge) then
+	if not aura.isDebuff then
+		if canStealOrPurge then
 			local color = ns.colors.debuff[debuffType or 'none']
 			aura.overlay:SetVertexColor(color.r, color.g, color.b)
 		else
@@ -119,7 +121,7 @@ local function PostUpdateGapAura(_, _, aura)
 end
 
 local function SortAuras(a, b)
-	if (a:IsShown() and b:IsShown()) then
+	if a:IsShown() and b:IsShown() then
 		return a.timeLeft < b.timeLeft
 	else
 		return a:IsShown()
@@ -183,7 +185,7 @@ function ns.AddBuffs(self, unit)
 	local buffs = CreateFrame('Frame', self:GetName() .. '_Buffs', self)
 	buffs.spacing = 5
 	buffs.size = (230 - 7 * buffs.spacing) / 8
-	if (unit ~= 'boss') then
+	if unit ~= 'boss' then
 		buffs:SetSize(8 * (buffs.size + buffs.spacing), 4 * (buffs.size + buffs.spacing))
 	else
 		buffs.num = 6
@@ -198,11 +200,11 @@ function ns.AddBuffs(self, unit)
 	buffs.CreateIcon = CreateAura
 	buffs.PostUpdateIcon = PostUpdateAura
 
-	if (unit == 'player') then
+	if unit == 'player' then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -3.5)
 		buffs.initialAnchor = 'TOPRIGHT'
 		buffs['growth-x'] = 'LEFT'
-	elseif (unit == 'boss') then
+	elseif unit == 'boss' then
 		buffs:SetPoint('RIGHT', self, 'LEFT', -2.5, 0)
 		buffs.initialAnchor = 'RIGHT'
 		buffs['growth-x'] = 'LEFT'
@@ -227,7 +229,7 @@ function ns.AddDebuffs(self, unit)
 	debuffs.CreateIcon = CreateAura
 	debuffs.PostUpdateIcon = PostUpdateAura
 
-	if (unit == 'player' or unit == 'target') then
+	if unit == 'player' or unit == 'target' then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -2.5)
 		debuffs:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', -5, -2.5)
 		debuffs:SetHeight(5 * (debuffs.size + debuffs.spacing))

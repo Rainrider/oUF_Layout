@@ -20,11 +20,11 @@ function ns.AddTotems(self, width, height, spacing)
 
 		local bg = totem:CreateTexture(nil, 'BACKGROUND')
 		bg:SetTexture(ns.assets.TEXTURE)
-		bg:SetVertexColor(r * 1/2, g * 1/2, b * 1/2)
+		bg:SetVertexColor(r * 1 / 2, g * 1 / 2, b * 1 / 2)
 		bg:SetAllPoints()
 
 		local icon = totem:CreateTexture(nil, 'ARTWORK')
-		icon:SetSize(width -5, width -5)
+		icon:SetSize(width - 5, width - 5)
 		icon:SetPoint('BOTTOM', totem, 'TOP', 0, 2.5)
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		icon:Hide()

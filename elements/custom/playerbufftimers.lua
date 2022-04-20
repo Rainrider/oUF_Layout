@@ -92,9 +92,11 @@ local function UpdateTooltip(timer)
 end
 
 local function OnEnter(timer)
-	if(not timer:IsVisible()) then return end
+	if not timer:IsVisible() then
+		return
+	end
 
-	if(timer.Time) then
+	if timer.Time then
 		timer.Time:Show()
 	end
 
@@ -107,7 +109,7 @@ local function OnEnter(timer)
 end
 
 local function OnLeave(timer)
-	if(timer.Time) then
+	if timer.Time then
 		timer.Time:Hide()
 	end
 	GameTooltip:Hide()
@@ -116,17 +118,17 @@ end
 local function OnUpdate(timer)
 	local timeLeft = timer.expiration - GetTime()
 
-	if(timeLeft > 0) then
+	if timeLeft > 0 then
 		timer:SetValue(timeLeft)
 
-		if(timer.Time and timer.Time:IsVisible()) then
+		if timer.Time and timer.Time:IsVisible() then
 			--[[ Callback: timer:CustomTime(timeLeft)
 			Called after the timer's remaining time changed. Used together with the `.Time` sub-widget option.
 
 			* self     - the timer widget
 			* timeLeft - the remaining timer duration in seconds (number)
 			--]]
-			if(timer.CustomTime) then
+			if timer.CustomTime then
 				timer:CustomTime(timeLeft)
 			else
 				timer.Time:SetFormattedText('%d / %d', timeLeft, timer.duration)
@@ -149,19 +151,19 @@ local function Update(self, event)
 
 	* self  - the PlayerBuffTimers element
 	--]]
-	if(element.PreUpdate) then
+	if element.PreUpdate then
 		element:PreUpdate()
 	end
 
 	for i = 1, #element do
 		local timer = element[i]
-		if(not timer) then
+		if not timer then
 			break
 		end
 
 		local duration, expiration, barID, auraID = UnitPowerBarTimerInfo('player', i)
 
-		if(barID) then
+		if barID then
 			timer.duration = duration
 			timer.expiration = expiration
 			timer.auraID = auraID
@@ -188,7 +190,7 @@ local function Update(self, event)
 
 	* self - the PlayerBuffTimers element
 	--]]
-	if(element.PostUpdate) then
+	if element.PostUpdate then
 		element:PostUpdate()
 	end
 end
@@ -201,7 +203,7 @@ local function Path(self, ...)
 	* event  - the event triggering the update (string)
 	* unit   - the unit accompanying the event (string)
 	--]]
-	return (self.PlayerBuffTimers.Override or Update) (self, ...)
+	return (self.PlayerBuffTimers.Override or Update)(self, ...)
 end
 
 local function ForceUpdate(element)
@@ -210,33 +212,33 @@ end
 
 local function Enable(self, unit)
 	local element = self.PlayerBuffTimers
-	if(element and unit == 'player') then
+	if element and unit == 'player' then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
 		for i = 1, #element do
 			local timer = element[i]
 
-			if(timer:IsObjectType('StatusBar')) then
+			if timer:IsObjectType('StatusBar') then
 				timer.UpdateTimer = timer.UpdateTimer or UpdateTimer
 
-				if(not timer:GetStatusBarTexture()) then
+				if not timer:GetStatusBarTexture() then
 					timer:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 				end
 
-				if(not timer:GetScript('OnUpdate')) then
+				if not timer:GetScript('OnUpdate') then
 					timer:SetScript('OnUpdate', OnUpdate)
 				end
 			end
 
-			if(timer:IsMouseEnabled()) then
+			if timer:IsMouseEnabled() then
 				timer.UpdateTooltip = timer.UpdateTooltip or UpdateTooltip
 
-				if(not timer:GetScript('OnEnter')) then
+				if not timer:GetScript('OnEnter') then
 					timer:SetScript('OnEnter', OnEnter)
 				end
 
-				if(not timer:GetScript('OnLeave')) then
+				if not timer:GetScript('OnLeave') then
 					timer:SetScript('OnLeave', OnLeave)
 				end
 			end
@@ -253,7 +255,7 @@ end
 
 local function Disable(self)
 	local element = self.PlayerBuffTimers
-	if(element) then
+	if element then
 		self:UnregisterEvent('UNIT_POWER_BAR_TIMER_UPDATE', Path)
 
 		for i = 1, #element do

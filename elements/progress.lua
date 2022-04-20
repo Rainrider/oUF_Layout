@@ -1,7 +1,9 @@
 local _, ns = ...
 
 function ns.AddProgress(self)
-	if (not IsAddOnLoaded('oUF_Progress')) then return end
+	if not IsAddOnLoaded('oUF_Progress') then
+		return
+	end
 
 	local progress = CreateFrame('StatusBar', nil, self)
 	progress:SetPoint('TOPLEFT', self.Power, 'BOTTOMLEFT', 0, -2.5)

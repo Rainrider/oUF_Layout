@@ -20,14 +20,15 @@ oUF:Factory(function(self)
 	for i = 1, _G.MAX_BOSS_FRAMES do
 		boss[i] = self:Spawn('boss' .. i)
 
-		if (i == 1) then
+		if i == 1 then
 			boss[i]:SetPoint('TOP', UIParent, 'TOP', 0, -25)
 		else
 			boss[i]:SetPoint('TOP', boss[i - 1], 'BOTTOM', 0, 0)
 		end
 	end
 
-	if (config.showMTA) then
+	if config.showMTA then
+		-- stylua: ignore start
 		local mainTanksAndAssists = self:SpawnHeader(
 			nil, nil, 'raid',
 			'showRaid', true,
@@ -39,9 +40,11 @@ oUF:Factory(function(self)
 				self:SetHeight(32)
 			]]
 		)
+		-- stylua: ignore end
 		mainTanksAndAssists:SetPoint('BOTTOMLEFT', UIParent, 'LEFT', 150, -245)
 
-		if (config.showMTATargets) then
+		if config.showMTATargets then
+			-- stylua: ignore start
 			local mainTanksAndAssistsTargets = self:SpawnHeader(
 				nil, nil, 'raid',
 				'showRaid', true,
@@ -54,13 +57,15 @@ oUF:Factory(function(self)
 					self:SetAttribute('unitsuffix', 'target')
 				]]
 			)
+			-- stylua: ignore end
 			mainTanksAndAssistsTargets:SetPoint('TOPLEFT', mainTanksAndAssists, 'TOPRIGHT')
 		end
 	end
 
 	self:SetActiveStyle(layoutName .. '_Group')
 
-	if (config.showParty) then
+	if config.showParty then
+		-- stylua: ignore start
 		local party = self:SpawnHeader(
 			nil, nil, 'party',
 			'showParty', true,
@@ -72,9 +77,11 @@ oUF:Factory(function(self)
 				self:SetHeight(40)
 			]]
 		)
+		-- stylua: ignore end
 		party:SetPoint('LEFT', UIParent, 'BOTTOM', -160, 130)
 
-		if (config.showPartyPets) then
+		if config.showPartyPets then
+			-- stylua: ignore start
 			local partyPets = self:SpawnHeader(
 				nil, nil, 'party',
 				'showParty', true,
@@ -87,10 +94,12 @@ oUF:Factory(function(self)
 					self:SetAttribute('unitsuffix', 'pet')
 				]]
 			)
+			-- stylua: ignore end
 			partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
 		end
 
-		if (config.showPartyTargets) then
+		if config.showPartyTargets then
+			-- stylua: ignore start
 			local partyTargets = self:SpawnHeader(
 				nil, nil, 'party',
 				'showParty', true,
@@ -103,13 +112,15 @@ oUF:Factory(function(self)
 					self:SetAttribute('unitsuffix', 'target')
 				]]
 			)
+			-- stylua: ignore end
 			partyTargets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT', 0, -20)
 		end
 	end
 
-	if (config.showRaid) then
+	if config.showRaid then
 		local raid = {}
 		for group = 1, _G.NUM_RAID_GROUPS do
+			-- stylua: ignore start
 			raid[group] = self:SpawnHeader(
 				nil, nil, 'raid',
 				'showRaid', true,
@@ -122,8 +133,9 @@ oUF:Factory(function(self)
 					self:SetHeight(40)
 				]]
 			)
+			-- stylua: ignore end
 
-			if (group == 1) then
+			if group == 1 then
 				raid[group]:SetPoint('TOPLEFT', UIParent, 15, -15)
 			else
 				raid[group]:SetPoint('TOPLEFT', raid[group - 1], 'BOTTOMLEFT')

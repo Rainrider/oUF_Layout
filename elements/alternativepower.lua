@@ -2,7 +2,7 @@ local _, ns = ...
 
 local function OnShow(altpower)
 	local progress = altpower.__owner.Progress
-	if (progress) then
+	if progress then
 		progress:Hide()
 		progress.Show = progress.Hide
 	end
@@ -10,14 +10,16 @@ end
 
 local function OnHide(altpower)
 	local progress = altpower.__owner.Progress
-	if (progress and progress.ForceUpdate) then
+	if progress and progress.ForceUpdate then
 		progress.Show = nil
 		progress:ForceUpdate()
 	end
 end
 
 local function OnEnter(altpower)
-	if (not altpower:IsVisible()) then return end
+	if not altpower:IsVisible() then
+		return
+	end
 
 	GameTooltip:SetOwner(altpower, 'ANCHOR_BOTTOMRIGHT')
 	altpower:UpdateTooltip()

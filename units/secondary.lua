@@ -37,7 +37,7 @@ local function Shared(self, unit)
 	ns.AddRaidTargetIndicator(self)
 	ns.AddInfoText(self, unit)
 
-	if (unit == 'pet' or unit == 'focus') then
+	if unit == 'pet' or unit == 'focus' then
 		ns.AddCastBar(self, unit)
 		ns.AddThreatIndicator(self)
 		ns.AddDispel(self, unit)
@@ -45,7 +45,7 @@ local function Shared(self, unit)
 		ns.AddResurrectIndicator(self)
 	end
 
-	if (UnitSpecific[unit]) then
+	if UnitSpecific[unit] then
 		return UnitSpecific[unit](self)
 	end
 end

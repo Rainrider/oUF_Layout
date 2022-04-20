@@ -14,8 +14,8 @@ ignore = {
 read_globals = {
 	'debugstack',
 	'geterrorhandler',
-	string = {fields = {'join', 'split', 'trim'}},
-	table = {fields = {'removemulti', 'wipe'}},
+	string = { fields = { 'join', 'split', 'trim' } },
+	table = { fields = { 'removemulti', 'wipe' } },
 
 	-- FrameXML
 	'BackdropTemplateMixin',

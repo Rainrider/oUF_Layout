@@ -27,7 +27,7 @@ function ns.AddPowerBar(self, unit)
 	local bg = power:CreateTexture(nil, 'BACKGROUND')
 	bg:SetTexture(ns.assets.TEXTURE)
 	bg:SetAllPoints()
-	bg.multiplier = 1/3
+	bg.multiplier = 1 / 3
 	power.bg = bg
 
 	power.GetDisplayPower = GetDisplayPower

@@ -22,7 +22,7 @@ function ns.AddPlayerBuffTimers(self)
 	for i = 1, 2 do
 		local button = CreateFrame('Button', nil, self)
 		button:SetSize(32, 32)
-		button:SetPoint("BOTTOMLEFT", self, "TOPLEFT", (i - 1) * (32 + 5), 65)
+		button:SetPoint('BOTTOMLEFT', self, 'TOPLEFT', (i - 1) * (32 + 5), 65)
 
 		local icon = button:CreateTexture(nil, 'BORDER')
 		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)

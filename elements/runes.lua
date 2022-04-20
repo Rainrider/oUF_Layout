@@ -16,7 +16,7 @@ function ns.AddRunes(self, width, height, spacing)
 		local bg = rune:CreateTexture(nil, 'BACKGROUND')
 		bg:SetTexture(ns.assets.TEXTURE)
 		bg:SetAllPoints()
-		bg.multiplier = 1/3
+		bg.multiplier = 1 / 3
 
 		rune.bg = bg
 		runes[i] = rune

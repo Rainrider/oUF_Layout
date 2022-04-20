@@ -3,7 +3,9 @@ local function UpdateTooltip(totem)
 end
 
 local function OnEnter(totem)
-	if (not totem:IsVisible()) then return end
+	if not totem:IsVisible() then
+		return
+	end
 
 	totem.icon:Show()
 	totem.overlay:Show()
@@ -19,7 +21,7 @@ end
 
 local function OnUpdate(totem, elapsed)
 	local timeLeft = totem.timeLeft - elapsed
-	if (timeLeft > totem.duration) then
+	if timeLeft > totem.duration then
 		totem:SetValue(timeLeft)
 		totem.timeLeft = timeLeft
 	end
@@ -29,7 +31,7 @@ local function UpdateTotem(self, event, slot)
 	local totem = self.CustomTotems[slot]
 	local _, _, start, duration, icon = GetTotemInfo(slot)
 
-	if (duration > 0) then
+	if duration > 0 then
 		totem.icon:SetTexture(icon)
 		totem:SetMinMaxValues(-duration, 0)
 		totem.timeLeft = start - GetTime()
@@ -41,7 +43,7 @@ local function UpdateTotem(self, event, slot)
 end
 
 local function Update(self, event, slot)
-	if (tonumber(slot)) then
+	if tonumber(slot) then
 		UpdateTotem(self, event, slot)
 	else
 		for slot_ = 1, #self.CustomTotems do
@@ -56,7 +58,9 @@ end
 
 local function Enable(self)
 	local totems = self.CustomTotems
-	if (not totems) then return end
+	if not totems then
+		return
+	end
 
 	totems.__owner = self
 	totems.ForceUpdate = ForceUpdate
@@ -65,7 +69,7 @@ local function Enable(self)
 		local totem = totems[slot]
 		totem:SetID(slot)
 		totem:SetScript('OnUpdate', totems.OnUpdate or OnUpdate)
-		if (totem:IsMouseEnabled()) then
+		if totem:IsMouseEnabled() then
 			totem:SetScript('OnEnter', totems.OnEnter or OnEnter)
 			totem:SetScript('OnLeave', totems.OnLeave or OnLeave)
 			totem.UpdateTooltip = totems.UpdateTooltip or UpdateTooltip
@@ -84,7 +88,9 @@ end
 
 local function Disable(self)
 	local totems = self.CustomTotems
-	if (not totems) then return end
+	if not totems then
+		return
+	end
 
 	for slot = 1, #totems do
 		totems[slot]:Hide()

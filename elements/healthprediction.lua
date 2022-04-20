@@ -1,11 +1,11 @@
 local _, ns = ...
 
 local WIDTH = {
-	pet    = 110,
+	pet = 110,
 	player = 230,
-	raid   = 70,
+	raid = 70,
 }
-WIDTH.party  = WIDTH.raid
+WIDTH.party = WIDTH.raid
 WIDTH.target = WIDTH.player
 
 function ns.AddHealthPrediction(self, unit)
