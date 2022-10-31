@@ -43,14 +43,15 @@ if BigWigsLoader then
 end
 
 local CustomBuffFilter = {
-	player = function(_, _, aura, _, _, _, _, duration, _, caster, _, _, spellID, _, _, casterIsPlayer)
-		return not casterIsPlayer
-			or duration and duration > 0 and duration <= 300 and (aura.isPlayer or caster == 'pet')
-			or ImportantBuffs[spellID]
+	player = function(_, _, aura)
+		local duration = aura.duration
+		return not aura.isFromPlayerOrPlayerPet
+			or duration and duration > 0 and duration <= 300 and aura.isPlayerAura
+			or ImportantBuffs[aura.spellId]
 	end,
-	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, _, casterIsPlayer)
+	target = function(_, unit, aura)
 		if UnitIsFriend(unit, 'player') then
-			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or ImportantBuffs[spellID]
+			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or ImportantBuffs[aura.spellId]
 		else
 			return true
 		end
@@ -59,78 +60,87 @@ local CustomBuffFilter = {
 ns.CustomBuffFilter = CustomBuffFilter
 
 local CustomDebuffFilter = {
-	target = function(_, unit, aura, _, _, _, _, _, _, caster, _, _, spellID, _, isBossDebuff, casterIsPlayer)
+	target = function(_, unit, aura)
 		if not UnitIsFriend(unit, 'player') then
-			return aura.isPlayer or caster == 'pet' or not casterIsPlayer or isBossDebuff or ImportantDebuffs[spellID]
+			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or aura.isBossAura or ImportantDebuffs[aura.spellId]
 		else
 			return true
 		end
 	end,
-	party = function(_, _, _, _, _, _, _, _, _, _, _, _, spellID)
-		return not not EncounterDebuffs[spellID]
+	party = function(_, _, aura)
+		return not not EncounterDebuffs[aura.spellId]
 	end,
 }
 CustomDebuffFilter.focus = CustomDebuffFilter.target
 
 local function AuraOnEnter(aura)
-	if not aura:IsVisible() then
+	if GameTooltip:IsForbidden() or not aura:IsVisible() then
 		return
 	end
 
-	GameTooltip:SetOwner(aura, 'ANCHOR_BOTTOMRIGHT')
+	-- Avoid parenting GameTooltip to frames with anchoring restrictions,
+	-- otherwise it'll inherit said restrictions which will cause issues with
+	-- its further positioning, clamping, etc
+	GameTooltip:SetOwner(aura, aura:GetParent().__restricted and 'ANCHOR_CURSOR' or aura:GetParent().tooltipAnchor)
 	aura:UpdateTooltip()
 end
 
 local function AuraOnLeave()
+	if GameTooltip:IsForbidden() then
+		return
+	end
+
 	GameTooltip:Hide()
 end
 
 local function UpdateAuraTimer(aura, elapsed)
 	local timeLeft = aura.timeLeft - elapsed
-	aura.timer:SetText((timeLeft > 0) and FormatTime(timeLeft))
+	aura.Timer:SetText((timeLeft > 0) and FormatTime(timeLeft) or '')
 	aura.timeLeft = timeLeft
 end
 
 local function UpdateAuraTooltip(aura)
-	GameTooltip:SetUnitAura(aura:GetParent().__owner.unit, aura:GetID(), aura.filter)
+	if GameTooltip:IsForbidden() then
+		return
+	end
+
+	if aura.isHarmful then
+		GameTooltip:SetUnitDebuffByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
+	else
+		GameTooltip:SetUnitBuffByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
+	end
 end
 
-local function PostUpdateAura(_, _, aura, _, _, duration, expiration, debuffType, canStealOrPurge)
-	if duration and duration > 0 then
-		aura.timeLeft = expiration - GetTime()
+local function PostUpdateAura(_, aura, _, data)
+	if data.duration and data.duration > 0 then
+		aura.timeLeft = data.expirationTime - GetTime()
 		aura:SetScript('OnUpdate', UpdateAuraTimer)
 	else
 		aura:SetScript('OnUpdate', nil)
-		aura.timer:SetText()
-		aura.timeLeft = math.huge -- needed for sorting
+		aura.Timer:SetText('')
 	end
 
-	if not aura.isDebuff then
-		if canStealOrPurge then
-			local color = ns.colors.debuff[debuffType or 'none']
-			aura.overlay:SetVertexColor(color.r, color.g, color.b)
+	if not aura.isHarmful then
+		if data.isStealable then
+			local color = ns.colors.debuff[data.dispelName or 'none']
+			aura.Overlay:SetVertexColor(color.r, color.g, color.b)
 		else
-			aura.overlay:SetVertexColor(0, 0, 0)
+			aura.Overlay:SetVertexColor(0, 0, 0)
 		end
 	end
 end
 
 local function PostUpdateGapAura(_, _, aura)
 	aura:SetScript('OnUpdate', nil)
-	aura.timer:SetText()
+	aura.Timer:SetText('')
 end
 
 local function SortAuras(a, b)
-	if a:IsShown() and b:IsShown() then
-		return a.timeLeft < b.timeLeft
-	else
-		return a:IsShown()
+	if a.duration ~= b.duration then
+		return a.duration == 0 or b.duration ~= 0 and a.expirationTime > b.expirationTime
 	end
-end
 
-local function PreSetAuraPosition(auras)
-	table.sort(auras, SortAuras)
-	return 1, auras.createdIcons
+	return a.auraInstanceID < b.auraInstanceID
 end
 
 local function CreateAura(auras, index)
@@ -139,21 +149,21 @@ local function CreateAura(auras, index)
 	local icon = button:CreateTexture(nil, 'BORDER')
 	icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	icon:SetAllPoints()
-	button.icon = icon
+	button.Icon = icon
 
 	local overlay = button:CreateTexture(nil, 'ARTWORK')
 	overlay:SetTexture(ns.assets.BUTTONOVERLAY)
 	overlay:SetPoint('TOPLEFT', -2.5, 2.5)
 	overlay:SetPoint('BOTTOMRIGHT', 2.5, -2.5)
-	button.overlay = overlay
+	button.Overlay = overlay
 
 	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	count:SetPoint('BOTTOMRIGHT', 0, 0)
-	button.count = count
+	button.Count = count
 
 	local timer = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	timer:SetPoint('TOPLEFT', 0, 0)
-	button.timer = timer
+	button.Timer = timer
 
 	button.UpdateTooltip = UpdateAuraTooltip
 	button:SetScript('OnEnter', AuraOnEnter)
@@ -174,9 +184,9 @@ function ns.AddAuras(self, unit)
 	auras['growth-x'] = 'LEFT'
 	auras.initialAnchor = 'RIGHT'
 	auras.showType = true
-	auras.CreateIcon = CreateAura
-	auras.PostUpdateIcon = PostUpdateAura
-	auras.PostUpdateGapIcon = PostUpdateGapAura
+	auras.CreateButton = CreateAura
+	auras.PostUpdateButton = PostUpdateAura
+	auras.PostUpdateGapButton = PostUpdateGapAura
 
 	self.Auras = auras
 end
@@ -195,10 +205,10 @@ function ns.AddBuffs(self, unit)
 	buffs.showBuffType = true
 
 	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	buffs.CustomFilter = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
-	buffs.PreSetPosition = ns.config.sortBuffs:find(unitCondition) and PreSetAuraPosition
-	buffs.CreateIcon = CreateAura
-	buffs.PostUpdateIcon = PostUpdateAura
+	buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
+	buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
+	buffs.CreateButton = CreateAura
+	buffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -3.5)
@@ -224,10 +234,10 @@ function ns.AddDebuffs(self, unit)
 	debuffs.showDebuffType = true
 
 	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	debuffs.CustomFilter = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
-	debuffs.PreSetPosition = ns.config.sortDebuffs:find(unitCondition) and PreSetAuraPosition
-	debuffs.CreateIcon = CreateAura
-	debuffs.PostUpdateIcon = PostUpdateAura
+	debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
+	debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
+	debuffs.CreateButton = CreateAura
+	debuffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' or unit == 'target' then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -2.5)
