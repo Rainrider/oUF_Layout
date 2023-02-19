@@ -11,7 +11,7 @@ function ns.AddTotems(self, width, height, spacing)
 	for slot = 1, maxTotems do
 		local totem = CreateFrame('StatusBar', nil, self.Overlay)
 		local color = ns.colors.totems[slot]
-		local r, g, b = color[1], color[2], color[3]
+		local r, g, b = color.r, color.g, color.b
 		totem:SetStatusBarTexture(ns.assets.TEXTURE)
 		totem:SetStatusBarColor(r, g, b)
 		totem:SetSize(width, height)
