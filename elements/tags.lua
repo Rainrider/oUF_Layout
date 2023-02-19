@@ -27,7 +27,7 @@ local function GetColoredName(unit, realUnit)
 
 	color = color or colors.disconnected
 
-	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, UnitName(unit))
+	return format('|c%s%s|r', color:GenerateHexColor(), UnitName(unit))
 end
 
 local function GetPvPStatus(unit)
@@ -71,7 +71,7 @@ local function GetRoleColoredName(unit, realUnit)
 	local status = GetUnitStatus(realUnit or unit)
 	local color = ns.colors.role[UnitGroupRolesAssigned(realUnit or unit)] or ns.colors.role.NONE
 
-	return format('|cff%02x%02x%02x%s|r', color[1] * 255, color[2] * 255, color[3] * 255, status or UnitName(unit))
+	return format('|c%s%s|r', color:GenerateHexColor(), status or UnitName(unit))
 end
 
 local function LevelTag(unit)
@@ -162,8 +162,8 @@ local function PowerTag(unit)
 	end
 
 	local colors = ns.colors.power
-	local r, g, b = unpack(colors[powerName] or colors[powerType])
-	return format('|cff%02x%02x%02x%s|r', r * 255, g * 255, b * 255, powerValue)
+	local color = colors[powerName] or colors[powerType]
+	return format('|c%s%s|r', color:GenerateHexColor(), powerValue)
 end
 
 local function AltManaTag(unit)
@@ -178,9 +178,8 @@ local function AltManaTag(unit)
 	end
 
 	local color = ns.colors.power.MANA
-	local r, g, b = color[1] * 255, color[2] * 255, color[3] * 255
 
-	return format('|cff%02x%02x%02x%d%%|r', r, g, b, floor(cur / max * 100 + 0.5))
+	return format('|c%s%d%%|r', color:GenerateHexColor(), floor(cur / max * 100 + 0.5))
 end
 
 tags['layout:health'] = NormalUnitHealthTag
