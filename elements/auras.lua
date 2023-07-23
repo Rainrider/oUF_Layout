@@ -237,7 +237,7 @@ function ns.AddDebuffs(self, unit)
 	debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
 	debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
 	debuffs.CreateButton = CreateAura
-	debuffs.PostUpdatButton = PostUpdateAura
+	debuffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' or unit == 'target' then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -2.5)
