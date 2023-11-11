@@ -5,7 +5,7 @@ local FormatTime = ns.FormatTime
 
 local function OnUpdate(timer, elapsed)
 	local timeLeft = timer.timeLeft - elapsed
-	timer.remaining:SetText((timeLeft > 0) and FormatTime(timeLeft))
+	timer.remaining:SetText((timeLeft > 0) and FormatTime(timeLeft) or '')
 	timer.timeLeft = timeLeft
 	local r, g, b = oUF:ColorGradient(timeLeft, timer.duration, 1, 0, 0, 1, 1, 0, 0, 1, 0)
 	timer.border:SetVertexColor(r, g, b)
