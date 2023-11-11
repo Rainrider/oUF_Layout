@@ -20,7 +20,7 @@ local function PostUpdateDispel(dispel, _, _, _, duration, expiration)
 end
 
 function ns.AddDispel(self, unit)
-	if not IsAddOnLoaded('oUF_Dispellable') then
+	if not C_AddOns.IsAddOnLoaded('oUF_Dispellable') then
 		return
 	end
 

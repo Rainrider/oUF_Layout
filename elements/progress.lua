@@ -1,7 +1,7 @@
 local _, ns = ...
 
 function ns.AddProgress(self)
-	if not IsAddOnLoaded('oUF_Progress') then
+	if not C_AddOns.IsAddOnLoaded('oUF_Progress') then
 		return
 	end
 

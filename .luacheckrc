@@ -29,6 +29,7 @@ read_globals = {
 	'SOUNDKIT',
 
 	-- API
+	C_AddOns = { fields = { 'IsAddOnLoaded' } },
 	'CreateFrame',
 	'GetAddOnMetadata',
 	'GetLocale',
@@ -40,7 +41,6 @@ read_globals = {
 	'GetUnitPowerBarStringsByID',
 	'HasLFGRestrictions',
 	'InCombatLockdown',
-	'IsAddOnLoaded',
 	'IsResting',
 	'Mixin',
 	'PlaySound',
