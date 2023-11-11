@@ -27,7 +27,7 @@ local function GetColoredName(unit, realUnit)
 
 	color = color or colors.disconnected
 
-	return format('|c%s%s|r', color:GenerateHexColor(), UnitName(unit))
+	return format('|c%s%s|r', color:GenerateHexColor(), UnitName(unit) or '')
 end
 
 local function GetPvPStatus(unit)
