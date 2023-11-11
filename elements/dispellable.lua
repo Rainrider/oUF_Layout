@@ -15,7 +15,7 @@ local function PostUpdateDispel(dispel, _, _, _, duration, expiration)
 		button:SetScript('OnUpdate', UpdateTimer)
 	else
 		button:SetScript('OnUpdate', nil)
-		button.timer:SetText()
+		button.timer:SetText('')
 	end
 end
 
