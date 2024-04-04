@@ -1,5 +1,19 @@
 local _, ns = ...
 
+local function CreatePip(castbar, _stage)
+	local pip = CreateFrame('Frame', nil, castbar)
+	pip:SetPoint('TOP')
+	pip:SetPoint('BOTTOM')
+	pip:SetWidth(2)
+	pip:SetFrameLevel(castbar:GetFrameLevel())
+
+	local tex = pip:CreateTexture(nil, 'ARTWORK')
+	tex:SetColorTexture(1, 0.87, 0)
+	tex:SetAllPoints()
+
+	return pip
+end
+
 local function CustomCastDelayText(castbar, duration)
 	castbar.Time:SetFormattedText(
 		'%.1f |cffaf5050%s %.1f|r',
@@ -87,6 +101,7 @@ function ns.AddCastBar(self, unit)
 	end
 
 	castbar.timeToHold = 1
+	castbar.CreatePip = CreatePip
 	castbar.PostCastStart = PostUpdateCast
 	castbar.PostCastInterruptible = PostUpdateCast
 	castbar.PostCastFail = PostCastFailedOrInterrupted
