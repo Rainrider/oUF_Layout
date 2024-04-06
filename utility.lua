@@ -1,11 +1,11 @@
 local addonName, ns = ...
 
-local oUFVersion = GetAddOnMetadata('oUF', 'version')
+local oUFVersion = C_AddOns.GetAddOnMetadata('oUF', 'version')
 if not oUFVersion:find('project%-version') then
 	local major, minor, rev = string.split('.', oUFVersion)
 	oUFVersion = major * 1000 + minor * 100 + rev
 
-	assert(oUFVersion >= 8000, 'oUF Layout requires oUF version >= 8.0.0')
+	assert(oUFVersion >= 11203, 'oUF Layout requires oUF version >= 11.2.3')
 end
 
 ns.Debug = function() end

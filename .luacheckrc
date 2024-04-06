@@ -29,9 +29,8 @@ read_globals = {
 	'SOUNDKIT',
 
 	-- API
-	C_AddOns = { fields = { 'IsAddOnLoaded' } },
+	C_AddOns = { fields = { 'GetAddOnMetadata', 'IsAddOnLoaded' } },
 	'CreateFrame',
-	'GetAddOnMetadata',
 	'GetLocale',
 	'GetSpellInfo',
 	'GetThreatStatusColor',
