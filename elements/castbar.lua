@@ -1,15 +1,9 @@
 local _, ns = ...
 
 local function CreatePip(castbar, _stage)
-	local pip = CreateFrame('Frame', nil, castbar)
-	pip:SetPoint('TOP')
-	pip:SetPoint('BOTTOM')
+	local pip = castbar:CreateTexture(nil, 'BACKGROUND')
 	pip:SetWidth(2)
-	pip:SetFrameLevel(castbar:GetFrameLevel())
-
-	local tex = pip:CreateTexture(nil, 'ARTWORK')
-	tex:SetColorTexture(1, 0.87, 0)
-	tex:SetAllPoints()
+	pip:SetColorTexture(1, 0.87, 0)
 
 	return pip
 end
