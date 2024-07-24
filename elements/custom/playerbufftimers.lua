@@ -225,10 +225,18 @@ local function Enable(self, unit)
 				if not timer:GetStatusBarTexture() then
 					timer:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 				end
+			end
 
-				if not timer:GetScript('OnUpdate') then
-					timer:SetScript('OnUpdate', OnUpdate)
-				end
+			if not timer:GetScript('OnShow') then
+				timer:SetScript('OnShow', function ()
+					timer:SetScript('OnUpdate', timer.OnUpdate or OnUpdate)
+				end)
+			end
+
+			if not timer:GetScript('OnHide') then
+				timer:SetScript('OnHide', function ()
+					timer:SetScript('OnUpdate', nil)
+				end)
 			end
 
 			if timer:IsMouseEnabled() then

@@ -68,7 +68,19 @@ local function Enable(self)
 	for slot = 1, #totems do
 		local totem = totems[slot]
 		totem:SetID(slot)
-		totem:SetScript('OnUpdate', totems.OnUpdate or OnUpdate)
+
+		if not totem:GetScript('OnShow') then
+			totem:SetScript('OnShow', function ()
+				totem:SetScript('OnUpdate', totems.OnUpdate or OnUpdate)
+			end)
+		end
+
+		if not totem:GetScript('OnHide') then
+			totem:SetScript('OnHide', function ()
+				totem:SetScript('OnUpdate', nil)
+			end)
+		end
+
 		if totem:IsMouseEnabled() then
 			totem:SetScript('OnEnter', totems.OnEnter or OnEnter)
 			totem:SetScript('OnLeave', totems.OnLeave or OnLeave)

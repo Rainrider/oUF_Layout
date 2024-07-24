@@ -40,7 +40,7 @@ function ns.AddPlayerBuffTimers(self)
 		button.remaining = remaining
 
 		button.UpdateTimer = UpdateTimer
-		button:SetScript('OnUpdate', OnUpdate)
+		button.OnUpdate = OnUpdate
 
 		timers[i] = button
 	end
