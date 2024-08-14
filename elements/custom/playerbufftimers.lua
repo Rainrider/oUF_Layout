@@ -48,7 +48,7 @@ timer duration and a tooltip
     -- Using cooldown buttons instead of status bars
     -- custom UpdateTimer is mandatory!
     local function UpdateTimer(timer, duration, expiration, barID, auraID)
-        local _, _, texture = GetSpellInfo(auraID)
+        local texture = C_Spell.GetSpellInfo(auraID).iconID
         timer.cd:SetCooldown(expiration - duration, duration)
         timer.icon:SetTexture(texture)
 	end

@@ -12,8 +12,7 @@ local function OnUpdate(timer, elapsed)
 end
 
 local function UpdateTimer(timer, duration_, expiration, barID_, auraID)
-	local _, _, texture = GetSpellInfo(auraID)
-	timer.icon:SetTexture(texture)
+	timer.icon:SetTexture(C_Spell.GetSpellInfo(auraID).iconID)
 	timer.timeLeft = expiration - GetTime()
 end
 

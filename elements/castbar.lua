@@ -27,7 +27,7 @@ local function PostCastFailedOrInterrupted(castbar, unit, spellID)
 
 	local time = castbar.Time
 	if time then
-		time:SetText(GetSpellInfo(spellID))
+		time:SetText(C_Spell.GetSpellInfo(spellID).name)
 	end
 end
 

@@ -30,9 +30,9 @@ read_globals = {
 
 	-- API
 	C_AddOns = { fields = { 'GetAddOnMetadata', 'IsAddOnLoaded' } },
+	C_Spell = { fields = { 'GetSpellInfo' } },
 	'CreateFrame',
 	'GetLocale',
-	'GetSpellInfo',
 	'GetThreatStatusColor',
 	'GetTime',
 	'GetTotemInfo',

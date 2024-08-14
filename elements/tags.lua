@@ -10,7 +10,7 @@ local format = string.format
 
 local ShortenValue = ns.ShortenValue
 
-local GHOST = GetLocale() == 'deDE' and 'Geist' or GetSpellInfo(8326)
+local GHOST = GetLocale() == 'deDE' and 'Geist' or C_Spell.GetSpellInfo(8326).name
 
 local function GetColoredName(unit, realUnit)
 	local colors = ns.colors
