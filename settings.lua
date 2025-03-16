@@ -11,6 +11,9 @@ ns.config = {
 	showRaid = true,
 	showMTA = true,
 	showMTATargets = true,
+	clickSpell = {
+		SHAMAN = 77130, -- Purify Spirit
+	},
 }
 
 ns.colors = setmetatable({

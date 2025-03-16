@@ -4,6 +4,16 @@ local config = ns.config
 oUF:Factory(function(self)
 	self:SetActiveStyle(layoutName .. '_Primary')
 
+	local initialConfigFunction = ''
+	local clickSpell = config.clickSpell[ns.playerClass]
+
+	if clickSpell then
+		initialConfigFunction = ([[
+			self:SetAttribute('type3', 'spell')
+			self:SetAttribute('spell3', '%s')
+		]]):format(C_Spell.GetSpellName(clickSpell))
+	end
+
 	local player = self:Spawn('player')
 	player:SetPoint('CENTER', -210, -215)
 	local target = self:Spawn('target')
@@ -38,7 +48,7 @@ oUF:Factory(function(self)
 			'oUF-initialConfigFunction', [[
 				self:SetWidth(120)
 				self:SetHeight(32)
-			]]
+			]] .. initialConfigFunction
 		)
 		-- stylua: ignore end
 		mainTanksAndAssists:SetPoint('BOTTOMLEFT', UIParent, 'LEFT', 150, -245)
@@ -75,7 +85,7 @@ oUF:Factory(function(self)
 			'oUF-initialConfigFunction', [[
 				self:SetWidth(80)
 				self:SetHeight(40)
-			]]
+			]] .. initialConfigFunction
 		)
 		-- stylua: ignore end
 		party:SetPoint('LEFT', UIParent, 'BOTTOM', -160, 130)
@@ -131,7 +141,7 @@ oUF:Factory(function(self)
 				'oUF-initialConfigFunction', [[
 					self:SetWidth(80)
 					self:SetHeight(40)
-				]]
+				]] .. initialConfigFunction
 			)
 			-- stylua: ignore end
 
