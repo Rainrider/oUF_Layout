@@ -56,7 +56,6 @@ ns.colors = setmetatable({
 		-- [12] = oUF:CreateColor(255 / 255, 255 / 255, 139 / 255), -- SELF, buggy
 		[13] = oUF:CreateColor(0 / 255, 153 / 255, 0 / 255), -- BATTLEGROUND_FRIENDLY_PVP
 	}, { __index = oUF.colors.selection }),
-	smooth = setmetatable({ 0.69, 0.31, 0.31, 0.71, 0.43, 0.27, 0.17, 0.17, 0.24 }, { __index = oUF.colors.smooth }),
 	tapped = oUF:CreateColor(0.42, 0.37, 0.32),
 	totems = {
 		oUF:CreateColor(0.71, 0.29, 0.13), -- red    181 /  73 /  33
@@ -66,6 +65,12 @@ ns.colors = setmetatable({
 		oUF:CreateColor(0.71, 0.58, 0.13), -- yellow 181 / 147 /  33
 	},
 }, { __index = oUF.colors })
+
+ns.colors.health:SetCurve({
+	[0.0] = _G.CreateColor(0.69, 0.31, 0.31),
+	[0.5] = _G.CreateColor(0.71, 0.43, 0.27),
+	[1.0] = _G.CreateColor(0.17, 0.17, 0.24),
+})
 
 ns.colors.power[0] = ns.colors.power.MANA
 ns.colors.power[1] = ns.colors.power.RAGE

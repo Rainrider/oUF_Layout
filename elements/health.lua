@@ -13,27 +13,20 @@ height.partytarget = height.partypet
 height.target = height.player
 
 local function UpdateColor(self, _, unit)
-	local r, g, b, color
-	local health = self.Health
-	local cur, max = health.cur or 1, health.max or 1
-	if health.colorDisconnected and not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit) then
-		health:SetValue(max)
+	local health, color = self.Health
+
+	if health.colorDisconnected and (not UnitIsConnected(unit) or UnitIsDeadOrGhost(unit)) then
+		health:SetValue(health.max or 1)
 		color = colors.disconnected
 	elseif health.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit) then
 		color = colors.tapped
 	elseif health.colorSmooth then
-		r, g, b = self:ColorGradient(cur, max, unpack(colors.smooth))
+		color = UnitHealthPercent(unit, true, colors.health:GetCurve())
 	else
 		color = colors.health
 	end
 
-	if color then
-		r, g, b = color.r, color.g, color.b
-	end
-
-	if b then
-		health:SetStatusBarColor(r, g, b)
-	end
+	health:GetStatusBarTexture():SetVertexColor(color:GetRGB())
 end
 
 function ns.AddHealthBar(self, unit)
