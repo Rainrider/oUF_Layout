@@ -40,7 +40,7 @@ oUF:Factory(function(self)
 	if config.showMTA then
 		-- stylua: ignore start
 		local mainTanksAndAssists = self:SpawnHeader(
-			nil, nil, 'raid',
+			nil, nil,
 			'showRaid', true,
 			'groupFilter', 'MAINTANK,MAINASSIST',
 			'groupBy', 'ROLE',
@@ -52,11 +52,12 @@ oUF:Factory(function(self)
 		)
 		-- stylua: ignore end
 		mainTanksAndAssists:SetPoint('BOTTOMLEFT', UIParent, 'LEFT', 150, -245)
+		mainTanksAndAssists:SetVisibility('raid')
 
 		if config.showMTATargets then
 			-- stylua: ignore start
 			local mainTanksAndAssistsTargets = self:SpawnHeader(
-				nil, nil, 'raid',
+				nil, nil,
 				'showRaid', true,
 				'groupFilter', 'MAINTANK,MAINASSIST',
 				'groupBy', 'ROLE',
@@ -69,6 +70,7 @@ oUF:Factory(function(self)
 			)
 			-- stylua: ignore end
 			mainTanksAndAssistsTargets:SetPoint('TOPLEFT', mainTanksAndAssists, 'TOPRIGHT')
+			mainTanksAndAssistsTargets:SetVisibility('raid')
 		end
 	end
 
@@ -77,7 +79,7 @@ oUF:Factory(function(self)
 	if config.showParty then
 		-- stylua: ignore start
 		local party = self:SpawnHeader(
-			nil, nil, 'party',
+			nil, nil,
 			'showParty', true,
 			'maxColumns', 4,
 			'unitsPerColumn', 1,
@@ -89,11 +91,12 @@ oUF:Factory(function(self)
 		)
 		-- stylua: ignore end
 		party:SetPoint('LEFT', UIParent, 'BOTTOM', -160, 130)
+		party:SetVisibility('party')
 
 		if config.showPartyPets then
 			-- stylua: ignore start
 			local partyPets = self:SpawnHeader(
-				nil, nil, 'party',
+				nil, nil,
 				'showParty', true,
 				'maxColumns', 4,
 				'unitsPerColumn', 1,
@@ -106,12 +109,13 @@ oUF:Factory(function(self)
 			)
 			-- stylua: ignore end
 			partyPets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT')
+			partyPets:SetVisibility('party')
 		end
 
 		if config.showPartyTargets then
 			-- stylua: ignore start
 			local partyTargets = self:SpawnHeader(
-				nil, nil, 'party',
+				nil, nil,
 				'showParty', true,
 				'maxColumns', 4,
 				'unitsPerColumn', 1,
@@ -124,6 +128,7 @@ oUF:Factory(function(self)
 			)
 			-- stylua: ignore end
 			partyTargets:SetPoint('TOPLEFT', party, 'BOTTOMLEFT', 0, -20)
+			partyTargets:SetVisibility('party')
 		end
 	end
 
@@ -132,7 +137,7 @@ oUF:Factory(function(self)
 		for group = 1, _G.NUM_RAID_GROUPS do
 			-- stylua: ignore start
 			raid[group] = self:SpawnHeader(
-				nil, nil, 'raid',
+				nil, nil,
 				'showRaid', true,
 				'maxColumns', 5,
 				'unitsPerColumn', 1,
@@ -144,6 +149,7 @@ oUF:Factory(function(self)
 				]] .. initialConfigFunction
 			)
 			-- stylua: ignore end
+			raid[group]:SetVisibility('raid')
 
 			if group == 1 then
 				raid[group]:SetPoint('TOPLEFT', UIParent, 15, -15)
