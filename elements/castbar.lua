@@ -9,16 +9,16 @@ local function CreatePip(castbar, _stage)
 end
 
 local function CustomCastDelayText(castbar, duration)
-	castbar.Time:SetFormattedText(
-		'%.1f |cffaf5050%s %.1f|r',
-		castbar.channeling and duration or castbar.max - duration,
-		castbar.channeling and '- ' or '+',
-		castbar.delay
-	)
+	local remaining = duration:GetRemainingDuration()
+
+	castbar.Time:SetFormattedText('%.1f |cffaf5050%s%.1f|r', remaining, castbar.channeling and '-' or '+', castbar.delay)
 end
 
 local function CustomCastTimeText(castbar, duration)
-	castbar.Time:SetFormattedText('%.1f / %.2f', castbar.channeling and duration or castbar.max - duration, castbar.max)
+	local remaining = duration:GetRemainingDuration()
+	local total = duration:GetTotalDuration()
+
+	castbar.Time:SetFormattedText('%.1f / %.2f', remaining, total)
 end
 
 local function PostCastFailedOrInterrupted(castbar, unit, spellID)
@@ -61,8 +61,8 @@ function ns.AddCastBar(self, unit)
 		time:SetJustifyH('RIGHT')
 		castbar.Time = time
 
+		castbar.CustomDelayText = unit == 'player' and CustomCastDelayText or nil
 		castbar.CustomTimeText = CustomCastTimeText
-		castbar.CustomDelayText = CustomCastDelayText
 
 		local text = castbar:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
 		text:SetPoint('LEFT', 3.5, 3)
