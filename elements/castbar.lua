@@ -21,14 +21,17 @@ local function CustomCastTimeText(castbar, duration)
 	castbar.Time:SetFormattedText('%.1f / %.2f', remaining, total)
 end
 
-local function PostCastFailedOrInterrupted(castbar, unit, spellID)
+local function PostCastFailedOrInterrupted(castbar)
 	castbar:SetStatusBarColor(0.69, 0.31, 0.31)
-	castbar:SetValue(castbar.max)
 
 	local time = castbar.Time
-	if time then
-		time:SetText(C_Spell.GetSpellInfo(spellID).name)
+	if time and castbar.spellID then
+		time:SetText(C_Spell.GetSpellName(castbar.spellID))
 	end
+end
+
+local function PostCastStart(castbar)
+	castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 end
 
 function ns.AddCastBar(self, unit)
@@ -95,6 +98,8 @@ function ns.AddCastBar(self, unit)
 	castbar.timeToHold = 1
 	castbar.CreatePip = CreatePip
 	castbar.PostCastFail = PostCastFailedOrInterrupted
+	castbar.PostCastInterrupted = PostCastFailedOrInterrupted
+	castbar.PostCastStart = PostCastStart
 
 	self.Castbar = castbar
 end
