@@ -31,14 +31,6 @@ local function PostCastFailedOrInterrupted(castbar, unit, spellID)
 	end
 end
 
-local function PostUpdateCast(castbar, unit)
-	if castbar.notInterruptible and UnitCanAttack('player', unit) then
-		castbar:SetStatusBarColor(0.69, 0.31, 0.31)
-	else
-		castbar:SetStatusBarColor(0.55, 0.57, 0.61)
-	end
-end
-
 function ns.AddCastBar(self, unit)
 	local parent = (unit == 'player' or unit == 'target') and self.Portrait or self.Power
 	local castbar = CreateFrame('StatusBar', nil, parent)
@@ -46,6 +38,12 @@ function ns.AddCastBar(self, unit)
 	castbar:SetStatusBarColor(0.55, 0.57, 0.61)
 	castbar:SetAlpha(0.75)
 	castbar:SetAllPoints(parent == self.Portrait and self.Overlay or self.Power)
+
+	local shield = castbar:CreateTexture(nil, 'OVERLAY')
+	shield:SetTexture(ns.assets.TEXTURE)
+	shield:SetVertexColor(0.69, 0.31, 0.31)
+	shield:SetAllPoints(castbar:GetStatusBarTexture())
+	castbar.Shield = shield
 
 	if unit == 'player' then
 		local safeZone = castbar:CreateTexture(nil, 'OVERLAY')
@@ -96,8 +94,6 @@ function ns.AddCastBar(self, unit)
 
 	castbar.timeToHold = 1
 	castbar.CreatePip = CreatePip
-	castbar.PostCastStart = PostUpdateCast
-	castbar.PostCastInterruptible = PostUpdateCast
 	castbar.PostCastFail = PostCastFailedOrInterrupted
 
 	self.Castbar = castbar
