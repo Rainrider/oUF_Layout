@@ -1,7 +1,6 @@
 local _, ns = ...
 
 local playerClass = ns.playerClass
-local FormatTime = ns.FormatTime
 
 local ImportantBuffs = {
 	[17] = playerClass == 'PRIEST', -- Power Word: Shield
@@ -93,12 +92,6 @@ local function AuraOnLeave()
 	GameTooltip:Hide()
 end
 
-local function UpdateAuraTimer(aura, elapsed)
-	local timeLeft = aura.timeLeft - elapsed
-	aura.Timer:SetText((timeLeft > 0) and FormatTime(timeLeft) or '')
-	aura.timeLeft = timeLeft
-end
-
 local function UpdateAuraTooltip(aura)
 	if GameTooltip:IsForbidden() then
 		return
@@ -112,27 +105,14 @@ local function UpdateAuraTooltip(aura)
 end
 
 local function PostUpdateAura(_, aura, _, data)
-	if data.duration and data.duration > 0 then
-		aura.timeLeft = data.expirationTime - GetTime()
-		aura:SetScript('OnUpdate', UpdateAuraTimer)
-	else
-		aura:SetScript('OnUpdate', nil)
-		aura.Timer:SetText('')
-	end
-
 	if not aura.isHarmful then
 		if data.isStealable then
-			local color = ns.colors.debuff[data.dispelName or 'none']
+			local color = ns.colors.dispel[data.dispelName or 'none']
 			aura.Overlay:SetVertexColor(color.r, color.g, color.b)
 		else
 			aura.Overlay:SetVertexColor(0, 0, 0)
 		end
 	end
-end
-
-local function PostUpdateGapAura(_, _, aura)
-	aura:SetScript('OnUpdate', nil)
-	aura.Timer:SetText('')
 end
 
 local function SortAuras(a, b)
@@ -151,6 +131,19 @@ local function CreateAura(auras, index)
 	icon:SetAllPoints()
 	button.Icon = icon
 
+	local cd = CreateFrame('Cooldown', '$parentCooldown', button, 'CooldownFrameTemplate')
+	cd:SetUseAuraDisplayTime(true)
+	cd:SetDrawEdge(false)
+	cd:SetDrawSwipe(false)
+	cd:SetCountdownFont('LayoutFont_Bold_Small_Outline')
+	cd:SetAllPoints()
+
+	local timerText = cd:GetRegions()
+	timerText:ClearAllPoints()
+	timerText:SetPoint('TOPLEFT', 0, 0)
+
+	button.Cooldown = cd
+
 	local overlay = button:CreateTexture(nil, 'ARTWORK')
 	overlay:SetTexture(ns.assets.BUTTONOVERLAY)
 	overlay:SetPoint('TOPLEFT', -2.5, 2.5)
@@ -160,10 +153,6 @@ local function CreateAura(auras, index)
 	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	count:SetPoint('BOTTOMRIGHT', 0, 0)
 	button.Count = count
-
-	local timer = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
-	timer:SetPoint('TOPLEFT', 0, 0)
-	button.Timer = timer
 
 	button.UpdateTooltip = UpdateAuraTooltip
 	button:SetScript('OnEnter', AuraOnEnter)
@@ -185,8 +174,7 @@ function ns.AddAuras(self, unit)
 	auras.initialAnchor = 'RIGHT'
 	auras.showType = true
 	auras.CreateButton = CreateAura
-	auras.PostUpdateButton = PostUpdateAura
-	auras.PostUpdateGapButton = PostUpdateGapAura
+	-- auras.PostUpdateButton = PostUpdateAura
 
 	self.Auras = auras
 end
@@ -208,7 +196,7 @@ function ns.AddBuffs(self, unit)
 	buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
 	buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
 	buffs.CreateButton = CreateAura
-	buffs.PostUpdateButton = PostUpdateAura
+	-- buffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -2.5, -3.5)
@@ -237,7 +225,7 @@ function ns.AddDebuffs(self, unit)
 	debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
 	debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
 	debuffs.CreateButton = CreateAura
-	debuffs.PostUpdateButton = PostUpdateAura
+	-- debuffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' or unit == 'target' then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 5, -2.5)
