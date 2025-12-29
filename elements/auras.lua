@@ -2,55 +2,15 @@ local _, ns = ...
 
 local playerClass = ns.playerClass
 
-local ImportantBuffs = {
-	[17] = playerClass == 'PRIEST', -- Power Word: Shield
-	[1022] = true, -- Hand of Protection
-	[2825] = true, -- Bloodlust
-	[20707] = true, -- Soulstone
-	[32182] = true, -- Heroism
-	[80353] = true, -- Time Warp
-	[90355] = true, -- Ancient Hysteria
-	[178207] = true, -- Drums of Fury
-	[230935] = true, -- Drums of the Mountain
-}
-
-local ImportantDebuffs = {
-	[6788] = playerClass == 'PRIEST', -- Weakened Soul
-	[25771] = playerClass == 'PALADIN', -- Forbearance
-	[212570] = true, -- Surrendered Soul
-}
-
-local EncounterDebuffs = {}
-
-if BigWigsLoader then
-	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossLog', function(_, bossMod, event, ...)
-		if event:find('^SPELL_AURA_') then
-			for i = 1, select('#', ...) do
-				local id = select(i, ...)
-				EncounterDebuffs[id] = bossMod
-			end
-		end
-	end)
-
-	BigWigsLoader.RegisterMessage(EncounterDebuffs, 'BigWigs_OnBossDisable', function(_, bossMod)
-		for id, mod in next, EncounterDebuffs do
-			if mod == bossMod then
-				EncounterDebuffs[id] = nil
-			end
-		end
-	end)
-end
-
 local CustomBuffFilter = {
 	player = function(_, _, aura)
 		local duration = aura.duration
 		return not aura.isFromPlayerOrPlayerPet
 			or duration and duration > 0 and duration <= 300 and aura.isPlayerAura
-			or ImportantBuffs[aura.spellId]
 	end,
 	target = function(_, unit, aura)
 		if UnitIsFriend(unit, 'player') then
-			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or ImportantBuffs[aura.spellId]
+			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet
 		else
 			return true
 		end
@@ -61,7 +21,7 @@ ns.CustomBuffFilter = CustomBuffFilter
 local CustomDebuffFilter = {
 	target = function(_, unit, aura)
 		if not UnitIsFriend(unit, 'player') then
-			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or aura.isBossAura or ImportantDebuffs[aura.spellId]
+			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or aura.isBossAura
 		else
 			return true
 		end
@@ -192,9 +152,9 @@ function ns.AddBuffs(self, unit)
 	buffs['growth-y'] = 'DOWN'
 	buffs.showBuffType = true
 
-	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
-	buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
+	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	-- buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
+	-- buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
 	buffs.CreateButton = CreateAura
 	-- buffs.PostUpdateButton = PostUpdateAura
 
@@ -221,9 +181,9 @@ function ns.AddDebuffs(self, unit)
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
 	debuffs.showDebuffType = true
 
-	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
-	debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
+	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	-- debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
+	-- debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
 	debuffs.CreateButton = CreateAura
 	-- debuffs.PostUpdateButton = PostUpdateAura
 
