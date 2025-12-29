@@ -57,11 +57,7 @@ local function UpdateAuraTooltip(aura)
 		return
 	end
 
-	if aura.isHarmful then
-		GameTooltip:SetUnitDebuffByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
-	else
-		GameTooltip:SetUnitBuffByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
-	end
+	GameTooltip:SetUnitAuraByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
 end
 
 local function PostUpdateAura(_, aura, _, data)
