@@ -22,7 +22,7 @@ end
 
 local function UpdateClassPowerColor(classPower, powerType)
 	local color = classPower.__owner.colors.power[powerType]
-	local r, g, b = color[1], color[2], color[3]
+	local r, g, b = color.r, color.g, color.b
 
 	local isAnticipationRogue = playerClass == 'ROGUE' and UnitPowerMax('player', SPELL_POWER_COMBO_POINTS) == 10
 
