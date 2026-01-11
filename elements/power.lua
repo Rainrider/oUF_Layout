@@ -11,6 +11,17 @@ local function GetDisplayPower(element)
 	end
 end
 
+local function PostUpdateColor(element, unit, color, r, g, b)
+	local bg = element.bg
+	local mu = bg.multiplier
+
+	if (not r) then
+		r, g, b = color:GetRGB()
+	end
+
+	bg:SetVertexColor(r * mu, g * mu, b * mu)
+end
+
 function ns.AddPowerBar(self, unit)
 	local power = CreateFrame('StatusBar', nil, self)
 	power:SetStatusBarTexture(ns.assets.TEXTURE)
@@ -31,5 +42,6 @@ function ns.AddPowerBar(self, unit)
 	power.bg = bg
 
 	power.GetDisplayPower = GetDisplayPower
+	power.PostUpdateColor = PostUpdateColor
 	self.Power = power
 end
