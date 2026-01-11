@@ -1,5 +1,15 @@
 local _, ns = ...
 
+local function PostUpdateColor(runes, color)
+	local mu = runes[1].bg.multiplier
+	local r, g, b = color:GetRGB()
+	r, g, b = r * mu, g * mu, b * mu
+
+	for i = 1, #runes do
+		runes[i].bg:SetVertexColor(r, g, b)
+	end
+end
+
 function ns.AddRunes(self, width, height, spacing)
 	local runes = {}
 	local maxRunes = 6
@@ -24,5 +34,7 @@ function ns.AddRunes(self, width, height, spacing)
 
 	runes.colorSpec = true
 	runes.sortOrder = 'asc'
+	runes.PostUpdateColor = PostUpdateColor
+
 	self.Runes = runes
 end
