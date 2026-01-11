@@ -126,7 +126,7 @@ function ns.AddAuras(self, unit)
 	auras.gap = true
 	auras:SetSize(7 * (auras.size + auras.spacing), auras.size + auras.spacing)
 	auras:SetPoint('RIGHT', self, 'LEFT', -5, 0)
-	auras['growth-x'] = 'LEFT'
+	auras.growthX = 'LEFT'
 	auras.initialAnchor = 'RIGHT'
 	auras.showType = true
 	auras.CreateButton = CreateAura
@@ -145,7 +145,7 @@ function ns.AddBuffs(self, unit)
 		buffs.num = 6
 		buffs:SetSize(buffs.num * (buffs.size + buffs.spacing), buffs.size + buffs.spacing)
 	end
-	buffs['growth-y'] = 'DOWN'
+	buffs.growthY = 'DOWN'
 	buffs.showBuffType = true
 
 	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
@@ -157,15 +157,15 @@ function ns.AddBuffs(self, unit)
 	if unit == 'player' then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -3.5)
 		buffs.initialAnchor = 'TOPRIGHT'
-		buffs['growth-x'] = 'LEFT'
+		buffs.growthX = 'LEFT'
 	elseif unit == 'boss' then
 		buffs:SetPoint('RIGHT', self, 'LEFT', -5, 0)
 		buffs.initialAnchor = 'RIGHT'
-		buffs['growth-x'] = 'LEFT'
+		buffs.growthX = 'LEFT'
 	else
 		buffs:SetPoint('TOPLEFT', self, 'TOPRIGHT', 5, -3.5)
 		buffs.initialAnchor = 'TOPLEFT'
-		buffs['growth-x'] = 'RIGHT'
+		buffs.growthX = 'RIGHT'
 	end
 
 	self.Buffs = buffs
@@ -188,14 +188,14 @@ function ns.AddDebuffs(self, unit)
 		debuffs:SetPoint('TOPRIGHT', self, 'BOTTOMRIGHT', -3.5, -5)
 		debuffs:SetHeight(5 * (debuffs.size + debuffs.spacing))
 		debuffs.initialAnchor = 'TOPLEFT'
-		debuffs['growth-x'] = 'RIGHT'
-		debuffs['growth-y'] = 'DOWN'
+		debuffs.growthX = 'RIGHT'
+		debuffs.growthY = 'DOWN'
 	else
 		debuffs:SetPoint('BOTTOMRIGHT', self, 'TOPRIGHT', -3.5, 0)
 		debuffs.num = 6
 		debuffs:SetSize(debuffs.num * (debuffs.size + debuffs.spacing), debuffs.size + debuffs.spacing)
 		debuffs.initialAnchor = 'RIGHT'
-		debuffs['growth-x'] = 'LEFT'
+		debuffs.growthX = 'LEFT'
 	end
 
 	self.Debuffs = debuffs
