@@ -8,9 +8,9 @@ local tagSharedEvents = oUF.Tags.SharedEvents --luacheck: no unused
 local floor = math.floor
 local format = string.format
 
-local ShortenValue = ns.ShortenValue
+local scaleTo100 = ns.scaleTo100
 
-local GHOST = GetLocale() == 'deDE' and 'Geist' or C_Spell.GetSpellInfo(8326).name
+local GHOST = GetLocale() == 'deDE' and 'Geist' or C_Spell.GetSpellName(8326)
 
 local function GetColoredName(unit, realUnit)
 	local colors = ns.colors
@@ -27,7 +27,7 @@ local function GetColoredName(unit, realUnit)
 
 	color = color or colors.disconnected
 
-	return format('|c%s%s|r', color:GenerateHexColor(), UnitName(unit) or '')
+	return color:WrapTextInColorCode(UnitName(unit) or '')
 end
 
 local function GetPvPStatus(unit)
@@ -71,7 +71,7 @@ local function GetRoleColoredName(unit, realUnit)
 	local status = GetUnitStatus(realUnit or unit)
 	local color = ns.colors.role[UnitGroupRolesAssigned(realUnit or unit)] or ns.colors.role.NONE
 
-	return format('|c%s%s|r', color:GenerateHexColor(), status or UnitName(unit))
+	return color:WrapTextInColorCode(status or UnitName(unit))
 end
 
 local function LevelTag(unit)
@@ -95,23 +95,28 @@ local function LevelTag(unit)
 	return level
 end
 
+local healthTextCurve = C_CurveUtil.CreateColorCurve()
+healthTextCurve:AddPoint(0.0, CreateColor(0.69, 0.31, 0.31))
+healthTextCurve:AddPoint(0.5, CreateColor(0.65, 0.63, 0.35))
+healthTextCurve:AddPoint(1.0, CreateColor(0.33, 0.59, 0.33))
+
 local function SmallUnitHealthTag(unit)
 	local status = GetUnitStatus(unit)
 	if status then
 		return status
 	end
 
-	local cur = UnitHealth(unit)
-	local max = UnitHealthMax(unit)
-	local r, g, b = ColorGradient(cur, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
-	r, g, b = r * 255, g * 255, b * 255
+	local color = UnitHealthPercent(unit, true, healthTextCurve)
 
-	if cur == max then
-		return format('|cff%02x%02x%02x%s|r', r, g, b, ShortenValue(max))
-	elseif unit ~= 'pet' and UnitIsFriend(unit, 'player') then
-		return format('|cff%02x%02x%02x-%s|r', r, g, b, ShortenValue(max - cur))
+	-- TODO: show max when cur == max
+	if unit ~= 'pet' and UnitIsFriend(unit, 'player') then
+		local missing = AbbreviateNumbers(UnitHealthMissing(unit))
+
+		return color:WrapTextInColorCode(format('-%s', missing))
 	else
-		return format('|cff%02x%02x%02x%d%%|r', r, g, b, floor(cur / max * 100 + 0.5))
+		local percent = UnitHealthPercent(unit, true, scaleTo100)
+
+		return color:WrapTextInColorCode(format('%d%%', percent))
 	end
 end
 
@@ -121,16 +126,18 @@ local function NormalUnitHealthTag(unit)
 		return status
 	end
 
-	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
-	local r, g, b = ColorGradient(cur, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
-	r, g, b = r * 255, g * 255, b * 255
+	local percent = UnitHealthPercent(unit, true, scaleTo100)
+	local color = UnitHealthPercent(unit, true, healthTextCurve)
 
-	if cur == max then
-		return format('|cff%02x%02x%02x%s|r', r, g, b, ShortenValue(max))
-	elseif UnitIsFriend(unit, 'player') then
-		return format('|cff%02x%02x%02x-%s - %d%%|r', r, g, b, ShortenValue(max - cur), floor(cur / max * 100 + 0.5))
+	-- TODO: show max when cur == max
+	if UnitIsFriend(unit, 'player') then
+		local missing = AbbreviateNumbers(UnitHealthMissing(unit))
+
+		return color:WrapTextInColorCode(format('-%s - %d%%', missing, percent))
 	else
-		return format('|cff%02x%02x%02x%s - %d%%|r', r, g, b, ShortenValue(cur), floor(cur / max * 100 + 0.5))
+		local current = AbbreviateNumbers(UnitHealth(unit))
+
+		return color:WrapTextInColorCode(format('%s - %d%%', current, percent))
 	end
 end
 
@@ -139,31 +146,12 @@ local function PowerTag(unit)
 		return
 	end
 
-	local cur, max = UnitPower(unit), UnitPowerMax(unit)
-	if max == 0 then
-		return
-	end
-
-	local powerValue
+	local powerValue = AbbreviateNumbers(UnitPower(unit))
 	local powerType, powerName = UnitPowerType(unit)
-
-	if powerName == 'MANA' and cur ~= max then
-		powerValue = floor(cur / max * 100 + 0.5) .. '%'
-	end
-
-	if unit == 'player' then
-		if powerValue then -- player's mana not full
-			powerValue = format('%s - %s', powerValue, ShortenValue(cur))
-		else -- mana full or other power type
-			powerValue = ShortenValue(cur)
-		end
-	elseif not powerValue then
-		powerValue = ShortenValue(cur)
-	end
-
 	local colors = ns.colors.power
 	local color = colors[powerName] or colors[powerType]
-	return format('|c%s%s|r', color:GenerateHexColor(), powerValue)
+
+	return color:WrapTextInColorCode(powerValue)
 end
 
 local function AltManaTag(unit)
@@ -171,15 +159,10 @@ local function AltManaTag(unit)
 		return
 	end
 
-	local cur, max = UnitPower(unit, 0), UnitPowerMax(unit, 0)
-
-	if cur == max then
-		return
-	end
-
+	local percent = UnitPowerPercent(unit, 0, false, scaleTo100)
 	local color = ns.colors.power.MANA
 
-	return format('|c%s%d%%|r', color:GenerateHexColor(), floor(cur / max * 100 + 0.5))
+	return color:WrapTextInColorCode(format('%d%%', percent))
 end
 
 tags['layout:health'] = NormalUnitHealthTag

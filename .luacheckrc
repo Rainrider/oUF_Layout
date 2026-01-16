@@ -19,6 +19,7 @@ read_globals = {
 
 	-- FrameXML
 	'BackdropTemplateMixin',
+	'CreateColor',
 	'GameTooltip',
 	'PlayerBuffTimerManager',
 	'TotemFrame',
@@ -29,8 +30,11 @@ read_globals = {
 	'SOUNDKIT',
 
 	-- API
+	'AbbreviateNumbers',
 	C_AddOns = { fields = { 'GetAddOnMetadata', 'IsAddOnLoaded' } },
+	C_CurveUtil = { fields = { 'CreateColorCurve', 'CreateCurve' } },
 	C_Spell = { fields = { 'GetSpellInfo', 'GetSpellName' } },
+	C_StringUtil = { fields = { 'TruncateWhenZero', 'WrapString' } },
 	'CreateFrame',
 	'GetLocale',
 	'GetThreatStatusColor',
@@ -53,6 +57,7 @@ read_globals = {
 	'UnitHasIncomingResurrection',
 	'UnitHealth',
 	'UnitHealthMax',
+	'UnitHealthMissing',
 	'UnitHealthPercent',
 	'UnitHonorLevel',
 	'UnitIsBattlePetCompanion',
@@ -75,6 +80,7 @@ read_globals = {
 	'UnitPower',
 	'UnitPowerBarTimerInfo',
 	'UnitPowerMax',
+	'UnitPowerPercent',
 	'UnitPowerType',
 	'UnitReaction',
 	'UnitThreatSituation',
