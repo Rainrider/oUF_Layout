@@ -52,11 +52,11 @@ function ns.AddHealthPrediction(self, unit)
 	overAbsorb:SetPoint('BOTTOMLEFT', health, 'BOTTOMRIGHT')
 
 	self.HealthPrediction = {
-		healAbsorbBar = healAbsorbBar,
-		myBar = myBar,
-		otherBar = otherBar,
-		absorbBar = absorbBar,
-		overAbsorb = overAbsorb,
-		overHealAbsorb = overHealAbsorb,
+		healAbsorb = healAbsorbBar,
+		healingPlayer = myBar,
+		healingOther = otherBar,
+		damageAbsorb = absorbBar,
+		overDamageAbsorbIndicator = overAbsorb,
+		overHealAbsorbIndicator = overHealAbsorb,
 	}
 end
