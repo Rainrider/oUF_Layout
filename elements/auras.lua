@@ -60,15 +60,19 @@ local function UpdateAuraTooltip(aura)
 	GameTooltip:SetUnitAuraByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
 end
 
-local function PostUpdateAura(_, aura, _, data)
-	if not aura.isHarmful then
-		if data.isStealable then
-			local color = ns.colors.dispel[data.dispelName or 'none']
-			aura.Overlay:SetVertexColor(color.r, color.g, color.b)
-		else
-			aura.Overlay:SetVertexColor(0, 0, 0)
-		end
+local function PostUpdateAura(element, aura, unit, data)
+	local color = C_UnitAuras.GetAuraDispelTypeColor(unit, data.auraInstanceID, element.dispelColorCurve)
+
+	if (data.isHarmfulAura) then
+		aura.Border:SetVertexColor(color:GetRGB())
+	else
+		aura.Stealable:SetVertexColor(color:GetRGB())
+		aura.Border:SetAlphaFromBoolean(data.isStealable, 0, 1)
 	end
+end
+
+local function PostUpdateGapAura(_, unit, aura)
+	aura.Border:SetAlpha(0)
 end
 
 local function SortAuras(a, b)
@@ -100,11 +104,18 @@ local function CreateAura(auras, index)
 
 	button.Cooldown = cd
 
-	local overlay = button:CreateTexture(nil, 'ARTWORK')
-	overlay:SetTexture(ns.assets.BUTTONOVERLAY)
-	overlay:SetPoint('TOPLEFT', -5, 5)
-	overlay:SetPoint('BOTTOMRIGHT', 5, -5)
-	button.Overlay = overlay
+	local border = button:CreateTexture(nil, 'ARTWORK')
+	border:SetTexture(ns.assets.BUTTONOVERLAY)
+	border:SetPoint('TOPLEFT', -4, 4)
+	border:SetPoint('BOTTOMRIGHT', 4, -4)
+	border:SetVertexColor(0.17, 0.17, 0.24)
+	button.Border = border
+
+	local steable = button:CreateTexture(nil, 'ARTWORK')
+	steable:SetTexture(ns.assets.BUTTONOVERLAY)
+	steable:SetPoint('TOPLEFT', -4, 4)
+	steable:SetPoint('BOTTOMRIGHT', 4, -4)
+	button.Stealable = steable
 
 	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	count:SetPoint('BOTTOMRIGHT', 0, 0)
@@ -128,9 +139,9 @@ function ns.AddAuras(self, unit)
 	auras:SetPoint('RIGHT', self, 'LEFT', -5, 0)
 	auras.growthX = 'LEFT'
 	auras.initialAnchor = 'RIGHT'
-	auras.showType = true
 	auras.CreateButton = CreateAura
-	-- auras.PostUpdateButton = PostUpdateAura
+	auras.PostUpdateButton = PostUpdateAura
+	auras.PostUpdateGapButton = PostUpdateGapAura
 
 	self.Auras = auras
 end
@@ -146,13 +157,13 @@ function ns.AddBuffs(self, unit)
 		buffs:SetSize(buffs.num * (buffs.size + buffs.spacing), buffs.size + buffs.spacing)
 	end
 	buffs.growthY = 'DOWN'
-	buffs.showBuffType = true
+	buffs.showStealableBuffs = true
 
 	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
 	-- buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
 	-- buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
 	buffs.CreateButton = CreateAura
-	-- buffs.PostUpdateButton = PostUpdateAura
+	buffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' then
 		buffs:SetPoint('TOPRIGHT', self, 'TOPLEFT', -5, -3.5)
@@ -175,13 +186,12 @@ function ns.AddDebuffs(self, unit)
 	local debuffs = CreateFrame('Frame', self:GetName() .. '_Debuffs', self)
 	debuffs.spacing = 7
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
-	debuffs.showDebuffType = true
 
 	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
 	-- debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
 	-- debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
 	debuffs.CreateButton = CreateAura
-	-- debuffs.PostUpdateButton = PostUpdateAura
+	debuffs.PostUpdateButton = PostUpdateAura
 
 	if unit == 'player' or unit == 'target' then
 		debuffs:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 3.5, -5)

@@ -35,6 +35,7 @@ read_globals = {
 	C_CurveUtil = { fields = { 'CreateColorCurve', 'CreateCurve' } },
 	C_Spell = { fields = { 'GetSpellInfo', 'GetSpellName' } },
 	C_StringUtil = { fields = { 'TruncateWhenZero', 'WrapString' } },
+	C_UnitAuras = { fields = {'GetAuraDispelTypeColor'} },
 	'CreateFrame',
 	'GetLocale',
 	'GetThreatStatusColor',

@@ -18,6 +18,10 @@ ns.config = {
 
 ns.colors = setmetatable({
 	disconnected = oUF:CreateColor(0.42, 0.37, 0.32),
+	dispel = setmetatable({
+		[oUF.Enum.DispelType.None] = oUF:CreateColor(0.17, 0.17, 0.24),
+		[oUF.Enum.DispelType.Enrage] = _G.DEBUFF_TYPE_DISEASE_COLOR,
+	}, { __index = oUF.colors.dispel }),
 	health = oUF:CreateColor(0.17, 0.17, 0.24),
 	power = setmetatable({
 		MANA = oUF:CreateColor(0.31, 0.45, 0.63),
