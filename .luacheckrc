@@ -49,6 +49,7 @@ read_globals = {
 	'Mixin',
 	'PlaySound',
 	'UnitBattlePetLevel',
+	'UnitCanAssist',
 	'UnitCanAttack',
 	'UnitClass',
 	'UnitClassification',

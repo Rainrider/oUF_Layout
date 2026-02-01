@@ -1,16 +1,9 @@
 local _, ns = ...
 
-local playerClass = ns.playerClass
-
 local CustomBuffFilter = {
-	player = function(_, _, aura)
-		local duration = aura.duration
-		return not aura.isFromPlayerOrPlayerPet
-			or duration and duration > 0 and duration <= 300 and aura.isPlayerAura
-	end,
 	target = function(_, unit, aura)
-		if UnitIsFriend(unit, 'player') then
-			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet
+		if UnitCanAssist('player', unit) then
+			return aura.isPlayerAura
 		else
 			return true
 		end
@@ -20,14 +13,11 @@ ns.CustomBuffFilter = CustomBuffFilter
 
 local CustomDebuffFilter = {
 	target = function(_, unit, aura)
-		if not UnitIsFriend(unit, 'player') then
-			return aura.isPlayerAura or not aura.isFromPlayerOrPlayerPet or aura.isBossAura
+		if UnitCanAttack('player', unit) then
+			return aura.isPlayerAura
 		else
 			return true
 		end
-	end,
-	party = function(_, _, aura)
-		return not not EncounterDebuffs[aura.spellId]
 	end,
 }
 CustomDebuffFilter.focus = CustomDebuffFilter.target
@@ -159,8 +149,8 @@ function ns.AddBuffs(self, unit)
 	buffs.growthY = 'DOWN'
 	buffs.showStealableBuffs = true
 
-	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	-- buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
+	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
 	-- buffs.SortAuras = ns.config.sortBuffs:find(unitCondition) and SortAuras
 	buffs.CreateButton = CreateAura
 	buffs.PostUpdateButton = PostUpdateAura
@@ -186,9 +176,10 @@ function ns.AddDebuffs(self, unit)
 	local debuffs = CreateFrame('Frame', self:GetName() .. '_Debuffs', self)
 	debuffs.spacing = 7
 	debuffs.size = (230 - 7 * debuffs.spacing) / 8
+	debuffs.filter = 'HARMFUL' .. (unit == 'target' and '|INCLUDE_NAME_PLATE_ONLY' or unit == 'party' and '|RAID' or '')
 
-	-- local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
-	-- debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
+	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
+	debuffs.FilterAura = ns.config.filterDebuffs:find(unitCondition) and CustomDebuffFilter[unit]
 	-- debuffs.SortAuras = ns.config.sortDebuffs:find(unitCondition) and SortAuras
 	debuffs.CreateButton = CreateAura
 	debuffs.PostUpdateButton = PostUpdateAura

@@ -67,11 +67,11 @@ function handler:MODIFIER_STATE_CHANGED(key, state)
 		local unit = object.realUnit or object.unit
 		if unit == 'target' then
 			local buffs = object.Buffs
-			if state == 1 then -- modifier key pressed
-				buffs.CustomFilter = nil
-			else
-				buffs.CustomFilter = ns.config.filterBuffs:find('%f[%a]target%f[%A]') and ns.CustomBuffFilter.target
-			end
+
+			buffs.FilterAura = state == 1
+				and ns.config.filterBuffs:find('%f[%a]target%f[%A]')
+				and ns.CustomBuffFilter.target
+
 			buffs:ForceUpdate()
 			break
 		end
