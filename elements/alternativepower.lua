@@ -1,5 +1,7 @@
 local _, ns = ...
 
+local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
+
 local function OnShow(altpower)
 	local progress = altpower.__owner.Progress
 	if progress then
@@ -27,11 +29,12 @@ end
 
 local function UpdateTooltip(altpower)
 	local value = altpower:GetValue()
-	local min, max = altpower:GetMinMaxValues()
+	local percent = UnitPowerPercent(altpower.__owner.unit, ALTERNATE_POWER_INDEX, false, ns.scaleTo100)
 	local name, tooltip = GetUnitPowerBarStringsByID(altpower.__barID)
+
 	GameTooltip:SetText(name, 1, 1, 1)
 	GameTooltip:AddLine(tooltip, nil, nil, nil, true)
-	GameTooltip:AddLine(string.format('\n%d (%d%%)', value, (value - min) / (max - min) * 100), 1, 1, 1)
+	GameTooltip:AddLine(string.format('\n%d (%d%%)', value, percent, 1, 1, 1))
 	GameTooltip:Show()
 end
 
