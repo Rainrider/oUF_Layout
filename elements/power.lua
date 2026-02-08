@@ -15,6 +15,10 @@ local function PostUpdateColor(element, unit, color, r, g, b)
 	local bg = element.bg
 	local mu = bg.multiplier
 
+	if (not r and (issecretvalue(color) or not color)) then
+		color = _G.CreateColor(1, 1, 1)
+	end
+
 	if (not r) then
 		r, g, b = color:GetRGB()
 	end

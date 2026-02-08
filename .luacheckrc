@@ -14,6 +14,7 @@ ignore = {
 read_globals = {
 	'debugstack',
 	'geterrorhandler',
+	'issecretvalue',
 	string = { fields = { 'join', 'split', 'trim' } },
 	table = { fields = { 'removemulti', 'wipe' } },
 
