@@ -129,8 +129,8 @@ local function UpdateThreat(self, event, unit)
 
 	local status = UnitThreatSituation(unit)
 	if status and status > 0 then
-		local r, g, b = GetThreatStatusColor(status)
-		self:SetBackdropBorderColor(r, g, b)
+		local color = ns.colors.threat[status]
+		self:SetBackdropBorderColor(color:GetRGB())
 	else
 		self:SetBackdropBorderColor(0, 0, 0)
 	end
