@@ -1,5 +1,6 @@
 local _, ns = ...
 
+local ScaleTo100 = _G.CurveConstants.ScaleTo100
 local ALTERNATE_POWER_INDEX = Enum.PowerType.Alternate or 10
 
 local function OnShow(altpower)
@@ -29,7 +30,7 @@ end
 
 local function UpdateTooltip(altpower)
 	local value = altpower:GetValue()
-	local percent = UnitPowerPercent(altpower.__owner.unit, ALTERNATE_POWER_INDEX, false, ns.scaleTo100)
+	local percent = UnitPowerPercent(altpower.__owner.unit, ALTERNATE_POWER_INDEX, false, ScaleTo100)
 	local name, tooltip = GetUnitPowerBarStringsByID(altpower.__barID)
 
 	GameTooltip:SetText(name, 1, 1, 1)

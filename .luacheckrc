@@ -52,7 +52,7 @@ read_globals = {
 	'UnitBattlePetLevel',
 	'UnitCanAssist',
 	'UnitCanAttack',
-	'UnitClass',
+	'UnitClassBase',
 	'UnitClassification',
 	'UnitEffectiveLevel',
 	'UnitExists',

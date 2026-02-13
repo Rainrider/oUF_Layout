@@ -4,11 +4,12 @@ local _, ns = ...
 local tags = oUF.Tags.Methods
 local tagEvents = oUF.Tags.Events
 local tagSharedEvents = oUF.Tags.SharedEvents --luacheck: no unused
+local playerClass = ns.playerClass
 
 local floor = math.floor
 local format = string.format
 
-local scaleTo100 = ns.scaleTo100
+local ScaleTo100 = _G.CurveConstants.ScaleTo100
 
 local GHOST = GetLocale() == 'deDE' and 'Geist' or C_Spell.GetSpellName(8326)
 
@@ -16,7 +17,7 @@ local function GetColoredName(unit, realUnit)
 	local colors = ns.colors
 	local color
 	if UnitIsPlayer(unit) then
-		local _, class = UnitClass(realUnit or unit)
+		local class = UnitClassBase(realUnit or unit)
 		if class then
 			color = colors.class[class]
 		end
@@ -114,7 +115,7 @@ local function SmallUnitHealthTag(unit)
 
 		return color:WrapTextInColorCode(format('-%s', missing))
 	else
-		local percent = UnitHealthPercent(unit, true, scaleTo100)
+		local percent = UnitHealthPercent(unit, true, ScaleTo100)
 
 		return color:WrapTextInColorCode(format('%d%%', percent))
 	end
@@ -126,7 +127,7 @@ local function NormalUnitHealthTag(unit)
 		return status
 	end
 
-	local percent = UnitHealthPercent(unit, true, scaleTo100)
+	local percent = UnitHealthPercent(unit, true, ScaleTo100)
 	local color = UnitHealthPercent(unit, true, healthTextCurve)
 
 	-- TODO: show max when cur == max
@@ -155,11 +156,11 @@ local function PowerTag(unit)
 end
 
 local function AltManaTag(unit)
-	if UnitPowerType(unit) == 0 then
+	if UnitPowerType(unit) == 0 or not _G.ALT_POWER_BAR_PAIR_DISPLAY_INFO[playerClass] then
 		return
 	end
 
-	local percent = UnitPowerPercent(unit, 0, false, scaleTo100)
+	local percent = UnitPowerPercent(unit, 0, false, ScaleTo100)
 	local color = ns.colors.power.MANA
 
 	return color:WrapTextInColorCode(format('%d%%', percent))

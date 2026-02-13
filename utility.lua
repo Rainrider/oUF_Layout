@@ -13,7 +13,7 @@ if AdiDebug then
 	ns.Debug = AdiDebug:Embed({}, addonName)
 end
 
-ns.playerClass = select(2, UnitClass('player'))
+ns.playerClass = UnitClassBase('player')
 
 local ceil = math.ceil
 local floor = math.floor
@@ -34,12 +34,6 @@ function ns.FormatTime(seconds)
 		return format('%d', ceil(seconds))
 	end
 end
-
-local scaleTo100 = C_CurveUtil.CreateCurve()
-scaleTo100:SetType(Enum.LuaCurveType.Linear)
-scaleTo100:AddPoint(0.0, 0)
-scaleTo100:AddPoint(1.0, 100)
-ns.scaleTo100 = scaleTo100
 
 function ns.ShortenValue(value)
 	if value >= 1e9 then
