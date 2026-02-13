@@ -7,15 +7,13 @@ local function OnEnter(totem)
 		return
 	end
 
-	totem.icon:Show()
-	totem.overlay:Show()
+	totem.Icon:Show()
 	GameTooltip:SetOwner(totem, 'ANCHOR_BOTTOMRIGHT')
 	totem:UpdateTooltip()
 end
 
 local function OnLeave(totem)
-	totem.icon:Hide()
-	totem.overlay:Hide()
+	totem.Icon:Hide()
 	GameTooltip:Hide()
 end
 
@@ -31,8 +29,8 @@ local function UpdateTotem(self, event, slot)
 	local totem = self.CustomTotems[slot]
 	local _, _, start, duration, icon = GetTotemInfo(slot)
 
-	if duration > 0 then
-		totem.icon:SetTexture(icon)
+	if not issecretvalue(duration) and duration > 0 then
+		totem.Icon.Texture:SetTexture(icon)
 		totem:SetMinMaxValues(-duration, 0)
 		totem.timeLeft = start - GetTime()
 		totem.duration = -duration

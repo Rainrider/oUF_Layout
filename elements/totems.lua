@@ -3,7 +3,7 @@ local playerClass = ns.playerClass
 
 function ns.AddTotems(self, width, height, spacing)
 	local totems = {}
-	local maxTotems = 5
+	local maxTotems = _G.GetNumTotemSlots()
 
 	width = (width - (maxTotems + 1) * spacing) / maxTotems
 	spacing = width + spacing
@@ -20,23 +20,24 @@ function ns.AddTotems(self, width, height, spacing)
 
 		local bg = totem:CreateTexture(nil, 'BACKGROUND')
 		bg:SetTexture(ns.assets.TEXTURE)
-		bg:SetVertexColor(r * 1 / 2, g * 1 / 2, b * 1 / 2)
+		bg:SetVertexColor(r / 2, g / 2, b / 2)
 		bg:SetAllPoints()
 
-		local icon = totem:CreateTexture(nil, 'ARTWORK')
+		local icon = CreateFrame('Frame', '$parentIcon', totem)
 		icon:SetSize(width - 5, width - 5)
 		icon:SetPoint('BOTTOM', totem, 'TOP', 0, 2.5)
-		icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 		icon:Hide()
-		totem.icon = icon
+		totem.Icon = icon
 
-		local overlay = totem:CreateTexture(nil, 'OVERLAY')
+		local texture = icon:CreateTexture(nil, 'ARTWORK')
+		texture:SetAllPoints()
+		icon.Texture = texture
+
+		local overlay = icon:CreateTexture(nil, 'OVERLAY')
 		overlay:SetTexture(ns.assets.BUTTONOVERLAY)
 		overlay:SetPoint('TOPLEFT', icon, -5, 5)
 		overlay:SetPoint('BOTTOMRIGHT', icon, 5, -5)
 		overlay:SetVertexColor(r, g, b)
-		overlay:Hide()
-		totem.overlay = overlay
 
 		totems[slot] = totem
 	end
