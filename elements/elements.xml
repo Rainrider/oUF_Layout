@@ -5,7 +5,6 @@
 	<Script file='classpower.lua'/>
 	<Script file='dispellable.lua'/>
 	<Script file='health.lua'/>
-	<Script file='healthprediction.lua'/>
 	<Script file='indicators.lua'/>
 	<Script file='playerbufftimers.lua'/>
 	<Script file='portrait.lua'/>

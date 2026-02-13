@@ -15,7 +15,7 @@ local function Shared(self, unit)
 
 	self:SetSize(240, 60)
 
-	ns.AddHealthBar(self, unit)
+	ns.AddHealthBar(self, unit, true)
 	ns.AddPowerBar(self, unit)
 	ns.AddHealthValue(self, unit)
 	ns.AddPowerValue(self, unit)
@@ -24,7 +24,6 @@ local function Shared(self, unit)
 	ns.AddBuffs(self, unit)
 	ns.AddDebuffs(self, unit)
 	ns.AddDispel(self, unit)
-	ns.AddHealthPrediction(self, unit)
 
 	ns.AddPvPText(self, unit)
 	ns.AddRaidTargetIndicator(self)

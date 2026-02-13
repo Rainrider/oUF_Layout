@@ -21,13 +21,12 @@ local function Shared(self, unit)
 	self:SetBackdropColor(0, 0, 0, 0)
 	self:SetBackdropBorderColor(0, 0, 0)
 
-	ns.AddHealthBar(self, unit)
+	ns.AddHealthBar(self, unit, unit ~= 'partypet' and unit ~= 'partytarget')
 	ns.AddInfoText(self, unit)
 	ns.AddRaidTargetIndicator(self)
 
 	if unit ~= 'partypet' and unit ~= 'partytarget' then
 		ns.AddPowerBar(self, unit)
-		ns.AddHealthPrediction(self, unit)
 		ns.AddAssistantIndicator(self)
 		ns.AddLeaderIndicator(self)
 		ns.AddPhaseIndicator(self)

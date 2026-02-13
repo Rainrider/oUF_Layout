@@ -31,7 +31,7 @@ local function Shared(self, unit)
 
 	self:SetSize(120, 32)
 
-	ns.AddHealthBar(self, unit)
+	ns.AddHealthBar(self, unit, unit == 'pet' or unit == 'focus')
 	ns.AddPowerBar(self, unit)
 	ns.AddHealthValue(self, unit)
 	ns.AddRaidTargetIndicator(self)
@@ -41,7 +41,6 @@ local function Shared(self, unit)
 		ns.AddCastBar(self, unit)
 		ns.AddThreatIndicator(self)
 		ns.AddDispel(self, unit)
-		ns.AddHealthPrediction(self, unit)
 		ns.AddResurrectIndicator(self)
 	end
 
