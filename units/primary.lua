@@ -55,6 +55,7 @@ local function Shared(self, unit)
 	end
 
 	if unit == 'target' then
+		ns.AddClassificationIndicators(self)
 		ns.AddInfoText(self, 'target')
 		ns.AddPhaseIndicator(self)
 		ns.AddQuestIndicator(self)

@@ -8,6 +8,42 @@ function ns.AddAssistantIndicator(self)
 	self.AssistantIndicator = assistant
 end
 
+function ns.AddClassificationIndicators(self)
+	local texture = 'Interface\\Common\\ThinBorder2-Corner'
+
+	local boss = self:CreateTexture(nil, 'BORDER')
+	boss:SetPoint('TOPLEFT', -2, 2)
+	boss:SetSize(12, 12)
+	boss:SetTexture(texture)
+	boss:SetVertexColor(0.71, 0.29, 0.13)
+
+	local elite = self:CreateTexture(nil, 'BORDER')
+	elite:SetPoint('TOPLEFT', -2, 2)
+	elite:SetSize(12, 12)
+	elite:SetTexture(texture)
+	elite:SetVertexColor(0.71, 0.58, 0.13)
+
+	local rare = self:CreateTexture(nil, 'BORDER')
+	rare:SetPoint('BOTTOMLEFT', -2, -2)
+	rare:SetSize(12, 12)
+	rare:SetTexCoord(0, 1, 1, 0)
+	rare:SetTexture(texture)
+	rare:SetVertexColor(0.75, 0.75, 0.75)
+
+	local minion = self:CreateTexture(nil, 'BORDER')
+	minion:SetPoint('TOPLEFT', -2, 2)
+	minion:SetSize(12, 12)
+	minion:SetTexture(texture)
+	minion:SetVertexColor(0.26, 0.71, 0.13)
+
+	self.ClassificationIndicators = {
+		BossIndicator = boss,
+		EliteIndicator = elite,
+		RareIndicator = rare,
+		MinionIndicator = minion,
+	}
+end
+
 function ns.AddCombatIndicator(self)
 	local combat = self.Health:CreateTexture(nil, 'OVERLAY')
 	combat:SetSize(18, 18)

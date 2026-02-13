@@ -64,6 +64,7 @@ read_globals = {
 	'UnitHealthPercent',
 	'UnitHonorLevel',
 	'UnitIsBattlePetCompanion',
+	'UnitIsBossMob',
 	'UnitIsConnected',
 	'UnitIsDead',
 	'UnitIsDeadOrGhost',

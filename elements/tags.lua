@@ -205,7 +205,7 @@ function ns.AddInfoText(self, unit)
 		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
 		info:SetPoint('LEFT', self.Power.value, 'RIGHT', 5, 0)
 		info:SetPoint('TOP', 0, -3.5)
-		self:Tag(info, '[layout:name][difficulty][ $>layout:level][ $>shortclassification]|r')
+		self:Tag(info, '[layout:name][difficulty][ $>layout:level]|r')
 	else
 		info = health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
 		info:SetPoint('LEFT', 2, 0)
