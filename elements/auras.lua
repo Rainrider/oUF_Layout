@@ -50,14 +50,16 @@ local function UpdateAuraTooltip(aura)
 	GameTooltip:SetUnitAuraByAuraInstanceID(aura:GetParent().__owner.unit, aura.auraInstanceID)
 end
 
+---@param data AuraData
 local function PostUpdateAura(element, aura, unit, data)
+	local fallbackColor = ns.colors.dispel[0]
 	local color = C_UnitAuras.GetAuraDispelTypeColor(unit, data.auraInstanceID, element.dispelColorCurve)
+		or fallbackColor
 
 	if (data.isHarmfulAura) then
 		aura.Border:SetVertexColor(color:GetRGB())
 	else
-		aura.Stealable:SetVertexColor(color:GetRGB())
-		aura.Border:SetAlphaFromBoolean(data.isStealable, 0, 1)
+		aura.Border:SetVertexColorFromBoolean(data.isStealable, color, fallbackColor)
 	end
 end
 
@@ -101,12 +103,6 @@ local function CreateAura(auras, index)
 	border:SetVertexColor(0.17, 0.17, 0.24)
 	button.Border = border
 
-	local steable = button:CreateTexture(nil, 'ARTWORK')
-	steable:SetTexture(ns.assets.BUTTONOVERLAY)
-	steable:SetPoint('TOPLEFT', -4, 4)
-	steable:SetPoint('BOTTOMRIGHT', 4, -4)
-	button.Stealable = steable
-
 	local count = button:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Bold_Small_Outline')
 	count:SetPoint('BOTTOMRIGHT', 0, 0)
 	button.Count = count
@@ -147,7 +143,6 @@ function ns.AddBuffs(self, unit)
 		buffs:SetSize(buffs.num * (buffs.size + buffs.spacing), buffs.size + buffs.spacing)
 	end
 	buffs.growthY = 'DOWN'
-	buffs.showStealableBuffs = true
 
 	local unitCondition = '%f[%a]' .. unit .. '%f[%A]'
 	buffs.FilterAura = ns.config.filterBuffs:find(unitCondition) and CustomBuffFilter[unit]
