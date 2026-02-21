@@ -10,7 +10,6 @@
 	<Script file='portrait.lua'/>
 	<Script file='progress.lua'/>
 	<Script file='power.lua'/>
-	<Script file='powerprediction.lua'/>
 	<Script file='range.lua'/>
 	<Script file='runes.lua'/>
 	<Script file='stagger.lua'/>

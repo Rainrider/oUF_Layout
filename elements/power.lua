@@ -45,6 +45,16 @@ function ns.AddPowerBar(self, unit)
 	bg.multiplier = 1 / 3
 	power.bg = bg
 
+	if (unit == 'player') then
+		local costPrediction = CreateFrame('StatusBar', nil, power)
+		costPrediction:SetStatusBarTexture(ns.assets.TEXTURE)
+		costPrediction:SetStatusBarColor(0, 0, 1, 0.5)
+		costPrediction:SetReverseFill(true)
+		costPrediction:SetSize(230, 15)
+		costPrediction:SetPoint('RIGHT', power:GetStatusBarTexture())
+		power.CostPrediction = costPrediction
+	end
+
 	power.GetDisplayPower = GetDisplayPower
 	power.PostUpdateColor = PostUpdateColor
 	self.Power = power
