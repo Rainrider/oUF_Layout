@@ -82,7 +82,7 @@ local function UpdateColor(self, _, unit)
 		color = colors.health
 	end
 
-	health:GetStatusBarTexture():SetVertexColor(color:GetRGB())
+	health:SetStatusBarColor(color:GetRGB())
 end
 
 function ns.AddHealthBar(self, unit, withHealthPrediction)
