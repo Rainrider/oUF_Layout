@@ -90,7 +90,7 @@ local function CreateAura(auras, index)
 	cd:SetCountdownFont('LayoutFont_Bold_Small_Outline')
 	cd:SetAllPoints()
 
-	local timerText = cd:GetRegions()
+	local timerText = cd:GetCountdownFontString()
 	timerText:ClearAllPoints()
 	timerText:SetPoint('TOPLEFT', 0, 0)
 
