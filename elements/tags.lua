@@ -188,11 +188,11 @@ function ns.AddHealthValue(self, unit)
 	local healthValue
 	if unit == 'player' or unit == 'target' then
 		healthValue = self.Health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow')
-		healthValue:SetPoint('TOPRIGHT', -3.5, -3.5)
+		healthValue:SetPoint('TOPRIGHT', self, -8.5, -8.5)
 		self:Tag(healthValue, '[layout:health]')
 	else
 		healthValue = self.Health:CreateFontString(nil, 'OVERLAY', 'LayoutFont_Shadow_Small')
-		healthValue:SetPoint('RIGHT', -2, 0)
+		healthValue:SetPoint('RIGHT', self, -7, 3.5)
 		self:Tag(healthValue, '[layout:smallhealth]')
 	end
 	self.Health.value = healthValue

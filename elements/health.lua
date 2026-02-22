@@ -86,11 +86,18 @@ local function UpdateColor(self, _, unit)
 end
 
 function ns.AddHealthBar(self, unit, withHealthPrediction)
+	local tempLoss = CreateFrame('StatusBar', nil, self)
+	tempLoss:SetStatusBarTexture('UI-HUD-UnitFrame-Target-PortraitOn-Bar-TempHPLoss')
+	tempLoss:SetReverseFill(true)
+	tempLoss:SetHeight(HEIGHT[unit] or HEIGHT['pet'])
+	tempLoss:SetPoint('TOPLEFT', 5, -5)
+	tempLoss:SetPoint('TOPRIGHT', -5, -5)
+
 	local health = CreateFrame('StatusBar', nil, self)
 	health:SetStatusBarTexture(ns.assets.TEXTURE)
 	health:SetHeight(HEIGHT[unit] or HEIGHT['pet'])
 	health:SetPoint('TOPLEFT', 5, -5)
-	health:SetPoint('TOPRIGHT', -5, -5)
+	health:SetPoint('TOPRIGHT', tempLoss:GetStatusBarTexture(), 'TOPLEFT')
 	health.colorTapping = unit ~= 'raid'
 	health.colorDisconnected = true
 	health.colorSmooth = unit ~= 'raid'
@@ -110,5 +117,6 @@ function ns.AddHealthBar(self, unit, withHealthPrediction)
 		AddHealthPrediction(health, unit)
 	end
 
+	health.TempLoss = tempLoss
 	self.Health = health
 end
