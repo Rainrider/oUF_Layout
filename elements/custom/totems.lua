@@ -17,26 +17,20 @@ local function OnLeave(totem)
 	GameTooltip:Hide()
 end
 
-local function OnUpdate(totem, elapsed)
-	local timeLeft = totem.timeLeft - elapsed
-	if timeLeft > totem.duration then
-		totem:SetValue(timeLeft)
-		totem.timeLeft = timeLeft
-	end
-end
-
 local function UpdateTotem(self, event, slot)
 	local totem = self.CustomTotems[slot]
-	local _, _, start, duration, icon = GetTotemInfo(slot)
+	local hasTotem, _, _, _, icon = GetTotemInfo(slot)
+	local duration = GetTotemDuration(slot)
 
-	if not issecretvalue(duration) and duration > 0 then
+	totem:SetAlphaFromBoolean(hasTotem, 1, 0)
+
+	if duration then
+		totem:SetTimerDuration(
+			duration,
+			Enum.StatusBarInterpolation.Immediate,
+			Enum.StatusBarTimerDirection.RemainingTime
+		)
 		totem.Icon.Texture:SetTexture(icon)
-		totem:SetMinMaxValues(-duration, 0)
-		totem.timeLeft = start - GetTime()
-		totem.duration = -duration
-		totem:Show()
-	else
-		totem:Hide()
 	end
 end
 
@@ -67,23 +61,13 @@ local function Enable(self)
 		local totem = totems[slot]
 		totem:SetID(slot)
 
-		if not totem:GetScript('OnShow') then
-			totem:SetScript('OnShow', function ()
-				totem:SetScript('OnUpdate', totems.OnUpdate or OnUpdate)
-			end)
-		end
-
-		if not totem:GetScript('OnHide') then
-			totem:SetScript('OnHide', function ()
-				totem:SetScript('OnUpdate', nil)
-			end)
-		end
-
 		if totem:IsMouseEnabled() then
 			totem:SetScript('OnEnter', totems.OnEnter or OnEnter)
 			totem:SetScript('OnLeave', totems.OnLeave or OnLeave)
 			totem.UpdateTooltip = totems.UpdateTooltip or UpdateTooltip
 		end
+
+		totem:Show()
 	end
 
 	self:RegisterEvent('PLAYER_TOTEM_UPDATE', Update, true)

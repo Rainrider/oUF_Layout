@@ -41,6 +41,7 @@ read_globals = {
 	'GetLocale',
 	'GetThreatStatusColor',
 	'GetTime',
+	'GetTotemDuration',
 	'GetTotemInfo',
 	'GetUnitPowerBarInfo',
 	'GetUnitPowerBarStringsByID',
